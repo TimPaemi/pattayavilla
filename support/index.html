@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Support the Show — PATTAYA VILLA · Multiple Payment Options</title>
-<meta name="description" content="Support the nightly PATTAYA VILLA livestream by Tim &amp; Paemi. PayPal, Buy Me a Coffee, Ko-fi, Patreon, YouTube Membership, crypto, and Thai bank transfer. Every path matters.">
+<meta name="description" content="Support the nightly PATTAYA VILLA livestream by Tim &amp; Paemi. PayPal, Buy Me a Coffee, Ko-fi, Patreon, YouTube Membership, and Thai bank transfer. Free paths too. Every path matters equally.">
 <link rel="canonical" href="https://pattayavilla.com/support/">
 <link rel="alternate" hreflang="x-default" href="https://pattayavilla.com/support/">
 <link rel="manifest" href="/manifest.json">
@@ -34,11 +34,18 @@
 @font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:100 900;font-display:swap;src:url('/assets/fonts/jetbrains-mono-var.woff2') format('woff2')}
 </style>
 
-<!-- GA4 placeholder -->
+<!-- GA4 — deferred load on first interaction or 6s fallback -->
 <script>
 window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
 gtag('js',new Date());gtag('config','G-PLACEHOLDER',{anonymize_ip:true,page_title:'Support',transport_type:'beacon',allow_google_signals:false,allow_ad_personalization_signals:false,cookie_flags:'SameSite=Lax;Secure'});
-(function(){var loaded=false;function load(){if(loaded)return;loaded=true;var s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id=G-PLACEHOLDER';document.head.appendChild(s);}var evts=['scroll','mousemove','touchstart','keydown','click'];evts.forEach(function(e){window.addEventListener(e,load,{once:true,passive:true});});setTimeout(load,6000);}());
+(function(){var loaded=false;function load(){if(loaded)return;loaded=true;var s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id=G-PLACEHOLDER';document.head.appendChild(s);if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){});}}var evts=['scroll','mousemove','touchstart','keydown','click'];evts.forEach(function(e){window.addEventListener(e,load,{once:true,passive:true});});setTimeout(load,6000);}());
+/* GA4 click delegation — fire 'support_click' event with platform tag */
+document.addEventListener('click',function(e){
+  var t=e.target.closest('[data-gtm="support_click"]');
+  if(!t)return;
+  var p=t.getAttribute('data-gtm-platform')||'unknown';
+  if(typeof gtag==='function'){gtag('event','support_click',{platform:p,event_category:'support',transport_type:'beacon'});}
+},{passive:true});
 </script>
 
 <style>
@@ -122,7 +129,7 @@ footer a:hover{color:var(--pink)}
   <h2>FREE <span class="cyan">SUPPORT.</span></h2>
   <p class="lead">No money needed. Three actions that move the algorithm and keep us alive.</p>
   <div class="support-grid">
-    <a href="https://www.youtube.com/@timpaemi?sub_confirmation=1&utm_source=pattayavilla&utm_medium=support&utm_campaign=subscribe" target="_blank" rel="noopener" class="support-card is-free">
+    <a href="https://www.youtube.com/@timpaemi?sub_confirmation=1&amp;utm_source=pattayavilla&amp;utm_medium=support&amp;utm_campaign=subscribe" target="_blank" rel="noopener" class="support-card is-free" data-gtm="support_click" data-gtm-platform="youtube_subscribe">
       <div>
         <span class="support-card-icon">🔔</span>
         <div class="support-card-name">SUBSCRIBE + BELL</div>
@@ -130,7 +137,7 @@ footer a:hover{color:var(--pink)}
       </div>
       <div class="support-card-cta">SUBSCRIBE ON YOUTUBE →</div>
     </a>
-    <a href="https://www.youtube.com/@timpaemi/live?utm_source=pattayavilla&utm_medium=support&utm_campaign=watch" target="_blank" rel="noopener" class="support-card is-free">
+    <a href="https://www.youtube.com/@timpaemi/live?utm_source=pattayavilla&amp;utm_medium=support&amp;utm_campaign=watch" target="_blank" rel="noopener" class="support-card is-free" data-gtm="support_click" data-gtm-platform="youtube_watch">
       <div>
         <span class="support-card-icon">▶</span>
         <div class="support-card-name">WATCH LIVE</div>
@@ -138,7 +145,7 @@ footer a:hover{color:var(--pink)}
       </div>
       <div class="support-card-cta">WATCH TONIGHT →</div>
     </a>
-    <a href="https://api.whatsapp.com/send/?text=Watch%20Pattaya%20Villa%20live%20every%20night%209%20PM%20ICT%20%E2%86%92%20https%3A%2F%2Fpattayavilla.com" target="_blank" rel="noopener" class="support-card is-free">
+    <a href="https://api.whatsapp.com/send/?text=Watch%20Pattaya%20Villa%20live%20every%20night%209%20PM%20ICT%20%E2%86%92%20https%3A%2F%2Fpattayavilla.com" target="_blank" rel="noopener" class="support-card is-free" data-gtm="support_click" data-gtm-platform="whatsapp_share">
       <div>
         <span class="support-card-icon">↗</span>
         <div class="support-card-name">SHARE THE STREAM</div>
@@ -151,8 +158,8 @@ footer a:hover{color:var(--pink)}
   <h2>ONE-TIME <span class="pink">SUPPORT.</span></h2>
   <p class="lead">One payment, any amount. Goes straight to keeping the lights on.</p>
   <div class="support-grid">
-    <!-- [TODO: replace href with real PayPal.me link] -->
-    <a href="https://www.paypal.me/timpaemi" target="_blank" rel="noopener" class="support-card is-paid">
+    <!-- [PLACEHOLDER href — operator confirms PayPal.me handle before launch] -->
+    <a href="https://www.paypal.me/timpaemi?utm_source=pattayavilla&amp;utm_medium=support&amp;utm_campaign=paypal" target="_blank" rel="noopener" class="support-card is-paid" data-gtm="support_click" data-gtm-platform="paypal">
       <div>
         <span class="support-card-icon">💳</span>
         <div class="support-card-name">PAYPAL</div>
@@ -160,8 +167,8 @@ footer a:hover{color:var(--pink)}
       </div>
       <div class="support-card-cta">SEND VIA PAYPAL →</div>
     </a>
-    <!-- [TODO: replace href with real Buy Me a Coffee link] -->
-    <a href="https://www.buymeacoffee.com/timpaemi" target="_blank" rel="noopener" class="support-card is-paid">
+    <!-- [PLACEHOLDER href — operator confirms Buy Me a Coffee handle before launch] -->
+    <a href="https://www.buymeacoffee.com/timpaemi?utm_source=pattayavilla&amp;utm_medium=support&amp;utm_campaign=bmc" target="_blank" rel="noopener" class="support-card is-paid" data-gtm="support_click" data-gtm-platform="buymeacoffee">
       <div>
         <span class="support-card-icon">☕</span>
         <div class="support-card-name">BUY ME A COFFEE</div>
@@ -169,8 +176,8 @@ footer a:hover{color:var(--pink)}
       </div>
       <div class="support-card-cta">BUY US A COFFEE →</div>
     </a>
-    <!-- [TODO: replace href with real Ko-fi link] -->
-    <a href="https://ko-fi.com/timpaemi" target="_blank" rel="noopener" class="support-card is-paid">
+    <!-- [PLACEHOLDER href — operator confirms Ko-fi handle before launch] -->
+    <a href="https://ko-fi.com/timpaemi?utm_source=pattayavilla&amp;utm_medium=support&amp;utm_campaign=kofi" target="_blank" rel="noopener" class="support-card is-paid" data-gtm="support_click" data-gtm-platform="kofi">
       <div>
         <span class="support-card-icon">🎁</span>
         <div class="support-card-name">KO-FI</div>
@@ -178,8 +185,8 @@ footer a:hover{color:var(--pink)}
       </div>
       <div class="support-card-cta">TIP ON KO-FI →</div>
     </a>
-    <!-- [TODO: replace href with real Stripe / Donorbox link] -->
-    <a href="#" class="support-card is-paid">
+    <!-- [PLACEHOLDER href — operator provides Stripe / Donorbox URL before launch] -->
+    <a href="#card-placeholder" rel="noopener" class="support-card is-paid" data-gtm="support_click" data-gtm-platform="card_direct">
       <div>
         <span class="support-card-icon">💸</span>
         <div class="support-card-name">CARD DIRECT</div>
@@ -192,8 +199,8 @@ footer a:hover{color:var(--pink)}
   <h2>RECURRING <span class="yellow">SUPPORT.</span></h2>
   <p class="lead">Monthly support. Predictable income = better show.</p>
   <div class="support-grid">
-    <!-- [TODO: replace href with real Patreon link] -->
-    <a href="https://www.patreon.com/timpaemi" target="_blank" rel="noopener" class="support-card is-recurring">
+    <!-- [PLACEHOLDER href — operator confirms Patreon handle before launch] -->
+    <a href="https://www.patreon.com/timpaemi?utm_source=pattayavilla&amp;utm_medium=support&amp;utm_campaign=patreon" target="_blank" rel="noopener" class="support-card is-recurring" data-gtm="support_click" data-gtm-platform="patreon">
       <div>
         <span class="support-card-icon">★</span>
         <div class="support-card-name">PATREON</div>
@@ -201,7 +208,7 @@ footer a:hover{color:var(--pink)}
       </div>
       <div class="support-card-cta">JOIN ON PATREON →</div>
     </a>
-    <a href="https://www.youtube.com/@timpaemi/join?utm_source=pattayavilla&utm_medium=support&utm_campaign=member" target="_blank" rel="noopener" class="support-card is-recurring">
+    <a href="https://www.youtube.com/@timpaemi/join?utm_source=pattayavilla&amp;utm_medium=support&amp;utm_campaign=member" target="_blank" rel="noopener" class="support-card is-recurring" data-gtm="support_click" data-gtm-platform="youtube_membership">
       <div>
         <span class="support-card-icon">▶</span>
         <div class="support-card-name">YOUTUBE MEMBERSHIP</div>
@@ -214,7 +221,7 @@ footer a:hover{color:var(--pink)}
   <h2>LIVE-STREAM <span class="green">SUPPORT.</span></h2>
   <p class="lead">During the stream. Surfaces your question in chat.</p>
   <div class="support-grid">
-    <a href="https://www.youtube.com/@timpaemi/live?utm_source=pattayavilla&utm_medium=support&utm_campaign=superchat" target="_blank" rel="noopener" class="support-card is-paid">
+    <a href="https://www.youtube.com/@timpaemi/live?utm_source=pattayavilla&amp;utm_medium=support&amp;utm_campaign=superchat" target="_blank" rel="noopener" class="support-card is-paid" data-gtm="support_click" data-gtm-platform="superchat">
       <div>
         <span class="support-card-icon">💬</span>
         <div class="support-card-name">SUPER CHAT</div>
@@ -222,7 +229,7 @@ footer a:hover{color:var(--pink)}
       </div>
       <div class="support-card-cta">SUPER CHAT TONIGHT →</div>
     </a>
-    <a href="https://www.youtube.com/@timpaemi/live?utm_source=pattayavilla&utm_medium=support&utm_campaign=superthanks" target="_blank" rel="noopener" class="support-card is-paid">
+    <a href="https://www.youtube.com/@timpaemi/live?utm_source=pattayavilla&amp;utm_medium=support&amp;utm_campaign=superthanks" target="_blank" rel="noopener" class="support-card is-paid" data-gtm="support_click" data-gtm-platform="superthanks">
       <div>
         <span class="support-card-icon">✨</span>
         <div class="support-card-name">SUPER THANKS</div>
@@ -235,8 +242,8 @@ footer a:hover{color:var(--pink)}
   <h2>THAI <span class="yellow">SUPPORT.</span></h2>
   <p class="lead">For our local Pattaya / Thai audience. Direct, low-fee.</p>
   <div class="support-grid">
-    <!-- [TODO: replace href with real PromptPay QR or LINE Pay -->
-    <a href="#" class="support-card is-paid">
+    <!-- [PLACEHOLDER href — operator provides PromptPay QR page or static QR image URL before launch] -->
+    <a href="#promptpay-placeholder" rel="noopener" class="support-card is-paid" data-gtm="support_click" data-gtm-platform="promptpay">
       <div>
         <span class="support-card-icon">🇹🇭</span>
         <div class="support-card-name">PROMPTPAY</div>
@@ -244,44 +251,14 @@ footer a:hover{color:var(--pink)}
       </div>
       <div class="support-card-cta">SHOW PROMPTPAY QR →</div>
     </a>
-    <!-- [TODO: LINE Pay link] -->
-    <a href="https://line.me/ti/p/~timpaemi" target="_blank" rel="noopener" class="support-card is-paid">
+    <!-- [PLACEHOLDER href — operator confirms LINE handle before launch] -->
+    <a href="https://line.me/ti/p/~timpaemi" target="_blank" rel="noopener" class="support-card is-paid" data-gtm="support_click" data-gtm-platform="linepay">
       <div>
         <span class="support-card-icon">💚</span>
         <div class="support-card-name">LINE PAY</div>
         <div class="support-card-desc">Send via LINE app — message us first to confirm.</div>
       </div>
       <div class="support-card-cta">LINE US →</div>
-    </a>
-  </div>
-
-  <h2>CRYPTO <span class="cyan">SUPPORT.</span></h2>
-  <p class="lead">For international supporters who prefer crypto.</p>
-  <div class="support-grid">
-    <!-- [TODO: replace # with copyable wallet address or onclick=copyBTC() -->
-    <a href="#" class="support-card is-paid">
-      <div>
-        <span class="support-card-icon">₿</span>
-        <div class="support-card-name">BITCOIN (BTC)</div>
-        <div class="support-card-desc">Click to copy our BTC wallet address.</div>
-      </div>
-      <div class="support-card-cta">COPY BTC ADDRESS →</div>
-    </a>
-    <a href="#" class="support-card is-paid">
-      <div>
-        <span class="support-card-icon">Ξ</span>
-        <div class="support-card-name">ETHEREUM (ETH)</div>
-        <div class="support-card-desc">Click to copy our ETH wallet address.</div>
-      </div>
-      <div class="support-card-cta">COPY ETH ADDRESS →</div>
-    </a>
-    <a href="#" class="support-card is-paid">
-      <div>
-        <span class="support-card-icon">₮</span>
-        <div class="support-card-name">USDT (TRC20)</div>
-        <div class="support-card-desc">Stable-value support via Tron network. Lower fees than ETH.</div>
-      </div>
-      <div class="support-card-cta">COPY USDT ADDRESS →</div>
     </a>
   </div>
 

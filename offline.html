@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>No Signal — PATTAYA VILLA · Offline</title>
+<meta name="description" content="You're offline. The PATTAYA VILLA livestream is live every night 9 PM ICT — reconnect to watch.">
+<meta name="robots" content="noindex,nofollow">
+<link rel="canonical" href="https://pattayavilla.com/offline">
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#08080c">
+<meta name="color-scheme" content="dark">
+<meta name="format-detection" content="telephone=no">
+<meta name="author" content="Tim &amp; Paemi · TIMPAEMI Co., Ltd.">
+
+<!-- iOS PWA -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="PATTAYA VILLA">
+
+<style>
+@font-face{font-family:'Bebas Neue';font-style:normal;font-weight:400;font-display:swap;src:url('/assets/fonts/bebas-neue-400.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-style:normal;font-weight:100 900;font-display:swap;src:url('/assets/fonts/inter-var.woff2') format('woff2')}
+@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:100 900;font-display:swap;src:url('/assets/fonts/jetbrains-mono-var.woff2') format('woff2')}
+:root{--pink:#ff2f8e;--cyan:#00e5ff;--yellow:#ffe156;--red:#e60030;--bg:#08080c;--text:rgba(255,255,255,.92);--muted:rgba(255,255,255,.6);--dim:rgba(255,255,255,.48);--border:rgba(255,255,255,.08);--border-strong:rgba(255,255,255,.2)}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:'Inter',system-ui,-apple-system,Arial,sans-serif;line-height:1.55;min-height:100vh;min-height:100dvh;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%}
+body{display:flex;flex-direction:column;justify-content:center;align-items:center;padding:2rem 1.5rem;text-align:center;overflow-x:hidden}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:2px}
+
+/* Glitch slash bg */
+.slash-bg{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
+.slash-bg::before,.slash-bg::after{content:'';position:absolute;width:200%;height:120px;left:-50%;background:linear-gradient(90deg,transparent,rgba(230,0,48,.08) 30%,rgba(230,0,48,.08) 70%,transparent);transform-origin:center;transform:rotate(-12deg)}
+.slash-bg::before{top:18%}
+.slash-bg::after{top:62%;background:linear-gradient(90deg,transparent,rgba(0,229,255,.05) 30%,rgba(0,229,255,.05) 70%,transparent);transform:rotate(8deg)}
+
+.eyebrow{display:inline-block;padding:.4rem 1rem;border:1px solid var(--red);background:rgba(230,0,48,.1);color:#ff3b5c;font-family:'JetBrains Mono','SF Mono',Menlo,monospace;font-size:.62rem;letter-spacing:2.4px;text-transform:uppercase;font-weight:800;border-radius:4px;margin-bottom:2rem;animation:flicker 2.2s infinite}
+@keyframes flicker{0%,100%{opacity:1}48%{opacity:.95}50%{opacity:.4}52%{opacity:1}}
+@media(prefers-reduced-motion:reduce){.eyebrow{animation:none}}
+
+h1{font-family:'Bebas Neue','Impact','Arial Black',sans-serif;font-size:clamp(4.5rem,16vw,11rem);line-height:.85;letter-spacing:-.015em;font-weight:400;color:#fff;margin:0 0 1.2rem;text-transform:uppercase}
+h1 .red{color:#ff3b5c;text-shadow:0 0 60px rgba(230,0,48,.55)}
+
+.sub{font-size:1.1rem;line-height:1.55;color:var(--text);max-width:560px;margin:0 0 2rem}
+.sub strong{color:var(--yellow);font-weight:700}
+
+.actions{display:flex;flex-wrap:wrap;justify-content:center;gap:.7rem;margin-bottom:2.2rem}
+.btn{display:inline-flex;align-items:center;gap:.6rem;min-height:48px;padding:.95rem 1.7rem;border-radius:9999px;font-family:'JetBrains Mono','SF Mono',Menlo,monospace;font-size:.78rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;text-decoration:none;cursor:pointer;border:2px solid transparent;transition:transform .18s,box-shadow .18s,background .18s;background:transparent;color:var(--cyan)}
+.btn-pink{background:var(--pink);border-color:var(--pink);color:#fff;box-shadow:0 0 0 4px rgba(255,47,142,.18),0 8px 30px rgba(255,47,142,.3)}
+.btn-pink:hover{background:#ff4d9f;transform:translateY(-2px);color:#fff}
+.btn-cyan{border-color:var(--cyan)}
+.btn-cyan:hover{background:rgba(0,229,255,.12);color:#fff;transform:translateY(-2px)}
+@media(max-width:540px){.btn{padding:.85rem 1.3rem;font-size:.7rem;letter-spacing:1.6px}}
+
+.status{font-family:'JetBrains Mono','SF Mono',Menlo,monospace;font-size:.62rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:.8rem}
+.status .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--red);margin-right:.6rem;vertical-align:middle;animation:pulse 1.8s infinite}
+@keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(230,0,48,.55)}70%{opacity:.5;box-shadow:0 0 0 10px rgba(230,0,48,0)}}
+@media(prefers-reduced-motion:reduce){.status .dot{animation:none}}
+
+.brand{margin-top:auto;padding-top:3rem;font-family:'JetBrains Mono','SF Mono',Menlo,monospace;font-size:.6rem;letter-spacing:1.6px;text-transform:uppercase;color:var(--dim);font-weight:700}
+.brand .pink{color:var(--pink)}
+.brand a{color:var(--muted);text-decoration:none}
+.brand a:hover{color:var(--cyan)}
+</style>
+</head>
+<body>
+
+<div class="slash-bg" aria-hidden="true"></div>
+
+<div class="status" id="net-status" aria-live="polite">
+  <span class="dot" aria-hidden="true"></span>
+  <span id="net-status-text">OFFLINE · NO CONNECTION</span>
+</div>
+
+<span class="eyebrow">// CONNECTION LOST</span>
+
+<h1>NO<br><span class="red">SIGNAL.</span></h1>
+
+<p class="sub">
+  <strong>You're offline.</strong>
+  The villa show is live every night at 9 PM ICT — but right now your device can't reach us.
+  Check your connection and try again.
+</p>
+
+<div class="actions">
+  <button type="button" class="btn btn-pink" onclick="location.reload()">↻ RETRY</button>
+  <a href="/" class="btn btn-cyan">← BACK HOME</a>
+</div>
+
+<div class="brand">
+  PATTAYA <span class="pink">VILLA.</span> · TIM &amp; PAEMI · <a href="/">pattayavilla.com</a>
+</div>
+
+<script>
+/* If the connection comes back, show a "back online" hint so user can reload */
+(function(){
+  function tick(){
+    var s=document.getElementById('net-status-text');
+    if(!s)return;
+    if(navigator.onLine){
+      s.textContent='BACK ONLINE · TAP RETRY';
+      document.querySelector('.status .dot').style.background='#6aff9f';
+    }else{
+      s.textContent='OFFLINE · NO CONNECTION';
+    }
+  }
+  window.addEventListener('online',tick,{passive:true});
+  window.addEventListener('offline',tick,{passive:true});
+  tick();
+})();
+</script>
+
+</body>
+</html>

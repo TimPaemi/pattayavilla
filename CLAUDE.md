@@ -12,15 +12,15 @@ Audience-driven: support page + community recognition + show explainer.
 - Production branch: `master`
 
 ## Working surface
-**Repo root = deployable surface.** 6 pages:
+**Repo root = deployable surface.** 6 indexed pages:
 - `/` (homepage — louder hero, network bar, quick-links to all sub-pages)
-- `/support/` (multiple payment options — free + paid + recurring + crypto + Thai)
-- `/community/` (mods + heroes + regulars — anonymized, no ranking, noindex)
-- `/format/` (how the show works)
+- `/support/` (multiple payment options — free + paid + recurring + Thai. **NO crypto.**)
+- `/community/` (mods + heroes + regulars — **fully anonymized, no individual handles published**, no ranking, noindex)
+- `/format/` (how the show works — unscripted, chat decides everything)
 - `/code/` (chat code of conduct)
 - `/faq/` (common questions, FAQPage schema)
 
-Plus: `/offline.html`, `/404.html` (TODO — copy from timpaemi.com).
+Plus error pages: `/offline.html` (Service Worker fallback) and `/404.html` (Cloudflare Pages default).
 
 ## Deploy
 - `.\deploy.ps1` — clean staging deploy with allowlist gate (no dirty deploys).
@@ -36,8 +36,9 @@ Plus: `/offline.html`, `/404.html` (TODO — copy from timpaemi.com).
 ## What is LOCKED (do not change)
 - ❌ NO embeds (YouTube, Twitch, anything). External-link only.
 - ❌ NO chat / comments / forums.
-- ❌ NO villa photos. NO crew names beyond Tim & Paemi.
-- ❌ NO individual donation amounts published. NO rankings.
+- ❌ NO villa photos. **NO names of crew, mods, supporters, or regulars beyond Tim & Paemi — ever.**
+- ❌ NO individual donation amounts published. NO rankings. NO leaderboards.
+- ❌ NO crypto support paths (operator does not use crypto).
 - ❌ NO new pages added without operator sign-off.
 - ❌ NO Google Fonts (everything self-hosted).
 - ❌ NO Facebook Pixel on this site (CSP doesn't allow it).
