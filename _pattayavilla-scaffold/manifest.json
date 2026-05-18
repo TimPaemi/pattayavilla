@@ -1,0 +1,23 @@
+{
+  "id": "/pattayavilla",
+  "name": "PATTAYA VILLA",
+  "short_name": "PATTAYA VILLA",
+  "description": "The nightly Pattaya villa livestream by Tim & Paemi. Live every night 9 PM ICT.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#08080c",
+  "theme_color": "#08080c",
+  "icons": [
+    {"src":"/assets/icons/icon-192.png","sizes":"192x192","type":"image/png","purpose":"any"},
+    {"src":"/assets/icons/icon-512.png","sizes":"512x512","type":"image/png","purpose":"any maskable"},
+    {"src":"/apple-touch-icon.png","sizes":"180x180","type":"image/png","purpose":"any"}
+  ],
+  "shortcuts":[
+    {"name":"Watch Live Tonight","short_name":"Live","description":"Open the live broadcast","url":"https://www.youtube.com/@timpaemi/live?utm_source=pwa","icons":[{"src":"/assets/icons/icon-192.png","sizes":"192x192"}]},
+    {"name":"Support the Show","short_name":"Support","description":"Back the villa stream","url":"/support/","icons":[{"src":"/assets/icons/icon-192.png","sizes":"192x192"}]}
+  ],
+  "categories":["entertainment","lifestyle","video"],
+  "lang":"en","dir":"ltr","prefer_related_applications":false
+}

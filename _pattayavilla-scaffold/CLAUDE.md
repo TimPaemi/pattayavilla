@@ -1,0 +1,61 @@
+# PATTAYA VILLA — Brand Site
+
+## Project
+The dedicated home for the **PATTAYA VILLA livestream** — the nightly show by Tim & Paemi.
+Operated by **Pattaya-Authority.com** (TIMPAEMI Co., Ltd.).
+Audience-driven: support page + community recognition + show explainer.
+
+## Domain
+- Production: **https://pattayavilla.com**
+- Repo: https://github.com/TimPaemi/pattayavilla
+- Hosting: **Cloudflare Pages**, project name: `pattayavilla`
+- Production branch: `master`
+
+## Working surface
+**Repo root = deployable surface.** 6 pages:
+- `/` (homepage — louder hero, network bar, quick-links to all sub-pages)
+- `/support/` (multiple payment options — free + paid + recurring + crypto + Thai)
+- `/community/` (mods + heroes + regulars — anonymized, no ranking, noindex)
+- `/format/` (how the show works)
+- `/code/` (chat code of conduct)
+- `/faq/` (common questions, FAQPage schema)
+
+Plus: `/offline.html`, `/404.html` (TODO — copy from timpaemi.com).
+
+## Deploy
+- `.\deploy.ps1` — clean staging deploy with allowlist gate (no dirty deploys).
+- Pushes only allowlisted files; aborts if `AUDIT*.md`, `__pycache__`, `.deploy-stage` slip in.
+
+## Design system (locked — same palette as timpaemi.com)
+- **Palette:** pink `#ff2f8e`, cyan `#00e5ff`, yellow `#ffe156`, green `#6aff9f`, red `#e60030`/text `#ff3b5c`, bg `#08080c`
+- **3rd-party brand exceptions:** WhatsApp green `#25d366`, LINE green `#06c755`
+- **Fonts:** self-hosted Bebas Neue (display), JetBrains Mono (mono), Inter (body)
+- **Voice:** LOUDER than timpaemi.com — bigger headings (12-15rem), more glow, marquee tickers, "in your face"
+- **Layout philosophy:** dense, aggressive, button-first. Every section ends with a CTA.
+
+## What is LOCKED (do not change)
+- ❌ NO embeds (YouTube, Twitch, anything). External-link only.
+- ❌ NO chat / comments / forums.
+- ❌ NO villa photos. NO crew names beyond Tim & Paemi.
+- ❌ NO individual donation amounts published. NO rankings.
+- ❌ NO new pages added without operator sign-off.
+- ❌ NO Google Fonts (everything self-hosted).
+- ❌ NO Facebook Pixel on this site (CSP doesn't allow it).
+- ❌ NO cookie banner (GA4 anonymize_ip + cookieless CF Web Analytics).
+
+## Network sister sites (link out, never merge in)
+- timpaemi.com (brand)
+- pattaya-authority.com (parent agency — operator of this site)
+- pattaya-restaurant-guide.com
+- pattaya-gym.com
+- pattayavisahelp.com
+
+## Analytics
+- GA4 measurement ID: **TBD** (replace `G-PLACEHOLDER` in all 6 pages once Tim provides)
+- Cloudflare Web Analytics: optional (decide post-launch)
+- Web Vitals beacon: TODO (port from timpaemi.com if desired)
+
+## Dead context — IGNORE
+This is a sibling site to timpaemi.com, NOT a continuation of the old 1057-page Pattaya SEO site (archived on `archive-2026-05-17-pre-cleanup` branch over there). Different repo, different domain, different purpose.
+
+Reference: study `https://github.com/TimPaemi/timpaemi` (the brand site) for established standards — performance, accessibility, security headers, schema patterns. Carry them over here.

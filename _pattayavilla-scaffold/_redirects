@@ -1,0 +1,6 @@
+# Force trailing slash
+/support     /support/    301
+/community   /community/  301
+/format      /format/     301
+/code        /code/       301
+/faq        /faq/        301

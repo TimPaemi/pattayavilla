@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.pyc
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+# Editor
+*.swp
+.vscode/
+.idea/
+# Local env
+.env
+.env.local
+# Build
+node_modules/
+package-lock.json
+.wrangler/
+.deploy-stage/
+# Backups
+backups/
+*.tar.gz
+*.zip
+# Logs
+*.log
+*.tmp
+# Generated
+*.dll
+*.exe
