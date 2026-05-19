@@ -1,41 +1,59 @@
-/* PATTAYA VILLA STREAM · pv-live.js — v6 (2026-05-18 modern-css)
- * Injects: live-now indicator (mobile focal element), share tray, ::selection polish,
- * scrollbar styling, text-wrap balance, forced-colors a11y, aria-current navigation,
- * scroll-triggered stat counters, /support/ live banner toggle, focused-mobile-header,
- * AND 2026 modern CSS: @property color tokens, view-transition-name on hero, text-box-trim,
- * hanging-punctuation, @starting-style entrance animations.
- * Live window: 21:00-03:00 Asia/Bangkok (ICT, UTC+7). Pure JS, zero deps. */
+/* PATTAYA VILLA STREAM · pv-live.js — v7 (2026-05-18 mobile-deep)
+ * Mobile-first usability layer + 2026 platform features:
+ *  - Live pill (focal mobile header element)
+ *  - Smart sticky CTA (hide on scroll-down, show on scroll-up)
+ *  - Reading progress bar on Article pages
+ *  - PWA install prompt (beforeinstallprompt capture)
+ *  - Marquee mask + IntersectionObserver pause-when-hidden
+ *  - Skip-to-main a11y link
+ *  - Vibration API on critical CTA taps
+ *  - Active tap feedback states
+ *  - scroll-margin-top on anchor targets
+ *  - @property typed color tokens · view-transition-name · text-box-trim
+ *  - hanging-punctuation · @starting-style · prefers-reduced-data
+ *  - Share dialog (desktop) · stat counters · aria-current nav
+ *  - Compressed mobile hero rhythm
+ * Live window: 21:00-03:00 ICT (UTC+7). Pure JS, zero deps. */
 (function(){
   'use strict';
 
-  /* ---------- runtime style injection ---------- */
   function injectStyles(){
     if(document.getElementById('pv-runtime-css')) return;
     var s = document.createElement('style');
     s.id = 'pv-runtime-css';
     s.textContent = [
-      /* === 2026 MODERN: @property typed color tokens for animation === */
+      /* === 2026 @property typed color tokens === */
       '@property --pv-pink{syntax:"<color>";inherits:true;initial-value:#ff2f8e}',
       '@property --pv-cyan{syntax:"<color>";inherits:true;initial-value:#00e5ff}',
       '@property --pv-yellow{syntax:"<color>";inherits:true;initial-value:#ffe156}',
       '@property --pv-green{syntax:"<color>";inherits:true;initial-value:#6aff9f}',
       '@property --pv-red{syntax:"<color>";inherits:true;initial-value:#e60030}',
-      '@property --pv-glow{syntax:"<percentage>";inherits:true;initial-value:0%}',
       /* === View Transitions === */
       '@view-transition{navigation:auto}',
       '::view-transition-old(root),::view-transition-new(root){animation-duration:.18s;animation-timing-function:cubic-bezier(.4,0,.2,1)}',
-      ':root{view-transition-name:root}',
       '.hero h1{view-transition-name:hero-stack}',
       '.footer-brand{view-transition-name:footer-brand}',
       '.sticky-cta{view-transition-name:sticky-cta}',
+      /* === Anchor scroll-margin so headings don't hide under sticky bars === */
+      'html{scroll-padding-top:80px}',
+      'h1,h2,h3,h4,section,article,.body-section,details,[id]{scroll-margin-top:80px}',
       /* === 2026 typography polish === */
       'html{hanging-punctuation:first allow-end last}',
       'h1,h2,h3,.section-title,.tier-name,.equal-paths-q{text-wrap:balance}',
       '.lead,.hero-sub,.body-section p,.tier-body,.manifesto p{text-wrap:pretty}',
       '.hero h1,.footer-brand,.section-title{text-box:trim-both cap alphabetic}',
-      /* === @starting-style entrance for live pill + hero eyebrow === */
-      '@starting-style{.live-status{opacity:0;transform:translateY(-4px)}.hero-eyebrow{opacity:0;transform:translateY(6px)}}',
-      '.live-status,.hero-eyebrow{transition:opacity .35s ease, transform .35s cubic-bezier(.2,.7,.3,1)}',
+      /* === @starting-style entrance animations === */
+      '@starting-style{.live-status{opacity:0;transform:translateY(-4px)}.hero-eyebrow{opacity:0;transform:translateY(6px)}.pv-install{opacity:0;transform:translateY(8px)}}',
+      '.live-status,.hero-eyebrow,.pv-install{transition:opacity .35s ease, transform .35s cubic-bezier(.2,.7,.3,1)}',
+      /* === Tap feedback: active states === */
+      '.btn:active,.cta-watch:active,.cta-support:active,.cta-tip:active,.support-card:active,.quick-link:active,.tier:active,.pv-share-btn:active{transform:scale(.97);transition:transform .08s ease}',
+      '.btn,.cta-watch,.cta-support,.cta-tip,.support-card,.quick-link,.tier,.pv-share-btn{-webkit-tap-highlight-color:transparent;touch-action:manipulation}',
+      /* === Skip link === */
+      '.pv-skip{position:absolute;top:-100px;left:0;padding:.8rem 1.2rem;background:#ff2f8e;color:#fff;font-family:"JetBrains Mono",monospace;font-size:.7rem;letter-spacing:1.6px;text-transform:uppercase;font-weight:800;text-decoration:none;z-index:9999;border-radius:0 0 8px 0}',
+      '.pv-skip:focus{top:0;outline:3px solid #00e5ff;outline-offset:-3px}',
+      /* === Reading progress bar (Article pages only — .has-progress on <body>) === */
+      '.pv-progress{position:fixed;top:0;left:0;right:0;height:3px;background:rgba(255,255,255,.06);z-index:200;pointer-events:none}',
+      '.pv-progress-bar{height:100%;background:linear-gradient(90deg,#ff2f8e,#ffe156);width:0;transform-origin:left center;transition:width .12s linear}',
       /* === Selection / scrollbar === */
       '::selection{background:#ff2f8e;color:#fff}',
       '::-moz-selection{background:#ff2f8e;color:#fff}',
@@ -46,7 +64,7 @@
       '::-webkit-scrollbar-thumb:hover{background:linear-gradient(180deg,#ff4d9f,#ff1f4d)}',
       /* === Live pill === */
       '@keyframes pvlive{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(230,0,48,.55)}70%{opacity:.5;box-shadow:0 0 0 8px rgba(230,0,48,0)}}',
-      '@media(prefers-reduced-motion:reduce){.live-status .dot,.live-banner,.live-banner-dot{animation:none!important}.live-status,.hero-eyebrow{transition:none!important}}',
+      '@media(prefers-reduced-motion:reduce){.live-status .dot,.live-banner,.live-banner-dot{animation:none!important}.live-status,.hero-eyebrow,.pv-install{transition:none!important}}',
       '.live-status{display:inline-flex;align-items:center;gap:.4rem;font-family:"JetBrains Mono",monospace;font-size:.62rem;letter-spacing:1.6px;text-transform:uppercase;font-weight:800;color:#fff;padding:.3rem .7rem;background:rgba(230,0,48,.15);border:1px solid rgba(230,0,48,.4);border-radius:9999px}',
       '.live-status.is-offline{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.12);color:rgba(255,255,255,.7)}',
       '.live-status .dot{width:8px;height:8px;border-radius:50%;background:#e60030;animation:pvlive 1.8s ease-out infinite}',
@@ -55,6 +73,9 @@
       '.live-status a:hover{color:#ffe156}',
       '.utility-bar a[aria-current="page"]{color:#ffe156;text-decoration:underline;text-decoration-color:#ff2f8e;text-underline-offset:3px;text-decoration-thickness:2px}',
       '.footer-network a[aria-current="page"]{color:#ffe156;text-decoration:underline;text-decoration-color:#ff2f8e;text-underline-offset:3px}',
+      /* === Marquee mask + paused state === */
+      '.marquee{mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent)}',
+      '.marquee.is-paused .marquee-track{animation-play-state:paused}',
       /* === Share button + dialog === */
       '.pv-share{position:relative;display:inline-flex;align-items:center;gap:.4rem;color:#00e5ff;font-weight:800;letter-spacing:1.6px;cursor:pointer;background:none;border:none;font-family:inherit;font-size:inherit;text-transform:inherit;padding:0;line-height:inherit}',
       '.pv-share:hover{color:#fff}',
@@ -76,7 +97,18 @@
       '.live-banner{margin:0 0 1rem;border:2px solid #e60030;background:rgba(230,0,48,.1);border-radius:10px;animation:pv-live-banner-pulse 2.2s ease-out infinite}',
       '.live-banner a{display:flex;align-items:center;justify-content:center;gap:.6rem;padding:.8rem 1rem;text-decoration:none;color:#fff;font-family:"JetBrains Mono",monospace;font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;font-weight:800}',
       '.live-banner-dot{width:9px;height:9px;border-radius:50%;background:#e60030;flex-shrink:0;animation:pvlive 1.8s ease-out infinite}',
-      /* === Forced colors / a11y === */
+      /* === PWA install banner === */
+      '.pv-install{position:fixed;left:1rem;right:1rem;bottom:80px;z-index:150;display:flex;align-items:center;gap:.7rem;padding:.85rem 1rem;background:rgba(8,8,12,.96);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:2px solid #00e5ff;border-radius:12px;font-family:"JetBrains Mono",monospace;font-size:.66rem;letter-spacing:1.4px;text-transform:uppercase;font-weight:800;color:#fff;box-shadow:0 8px 30px rgba(0,229,255,.25)}',
+      '.pv-install-icon{color:#00e5ff;font-size:1.2rem;flex-shrink:0}',
+      '.pv-install-text{flex:1;line-height:1.4}',
+      '.pv-install-btn{padding:.5rem .8rem;background:#00e5ff;color:#08080c;border:none;border-radius:6px;font:inherit;cursor:pointer;font-weight:800;letter-spacing:1.2px}',
+      '.pv-install-close{background:none;border:none;color:rgba(255,255,255,.5);cursor:pointer;font-size:1.2rem;padding:.3rem .5rem;line-height:1}',
+      '.pv-install-close:hover{color:#fff}',
+      /* === Smart sticky CTA — hide on scroll-down === */
+      '.sticky-cta{transition:transform .25s cubic-bezier(.4,0,.2,1)}',
+      '.sticky-cta.is-hidden{transform:translateY(100%)}',
+      '@media(prefers-reduced-motion:reduce){.sticky-cta{transition:none!important}}',
+      /* === Forced-colors / contrast / transparency === */
       '@media(forced-colors:active){',
       '  .btn,.sticky-cta a,.quick-link,.support-card,.tier,.pv-share-btn{forced-color-adjust:none;border:1px solid CanvasText;background:Canvas;color:CanvasText}',
       '  .btn-red,.btn-pink,.btn-yellow,.cta-watch,.cta-support,.cta-tip{background:Highlight;color:HighlightText}',
@@ -92,89 +124,93 @@
       '}',
       '@media (prefers-reduced-transparency: reduce){',
       '  .sticky-cta{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;background:#08080c}',
-      '  dialog.pv-share-dialog .pv-share-inner,.utility-bar{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;background:rgba(8,8,12,.96)}',
+      '  dialog.pv-share-dialog .pv-share-inner,.utility-bar,.pv-install{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;background:rgba(8,8,12,.98)}',
       '  dialog.pv-share-dialog::backdrop{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;background:rgba(8,8,12,.95)}',
       '}',
-      /* === 2026 FAQ exclusive-accordion polish === */
+      /* === FAQ exclusive accordion polish === */
       'details[name="faq"] summary{position:relative;cursor:pointer;list-style:none}',
       'details[name="faq"] summary::-webkit-details-marker{display:none}',
-      'details[name="faq"] summary::after{content:"+";position:absolute;right:1rem;top:50%;transform:translateY(-50%);font-family:"JetBrains Mono",monospace;font-size:1.2rem;color:#ff2f8e;transition:transform .25s ease,content .25s}',
-      'details[name="faq"][open] summary::after{content:"−";transform:translateY(-50%) rotate(180deg)}',
+      'details[name="faq"] summary::after{content:"+";position:absolute;right:1rem;top:50%;transform:translateY(-50%);font-family:"JetBrains Mono",monospace;font-size:1.2rem;color:#ff2f8e;transition:transform .25s ease}',
+      'details[name="faq"][open] summary::after{content:"−"}',
       'details[name="faq"][open] summary{color:#ff2f8e}',
-      /* === Save-Data / reduced-data: skip non-essential animations === */
-      '@media (prefers-reduced-data:reduce){.marquee-track,.live-status .dot,.live-banner{animation:none!important}.hero-eyebrow,.btn-mega::after{animation:none!important}}',
+      '@media (prefers-reduced-data:reduce){.marquee-track,.live-status .dot,.live-banner{animation:none!important}.hero-eyebrow,.btn-mega::after,.pv-install{animation:none!important}}',
       /* ============================================================
-       * MOBILE SYSTEM v6 — FOCUSED HEADER. Single LIVE pill on phones.
+       * MOBILE SYSTEM v7 — DEEP MOBILE UX
        * ============================================================ */
       'html,body{overflow-x:clip;max-width:100vw}',
       'img,video,iframe,svg{max-width:100%;height:auto}',
       '@media(max-width:760px){',
       '  .utility-bar > *:not(.live-status){display:none!important}',
-      '  .utility-bar{padding:.6rem 1rem;min-height:44px;display:flex;justify-content:center;align-items:center;border-bottom:1px solid rgba(255,255,255,.08);background:rgba(0,0,0,.55)}',
-      '  .utility-bar .live-status{font-size:.66rem;letter-spacing:1.8px;padding:.45rem 1rem;min-height:32px;gap:.5rem}',
+      '  .utility-bar{padding:.55rem 1rem;min-height:44px;display:flex;justify-content:center;align-items:center;border-bottom:1px solid rgba(255,255,255,.08);background:rgba(0,0,0,.55)}',
+      '  .utility-bar .live-status{font-size:.66rem;letter-spacing:1.8px;padding:.45rem 1rem;min-height:38px;gap:.5rem}',
       '  .utility-bar .live-status .dot{width:9px;height:9px}',
-      '  .marquee{padding:.55rem 0}',
+      '  .marquee{padding:.5rem 0}',
       '  .marquee-track{font-size:.7rem;letter-spacing:1.8px;animation-duration:45s}',
       '  .marquee-group{gap:1.1rem;padding-right:1.1rem}',
       '  main{padding-left:0;padding-right:0}',
-      '  section{padding:2.4rem 1rem!important}',
-      '  .hero{padding:2rem 1rem 2.6rem!important}',
-      '  .hero h1{font-size:clamp(3.2rem,13.5vw,6rem)!important;line-height:.88;letter-spacing:-.01em;margin-bottom:1rem}',
-      '  .hero p,.hero-sub,.lead{font-size:1rem;line-height:1.55}',
-      '  .hero-eyebrow{font-size:.6rem;letter-spacing:1.6px;padding:.35rem .8rem;margin-bottom:1.1rem}',
-      '  .hero-meta{font-size:.62rem;letter-spacing:1.8px;margin-bottom:1.6rem;line-height:1.6}',
-      '  .section-title{font-size:clamp(2.2rem,9vw,4rem)!important;line-height:.95}',
-      '  .hero-cta,.end-cta,.equal-paths-cta,.watch-bar,.cta-row{display:flex;flex-direction:column;align-items:stretch;gap:.7rem;width:100%}',
+      '  section{padding:2.2rem 1rem!important}',
+      '  .hero{padding:1.6rem 1rem 2.2rem!important}',
+      /* COMPRESSED hero — fits live pill + eyebrow + h1 + meta + 1 CTA above the fold on iPhone 14 */
+      '  .hero h1{font-size:clamp(3rem,12.5vw,5.4rem)!important;line-height:.9;letter-spacing:-.012em;margin:0 0 .8rem}',
+      '  .hero p,.hero-sub,.lead{font-size:.98rem;line-height:1.55;margin:0 0 1rem}',
+      '  .hero-eyebrow{font-size:.58rem;letter-spacing:1.6px;padding:.32rem .75rem;margin-bottom:.9rem}',
+      '  .hero-meta{font-size:.58rem;letter-spacing:1.5px;margin-bottom:1.2rem;line-height:1.6}',
+      '  .section-title{font-size:clamp(2rem,8.5vw,3.6rem)!important;line-height:.96;margin-bottom:1.2rem}',
+      '  .hero-cta,.end-cta,.equal-paths-cta,.watch-bar,.cta-row{display:flex;flex-direction:column;align-items:stretch;gap:.6rem;width:100%}',
       '  .hero-cta .btn,.end-cta .btn,.equal-paths-cta a,.watch-bar .btn{width:100%;justify-content:center;text-align:center}',
       '  .btn{padding:.95rem 1.4rem;font-size:.75rem;letter-spacing:1.6px;min-height:48px}',
-      '  .btn-mega{font-size:.95rem;padding:1.1rem 1.6rem;letter-spacing:1.9px}',
-      '  .quick-links{grid-template-columns:1fr;gap:.75rem;margin-top:1.5rem}',
-      '  .quick-link{padding:1.4rem 1.2rem;border-radius:12px}',
-      '  .support-grid,.tier-grid{grid-template-columns:1fr;gap:.9rem}',
-      '  .support-card,.tier{padding:1.5rem 1.25rem}',
-      '  .stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:.6rem}',
-      '  .stat{padding:1.1rem .8rem}',
+      '  .btn-mega{font-size:.95rem;padding:1.05rem 1.5rem;letter-spacing:1.9px}',
+      '  .quick-links{grid-template-columns:1fr;gap:.7rem;margin-top:1.4rem}',
+      '  .quick-link{padding:1.3rem 1.1rem;border-radius:12px}',
+      '  .support-grid,.tier-grid{grid-template-columns:1fr;gap:.8rem}',
+      '  .support-card,.tier{padding:1.4rem 1.2rem}',
+      '  .stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:.55rem;margin:1.2rem 0 0}',
+      '  .stat{padding:1rem .75rem}',
       '  .stat-num{font-size:clamp(2rem,8vw,3rem)}',
       '  .stat-label{font-size:.55rem;letter-spacing:1.3px}',
-      '  footer{padding:2.4rem 1rem 1.2rem;font-size:.6rem;letter-spacing:1.1px;line-height:1.7}',
-      '  .footer-brand{font-size:1.8rem;margin-bottom:.4rem}',
-      '  .footer-network{margin:1rem auto;gap:.4rem .8rem;font-size:.6rem;letter-spacing:1.1px;line-height:1.6;max-width:100%;padding:0 .5rem}',
+      '  footer{padding:2.2rem 1rem 1rem;font-size:.58rem;letter-spacing:1.1px;line-height:1.7}',
+      '  .footer-brand{font-size:1.7rem;margin-bottom:.35rem}',
+      '  .footer-network{margin:.9rem auto;gap:.4rem .8rem;font-size:.58rem;letter-spacing:1.1px;line-height:1.6;max-width:100%;padding:0 .5rem}',
       '  .footer-network a{display:inline-block;padding:.2rem 0;min-height:28px;white-space:nowrap}',
-      '  .footer-legal{margin-top:1.2rem;font-size:.52rem;line-height:1.7;letter-spacing:1px}',
-      '  .sticky-cta a{font-size:.68rem;letter-spacing:1.3px;padding:.85rem .6rem;min-height:52px;gap:.35rem}',
-      '  body{padding-bottom:calc(58px + env(safe-area-inset-bottom,0px))}',
+      '  .footer-legal{margin-top:1.1rem;font-size:.5rem;line-height:1.7;letter-spacing:1px}',
+      '  .sticky-cta a{font-size:.7rem;letter-spacing:1.3px;padding:.85rem .6rem;min-height:54px;gap:.35rem}',
+      '  body{padding-bottom:calc(60px + env(safe-area-inset-bottom,0px))}',
+      '  body.has-progress{padding-top:3px}',
       '  .body-section h2,.body-section-title{font-size:clamp(1.8rem,7vw,2.6rem);line-height:1}',
       '  .body-section p{font-size:1rem;line-height:1.65}',
       '  .pullquote{font-size:1.05rem;padding:1.1rem 1.1rem;margin:1.3rem 0}',
-      '  details summary{padding:1rem 2.4rem 1rem 1.1rem;font-size:.95rem;line-height:1.35}',
+      '  details summary{padding:1rem 2.4rem 1rem 1.1rem;font-size:.95rem;line-height:1.35;min-height:48px;display:flex;align-items:center}',
       '  details > div,details > p{padding:0 1.1rem 1.1rem;font-size:.96rem}',
       '  .toc,.toc-nav{flex-direction:column;align-items:stretch;gap:.4rem;padding:1rem}',
-      '  .toc a{padding:.6rem .8rem;font-size:.72rem;letter-spacing:1.4px;display:block;width:100%}',
+      '  .toc a{padding:.7rem .9rem;font-size:.72rem;letter-spacing:1.4px;display:block;width:100%;min-height:44px;display:flex;align-items:center}',
       '  .manifesto,.recipe-steps{padding:1.4rem 1.1rem}',
       '  .recipe-step{padding:1rem .9rem}',
       '  .live-banner a{padding:.7rem 1rem;font-size:.65rem;letter-spacing:1.2px;text-align:center;line-height:1.45}',
-      '  .back-link{padding:.5rem 0;font-size:.62rem;letter-spacing:1.4px;margin-bottom:1rem}',
+      '  .back-link{padding:.5rem 0;font-size:.62rem;letter-spacing:1.4px;margin-bottom:.8rem;min-height:36px;display:inline-flex;align-items:center}',
+      '  .pv-install{left:.8rem;right:.8rem;bottom:76px;padding:.75rem .9rem;font-size:.6rem;letter-spacing:1.2px}',
+      '  .pv-install-btn{padding:.45rem .7rem;font-size:.6rem}',
       '}',
       '@media(max-width:440px){',
-      '  .utility-bar{padding:.55rem .8rem;min-height:40px}',
-      '  .utility-bar .live-status{font-size:.6rem;letter-spacing:1.5px;padding:.4rem .85rem}',
+      '  .utility-bar{padding:.5rem .75rem;min-height:40px}',
+      '  .utility-bar .live-status{font-size:.6rem;letter-spacing:1.5px;padding:.4rem .85rem;min-height:34px}',
       '  .marquee-track{font-size:.62rem;letter-spacing:1.4px;animation-duration:36s}',
-      '  .hero h1{font-size:clamp(2.9rem,14.5vw,5.2rem)!important;line-height:.9}',
-      '  .hero-eyebrow{font-size:.55rem;letter-spacing:1.4px;padding:.3rem .7rem}',
+      '  .hero h1{font-size:clamp(2.7rem,13.5vw,4.8rem)!important;line-height:.92}',
+      '  .hero-eyebrow{font-size:.54rem;letter-spacing:1.4px;padding:.28rem .65rem;margin-bottom:.75rem}',
       '  .hero p,.hero-sub{font-size:.95rem}',
       '  section,.hero{padding-left:.85rem!important;padding-right:.85rem!important}',
       '  .btn{font-size:.72rem;letter-spacing:1.4px;padding:.85rem 1.2rem}',
-      '  .btn-mega{font-size:.88rem;padding:1rem 1.4rem;letter-spacing:1.7px}',
-      '  .stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:.5rem}',
-      '  .stat{padding:.9rem .65rem}',
-      '  .footer-brand{font-size:1.55rem}',
-      '  .footer-network{font-size:.56rem;letter-spacing:1px;gap:.35rem .65rem}',
-      '  .sticky-cta a{font-size:.62rem;letter-spacing:1.2px;padding:.8rem .45rem;min-height:50px}',
+      '  .btn-mega{font-size:.86rem;padding:.95rem 1.3rem;letter-spacing:1.7px}',
+      '  .stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:.45rem}',
+      '  .stat{padding:.85rem .55rem}',
+      '  .footer-brand{font-size:1.5rem}',
+      '  .footer-network{font-size:.54rem;letter-spacing:1px;gap:.35rem .65rem}',
+      '  .sticky-cta a{font-size:.64rem;letter-spacing:1.2px;padding:.8rem .45rem;min-height:50px}',
       '  body{padding-bottom:calc(56px + env(safe-area-inset-bottom,0px))}',
+      '  .pv-install{bottom:72px;padding:.7rem .8rem;font-size:.56rem}',
       '}',
       '@media(max-width:360px){',
-      '  .utility-bar .live-status{font-size:.56rem;letter-spacing:1.3px;padding:.35rem .75rem}',
-      '  .hero h1{font-size:clamp(2.6rem,15vw,4.6rem)!important}',
+      '  .utility-bar .live-status{font-size:.55rem;letter-spacing:1.3px;padding:.35rem .7rem}',
+      '  .hero h1{font-size:clamp(2.4rem,14vw,4.2rem)!important}',
       '  .marquee-track{font-size:.58rem;animation-duration:30s}',
       '  .stats{grid-template-columns:1fr;gap:.5rem}',
       '  .sticky-cta a{font-size:.58rem;letter-spacing:1px;padding:.75rem .35rem}',
@@ -200,8 +236,7 @@
     var wrap = document.createElement('a');
     wrap.className = 'live-status';
     wrap.href = 'https://www.youtube.com/@timpaemi/live?utm_source=pattayastream&utm_medium=live_pill&utm_campaign=watch';
-    wrap.target = '_blank';
-    wrap.rel = 'noopener';
+    wrap.target = '_blank'; wrap.rel = 'noopener';
     wrap.setAttribute('data-gtm','live_pill_click');
     var dot = document.createElement('span'); dot.className = 'dot';
     var txt = document.createElement('span'); txt.className = 'txt';
@@ -214,17 +249,14 @@
   }
   function tickLive(el){
     var txt = el.querySelector('.txt'); if(!txt) return;
-    if (isLiveICT()){
-      el.classList.remove('is-offline');
-      txt.textContent = 'LIVE NOW · WATCH';
-    } else {
+    if (isLiveICT()){ el.classList.remove('is-offline'); txt.textContent = 'LIVE NOW · WATCH'; }
+    else {
       el.classList.add('is-offline');
       var t = hoursUntilLive();
       txt.textContent = (t && (t.h || t.m)) ? 'NEXT LIVE IN ' + t.h + 'H ' + t.m + 'M' : 'LIVE NIGHTLY 9 PM ICT';
     }
   }
 
-  /* ---------- /support/ live banner toggle ---------- */
   function toggleLiveBanner(){var el = document.querySelector('[data-live-banner]');if(el) el.hidden = !isLiveICT();}
 
   /* ---------- share dialog ---------- */
@@ -239,7 +271,6 @@
     var sep = document.createElement('span'); sep.className = 'separator'; sep.textContent = '·';
     bar.insertBefore(sep, bar.firstChild);
     bar.insertBefore(btn, bar.firstChild);
-
     var dlg = document.createElement('dialog');
     dlg.className = 'pv-share-dialog';
     dlg.setAttribute('aria-label','Share this page');
@@ -260,7 +291,6 @@
       '  </div>' +
       '</div>';
     document.body.appendChild(dlg);
-
     btn.addEventListener('click', function(){ btn.setAttribute('aria-expanded','true'); try { dlg.showModal(); } catch(_) { dlg.setAttribute('open',''); } });
     dlg.addEventListener('click', function(e){ if (e.target === dlg) dlg.close(); });
     dlg.addEventListener('close', function(){ btn.setAttribute('aria-expanded','false'); });
@@ -277,7 +307,6 @@
     });
     dlg.querySelector('.pv-share-native').addEventListener('click', function(){
       if (navigator.share) navigator.share({ title:document.title, text:shareText, url:url }).catch(function(){});
-      else alert('Native share not available - use one of the buttons above.');
     });
   }
 
@@ -287,15 +316,12 @@
     if (p !== '/' && p.length > 1 && p[p.length-1] !== '/') p = p + '/';
     ['.utility-bar a', '.footer-network a'].forEach(function(sel){
       document.querySelectorAll(sel).forEach(function(a){
-        try {
-          var u = new URL(a.href, location.origin);
-          if (u.origin === location.origin && u.pathname === p) a.setAttribute('aria-current','page');
-        } catch(_) {}
+        try { var u = new URL(a.href, location.origin); if (u.origin === location.origin && u.pathname === p) a.setAttribute('aria-current','page'); } catch(_) {}
       });
     });
   }
 
-  /* ---------- scroll-triggered stat counters ---------- */
+  /* ---------- stat counters ---------- */
   function buildCounters(){
     if (!('IntersectionObserver' in window)) return;
     var nodes = document.querySelectorAll('.stat-num[data-count]');
@@ -308,8 +334,7 @@
         if (el.dataset.counted) return;
         el.dataset.counted = '1';
         var target = parseFloat(el.dataset.count) || 0;
-        var suffix = el.dataset.suffix || '';
-        var prefix = el.dataset.prefix || '';
+        var suffix = el.dataset.suffix || ''; var prefix = el.dataset.prefix || '';
         if (reduce){ el.textContent = prefix + formatStat(target) + suffix; return; }
         var dur = 1400, start = performance.now();
         function step(t){
@@ -331,15 +356,135 @@
     return Math.round(n).toString();
   }
 
-  /* ---------- init wiring ---------- */
+  /* ---------- skip-to-main link ---------- */
+  function buildSkipLink(){
+    if (document.getElementById('pv-skip')) return;
+    var main = document.querySelector('main') || document.querySelector('#main');
+    if (!main) return;
+    if (!main.id) main.id = 'main';
+    var skip = document.createElement('a');
+    skip.id = 'pv-skip'; skip.className = 'pv-skip';
+    skip.href = '#' + main.id;
+    skip.textContent = 'Skip to content';
+    document.body.insertBefore(skip, document.body.firstChild);
+  }
+
+  /* ---------- reading progress bar (Article pages: /format/, /code/) ---------- */
+  function buildProgressBar(){
+    var path = location.pathname;
+    var isArticle = path.indexOf('/format/') === 0 || path.indexOf('/code/') === 0;
+    if (!isArticle) return;
+    document.body.classList.add('has-progress');
+    var wrap = document.createElement('div');
+    wrap.className = 'pv-progress'; wrap.setAttribute('aria-hidden','true');
+    var bar = document.createElement('div'); bar.className = 'pv-progress-bar';
+    wrap.appendChild(bar);
+    document.body.insertBefore(wrap, document.body.firstChild);
+    var ticking = false;
+    function update(){
+      var doc = document.documentElement;
+      var max = Math.max(doc.scrollHeight, document.body.scrollHeight) - window.innerHeight;
+      var pct = max > 0 ? Math.min(100, (window.scrollY / max) * 100) : 0;
+      bar.style.width = pct + '%';
+      ticking = false;
+    }
+    window.addEventListener('scroll', function(){ if (!ticking){ requestAnimationFrame(update); ticking = true; } }, {passive:true});
+    update();
+  }
+
+  /* ---------- smart sticky CTA — hide on scroll-down, show on scroll-up ---------- */
+  function buildSmartSticky(){
+    var cta = document.querySelector('.sticky-cta'); if (!cta) return;
+    var lastY = window.scrollY; var ticking = false;
+    var threshold = 8; // px
+    function update(){
+      var y = window.scrollY;
+      var dy = y - lastY;
+      if (Math.abs(dy) > threshold){
+        if (dy > 0 && y > 200) cta.classList.add('is-hidden');
+        else cta.classList.remove('is-hidden');
+        lastY = y;
+      }
+      ticking = false;
+    }
+    window.addEventListener('scroll', function(){ if (!ticking){ requestAnimationFrame(update); ticking = true; } }, {passive:true});
+  }
+
+  /* ---------- vibration on critical CTA tap ---------- */
+  function wireVibration(){
+    if (!navigator.vibrate) return;
+    document.addEventListener('click', function(e){
+      var t = e.target.closest('[data-gtm]'); if (!t) return;
+      var k = t.getAttribute('data-gtm') || '';
+      // Only critical CTAs get haptic feedback
+      if (/watch_live|sticky_|hero_|tip|superchat|subscribe|live_pill/i.test(k)){
+        try { navigator.vibrate(8); } catch(_) {}
+      }
+    }, {passive:true, capture:true});
+  }
+
+  /* ---------- marquee pause-when-hidden ---------- */
+  function pauseMarqueeWhenHidden(){
+    if (!('IntersectionObserver' in window)) return;
+    var m = document.querySelector('.marquee'); if (!m) return;
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting) m.classList.remove('is-paused');
+        else m.classList.add('is-paused');
+      });
+    }, {threshold:0});
+    io.observe(m);
+  }
+
+  /* ---------- PWA install prompt capture ---------- */
+  function wireInstallPrompt(){
+    var deferred = null;
+    var dismissedKey = 'pv-install-dismissed';
+    // Check sessionStorage — but only as best-effort; treat any error as "not dismissed"
+    try { if (sessionStorage.getItem(dismissedKey)) return; } catch(_) {}
+    window.addEventListener('beforeinstallprompt', function(e){
+      e.preventDefault();
+      deferred = e;
+      // Wait 8s before showing — don't interrupt early reading
+      setTimeout(function(){
+        if (!deferred) return;
+        var banner = document.createElement('div');
+        banner.className = 'pv-install';
+        banner.setAttribute('role','region');
+        banner.setAttribute('aria-label','Install PATTAYA VILLA STREAM app');
+        banner.innerHTML =
+          '<span class="pv-install-icon" aria-hidden="true">▼</span>' +
+          '<span class="pv-install-text">Add Villa Stream to your home screen</span>' +
+          '<button type="button" class="pv-install-btn" data-gtm="pwa_install_accept">Install</button>' +
+          '<button type="button" class="pv-install-close" aria-label="Dismiss install prompt" data-gtm="pwa_install_dismiss">&times;</button>';
+        document.body.appendChild(banner);
+        banner.querySelector('.pv-install-btn').addEventListener('click', function(){
+          deferred.prompt();
+          deferred.userChoice.then(function(){ deferred = null; banner.remove(); });
+        });
+        banner.querySelector('.pv-install-close').addEventListener('click', function(){
+          try { sessionStorage.setItem(dismissedKey, '1'); } catch(_) {}
+          banner.remove();
+        });
+      }, 8000);
+    });
+  }
+
+  /* ---------- init ---------- */
   function init(){
     injectStyles();
+    buildSkipLink();
     markActiveNav();
     var bar = document.querySelector('.utility-bar');
     if (bar){ buildLive(bar); buildShare(bar); }
     toggleLiveBanner();
     setInterval(toggleLiveBanner, 60000);
     buildCounters();
+    buildProgressBar();
+    buildSmartSticky();
+    pauseMarqueeWhenHidden();
+    wireVibration();
+    wireInstallPrompt();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
