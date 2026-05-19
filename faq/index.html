@@ -78,11 +78,15 @@
 @font-face{font-family:'JetBrains-fallback';size-adjust:104%;ascent-override:90%;descent-override:22%;line-gap-override:0%;src:local('Consolas'),local('Menlo'),local('Courier New')}
 </style>
 
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WSGWG7999E"></script>
 <script>
-window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
-gtag('js',new Date());gtag('config','G-WSGWG7999E',{anonymize_ip:true,page_title:'FAQ',transport_type:'beacon',allow_google_signals:false,allow_ad_personalization_signals:false,cookie_flags:'SameSite=Lax;Secure'});
-(function(){var l=false;function load(){if(l)return;l=true;var s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id=G-WSGWG7999E';document.head.appendChild(s);if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){});}}['scroll','mousemove','touchstart','keydown','click'].forEach(function(e){addEventListener(e,load,{once:true,passive:true})});setTimeout(load,6000);}());
-document.addEventListener('click',function(e){var t=e.target.closest('[data-gtm]');if(!t)return;var k=t.getAttribute('data-gtm'),p=t.getAttribute('data-gtm-platform')||'';if(typeof gtag==='function')gtag('event',k,{platform:p,event_category:'cta',transport_type:'beacon'});},{passive:true});
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-WSGWG7999E');
+if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){});});}
+document.addEventListener('click',function(e){var t=e.target.closest('[data-gtm]');if(!t)return;var k=t.getAttribute('data-gtm'),p=t.getAttribute('data-gtm-platform')||'';if(typeof gtag==='function')gtag('event',k,{platform:p,event_category:'cta'});},{passive:true});
 </script>
 
 <script type="application/ld+json">
@@ -314,6 +318,6 @@ body{padding-bottom:62px}
   <a href="/support/" class="cta-support" data-gtm="sticky_support">★ SUPPORT</a>
 </nav>
 
-<script src="/assets/js/pv-live.js?v=16" defer></script>
+<script src="/assets/js/pv-live.js?v=17" defer></script>
 </body>
 </html>
