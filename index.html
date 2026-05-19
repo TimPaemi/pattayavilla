@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>PATTAYA VILLA STREAM — Nightly Live with Tim &amp; Paemi</title>
-<meta name="description" content="The nightly Pattaya villa livestream by Tim &amp; Paemi. 6–8 hours every single night from the villa — challenges, games, food, conversation. Chat is the room. 5M+ followers · 60+ accounts. Operated by Pattaya-Authority.com.">
+<meta name="description" content="The nightly Pattaya villa livestream by Tim &amp; Paemi. 6–8 hours from the villa, every night 9 PM ICT. Chat is the room. 5M+ followers · 60+ accounts.">
 
 <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1">
 
@@ -118,6 +118,8 @@
 @font-face{font-family:'Inter';font-style:normal;font-weight:100 900;font-display:swap;src:url('/assets/fonts/inter-var.woff2') format('woff2')}
 @font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:100 900;font-display:swap;src:url('/assets/fonts/jetbrains-mono-var.woff2') format('woff2')}
 @font-face{font-family:'Inter-fallback';size-adjust:107%;ascent-override:90%;descent-override:22%;line-gap-override:0%;src:local('Arial')}
+@font-face{font-family:'Bebas-fallback';size-adjust:90%;ascent-override:97%;descent-override:8%;line-gap-override:0%;src:local('Impact'),local('Arial Black'),local('Arial Narrow Bold')}
+@font-face{font-family:'JetBrains-fallback';size-adjust:104%;ascent-override:90%;descent-override:22%;line-gap-override:0%;src:local('Consolas'),local('Menlo'),local('Courier New')}
 </style>
 
 <script>
@@ -131,20 +133,19 @@ document.addEventListener('click',function(e){var t=e.target.closest('[data-gtm]
 (function(){
   var sd={25:false,50:false,75:false,100:false},t=null;
   function sdTick(){var doc=document.documentElement;var h=Math.max(doc.scrollHeight,document.body.scrollHeight)-window.innerHeight;if(h<=0)return;var pct=Math.round((window.scrollY||window.pageYOffset)/h*100);[25,50,75,100].forEach(function(m){if(pct>=m&&!sd[m]){sd[m]=true;if(typeof gtag==='function')gtag('event','scroll_depth',{percent:m,event_category:'engagement',non_interaction:true,transport_type:'beacon'});}});}
-  window.addEventListener('scroll',function(){clearTimeout(t);t=setTimeout(sdTick,200);},{passive:true});
+  window.addEventListener('scroll',function(){clearTimeout(t);t=setTimeout(sdTick,80);},{passive:true});
   var wv=false;function loadWV(){if(wv)return;wv=true;var s=document.createElement('script');s.async=true;s.src='/assets/js/web-vitals.iife.js';s.onload=function(){if(!window.webVitals)return;var send=function(m){if(typeof gtag==='function')gtag('event',m.name,{value:Math.round(m.name==='CLS'?m.value*1000:m.value),metric_id:m.id,metric_rating:m.rating,event_category:'web_vitals',non_interaction:true,transport_type:'beacon'});};webVitals.onLCP(send);webVitals.onCLS(send);webVitals.onINP(send);webVitals.onFCP(send);webVitals.onTTFB(send);};document.head.appendChild(s);}
-  ['scroll','mousemove','touchstart','keydown','click'].forEach(function(e){window.addEventListener(e,loadWV,{once:true,passive:true});});setTimeout(loadWV,6500);
+  ['scroll','mousemove','touchstart','keydown','click'].forEach(function(e){window.addEventListener(e,loadWV,{once:true,passive:true});});setTimeout(loadWV,500);
 })();
 </script>
 
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
-  {"@type":"Organization","@id":"https://pattayastream.com/#org","name":"PATTAYA VILLA STREAM","alternateName":["The Villa Show","TIMPAEMI Villa","Pattaya Villa"],"url":"https://pattayastream.com/","logo":{"@type":"ImageObject","url":"https://pattayastream.com/apple-touch-icon.png","width":180,"height":180},"image":"https://pattayastream.com/assets/og/og-home.jpg","description":"Nightly Pattaya villa livestream by Tim & Paemi. Operated by Pattaya-Authority.com (TIMPAEMI Co., Ltd.). 5M+ followers across 60+ social accounts.","slogan":"Live every night 9 PM ICT — chat is the room.","numberOfEmployees":{"@type":"QuantitativeValue","minValue":2,"maxValue":10},"interactionStatistic":[{"@type":"InteractionCounter","interactionType":"https://schema.org/FollowAction","userInteractionCount":5000000,"name":"Total followers across all platforms (network-wide)"},{"@type":"InteractionCounter","interactionType":"https://schema.org/SubscribeAction","userInteractionCount":60,"name":"Number of social accounts in the TIMPAEMI network"}],"foundingDate":"2024-01-01","founder":[{"@id":"https://pattayastream.com/#tim"},{"@id":"https://pattayastream.com/#paemi"}],"employee":[{"@id":"https://pattayastream.com/#tim"},{"@id":"https://pattayastream.com/#paemi"}],"areaServed":[{"@type":"Place","name":"Pattaya, Thailand"},{"@type":"Country","name":"Thailand"},{"@type":"AdministrativeArea","name":"Worldwide (online)"}],"address":{"@type":"PostalAddress","addressLocality":"Pattaya","addressRegion":"Chon Buri","postalCode":"20150","addressCountry":"TH"},"contactPoint":{"@type":"ContactPoint","contactType":"customer support","email":"info@pattayastream.com","availableLanguage":["en","th","de"]},"audience":{"@type":"Audience","audienceType":"Pattaya residents, Thailand expats, international viewers interested in Pattaya, livestream audience","geographicArea":{"@type":"Place","name":"Worldwide"}},"knowsAbout":["Pattaya nightlife","Pattaya livestreams","Thailand expat life","YouTube livestreaming","Pattaya villa entertainment","Thai-Western cultural exchange","Chon Buri tourism","Pattaya restaurants","Pattaya bars","Pattaya gyms","Thailand visa process","Pattaya coffee culture","Pattaya schools"],"paymentAccepted":["YouTube Super Chat","YouTube Super Thanks"],"currenciesAccepted":"USD,THB,EUR,GBP","isFamilyFriendly":false,"keywords":"pattaya livestream, pattaya villa, tim and paemi, pattaya nightly show, pattaya youtube, thailand livestream, pattaya entertainment","parentOrganization":{"@type":"Organization","name":"TIMPAEMI Co., Ltd.","url":"https://timpaemi.com/"},"brand":{"@id":"https://pattayastream.com/#brand"},"subjectOf":{"@id":"https://pattayastream.com/#nightly-show"},"publishingPrinciples":"https://pattayastream.com/code/","ethicsPolicy":"https://pattayastream.com/code/","ownershipFundingInfo":"https://pattayastream.com/support/","correctionsPolicy":"https://pattayastream.com/faq/","actionableFeedbackPolicy":"https://pattayastream.com/faq/","missionCoveragePrioritiesPolicy":"https://pattayastream.com/format/","diversityPolicy":"https://pattayastream.com/code/","unnamedSourcesPolicy":"https://pattayastream.com/community/","sameAs":["https://www.youtube.com/@timpaemi","https://www.tiktok.com/@timpaemi.com","https://www.instagram.com/timpaemi/","https://www.facebook.com/profile.php?id=61583166493467","https://timpaemi.com/","https://pattaya-authority.com/","https://pattaya-restaurant-guide.com/","https://pattaya-gym.com/","https://pattayavisahelp.com/","https://pattaya-coffee.com/","https://pattaya-school-guide.com/"]},
+  {"@type":"Organization","@id":"https://pattayastream.com/#org","name":"PATTAYA VILLA STREAM","alternateName":["The Villa Show","TIMPAEMI Villa","Pattaya Villa"],"url":"https://pattayastream.com/","logo":{"@type":"ImageObject","url":"https://pattayastream.com/apple-touch-icon.png","width":180,"height":180},"image":"https://pattayastream.com/assets/og/og-home.jpg","description":"Nightly Pattaya villa livestream by Tim & Paemi. Operated by Pattaya-Authority.com (TIMPAEMI Co., Ltd.). 5M+ followers across 60+ social accounts.","slogan":"Live every night 9 PM ICT — chat is the room.","numberOfEmployees":{"@type":"QuantitativeValue","minValue":2,"maxValue":10},"interactionStatistic":[{"@type":"InteractionCounter","interactionType":"https://schema.org/FollowAction","userInteractionCount":5000000,"name":"Total followers across all platforms (network-wide)"},{"@type":"InteractionCounter","interactionType":"https://schema.org/SubscribeAction","userInteractionCount":60,"name":"Number of social accounts in the TIMPAEMI network"}],"foundingDate":"2024-01-01","founder":[{"@id":"https://pattayastream.com/#tim"},{"@id":"https://pattayastream.com/#paemi"}],"employee":[{"@id":"https://pattayastream.com/#tim"},{"@id":"https://pattayastream.com/#paemi"}],"areaServed":[{"@type":"Place","name":"Pattaya, Thailand"},{"@type":"Country","name":"Thailand"},{"@type":"AdministrativeArea","name":"Worldwide (online)"}],"address":{"@type":"PostalAddress","addressLocality":"Pattaya","addressRegion":"Chon Buri","postalCode":"20150","addressCountry":"TH"},"contactPoint":{"@type":"ContactPoint","contactType":"customer support","email":"info@pattayastream.com","availableLanguage":["en","th","de"]},"audience":{"@type":"Audience","audienceType":"Pattaya residents, Thailand expats, international viewers interested in Pattaya, livestream audience"},"knowsAbout":["Pattaya nightlife","Pattaya livestreams","Thailand expat life","YouTube livestreaming","Pattaya villa entertainment","Thai-Western cultural exchange","Chon Buri tourism","Pattaya restaurants","Pattaya bars","Pattaya gyms","Thailand visa process","Pattaya coffee culture","Pattaya schools"],"keywords":"pattaya livestream, pattaya villa, tim and paemi, pattaya nightly show, pattaya youtube, thailand livestream, pattaya entertainment","parentOrganization":{"@type":"Organization","name":"TIMPAEMI Co., Ltd.","url":"https://timpaemi.com/"},"brand":{"@id":"https://pattayastream.com/#brand"},"subjectOf":{"@id":"https://pattayastream.com/#nightly-show"},"publishingPrinciples":"https://pattayastream.com/code/","ethicsPolicy":"https://pattayastream.com/code/","ownershipFundingInfo":"https://pattayastream.com/support/","correctionsPolicy":"https://pattayastream.com/faq/","actionableFeedbackPolicy":"https://pattayastream.com/faq/","sameAs":["https://www.youtube.com/@timpaemi","https://www.tiktok.com/@timpaemi.com","https://www.instagram.com/timpaemi/","https://www.facebook.com/profile.php?id=61583166493467","https://timpaemi.com/","https://pattaya-authority.com/","https://pattaya-restaurant-guide.com/","https://pattaya-gym.com/","https://pattayavisahelp.com/","https://pattaya-coffee.com/","https://pattaya-school-guide.com/"]},
   {"@type":"Person","@id":"https://pattayastream.com/#tim","name":"Tim","givenName":"Tim","nationality":{"@type":"Country","name":"Germany"},"worksFor":{"@id":"https://pattayastream.com/#org"},"jobTitle":"Co-host, PATTAYA VILLA STREAM","memberOf":{"@id":"https://pattayastream.com/#org"},"knowsLanguage":["English","German"],"sameAs":["https://timpaemi.com/","https://www.youtube.com/@timpaemi","https://www.instagram.com/timpaemi/","https://www.tiktok.com/@timpaemi.com","https://www.facebook.com/profile.php?id=61583166493467"]},
   {"@type":"Person","@id":"https://pattayastream.com/#paemi","name":"Paemi","givenName":"Paemi","nationality":{"@type":"Country","name":"Thailand"},"worksFor":{"@id":"https://pattayastream.com/#org"},"jobTitle":"Co-host, PATTAYA VILLA STREAM","memberOf":{"@id":"https://pattayastream.com/#org"},"knowsLanguage":["Thai","English"],"sameAs":["https://timpaemi.com/","https://www.youtube.com/@timpaemi","https://www.instagram.com/timpaemi/"]},
   {"@type":"WebSite","@id":"https://pattayastream.com/#website","url":"https://pattayastream.com/","name":"PATTAYA VILLA STREAM","inLanguage":"en","publisher":{"@id":"https://pattayastream.com/#org"},"speakable":{"@type":"SpeakableSpecification","cssSelector":[".hero h1",".hero-sub","#scale-heading + ul .stat-num",".stat-label"]},"accessibilityFeature":["alternativeText","highContrastDisplay","largePrint","readingOrder","structuralNavigation","tableOfContents"],"accessibilityHazard":["noFlashingHazard","noMotionSimulationHazard","noSoundHazard"]},
   {"@type":"BroadcastService","@id":"https://pattayastream.com/#broadcast","name":"PATTAYA VILLA STREAM Nightly Livestream","alternateName":"The Villa Show","broadcastAffiliateOf":{"@id":"https://pattayastream.com/#org"},"inLanguage":"en","broadcastDisplayName":"PATTAYA VILLA STREAM","videoFormat":"HD","area":{"@type":"Country","name":"Worldwide"}},
-  {"@type":"VideoObject","@id":"https://pattayastream.com/#video","name":"PATTAYA VILLA STREAM — Nightly Live with Tim & Paemi","description":"The nightly Pattaya villa livestream by Tim & Paemi. Live every night 9 PM Bangkok time (ICT), 6 to 8 hours. Challenges, games, food, conversation. Chat is the room.","thumbnailUrl":["https://pattayastream.com/assets/og/og-home.jpg"],"thumbnail":{"@type":"ImageObject","url":"https://pattayastream.com/assets/og/og-home.jpg","width":1200,"height":630},"uploadDate":"2024-01-01T21:00:00+07:00","contentUrl":"https://www.youtube.com/@timpaemi/live","embedUrl":"https://www.youtube.com/embed/live_stream?channel=UCcaH8jQGzNRTMK_KZJq3Ueg","duration":"PT8H","inLanguage":"en","isFamilyFriendly":false,"publication":{"@type":"BroadcastEvent","isLiveBroadcast":true,"startDate":"2024-01-01T21:00:00+07:00","endDate":"2099-12-31T03:00:00+07:00","broadcastOfEvent":{"@id":"https://pattayastream.com/#nightly-show"}},"creator":[{"@id":"https://pattayastream.com/#tim"},{"@id":"https://pattayastream.com/#paemi"}],"publisher":{"@id":"https://pattayastream.com/#org"},"interactionStatistic":{"@type":"InteractionCounter","interactionType":"https://schema.org/WatchAction","userInteractionCount":5000000},"keywords":"pattaya livestream, pattaya villa, tim and paemi, pattaya nightly live, thailand livestream, pattaya youtube live","regionsAllowed":["TH","US","GB","DE","AU","CA","SG","JP"],"potentialAction":{"@type":"WatchAction","target":"https://www.youtube.com/@timpaemi/live"}},
   {"@type":"Brand","@id":"https://pattayastream.com/#brand","name":"PATTAYA VILLA STREAM","alternateName":["The Villa Show","TIMPAEMI Villa"],"logo":"https://pattayastream.com/apple-touch-icon.png","slogan":"Live every night 9 PM ICT — chat is the room.","url":"https://pattayastream.com/","sameAs":["https://www.youtube.com/@timpaemi","https://www.tiktok.com/@timpaemi.com","https://www.instagram.com/timpaemi/","https://www.facebook.com/profile.php?id=61583166493467"]},
   {"@type":"Event","@id":"https://pattayastream.com/#nightly-show","name":"PATTAYA VILLA STREAM — Nightly Livestream","description":"Nightly livestream from a Pattaya villa by Tim & Paemi. 6 to 8 hours every night — challenges, games, food, conversation. Chat is the room. Live every night at 9 PM ICT.","image":"https://pattayastream.com/assets/og/og-home.jpg","eventStatus":"https://schema.org/EventScheduled","eventAttendanceMode":"https://schema.org/OnlineEventAttendanceMode","isAccessibleForFree":true,"inLanguage":"en","startDate":"2024-01-01T21:00:00+07:00","location":{"@type":"VirtualLocation","name":"YouTube · @timpaemi","url":"https://www.youtube.com/@timpaemi/live"},"eventSchedule":{"@type":"Schedule","repeatFrequency":"P1D","byDay":["https://schema.org/Monday","https://schema.org/Tuesday","https://schema.org/Wednesday","https://schema.org/Thursday","https://schema.org/Friday","https://schema.org/Saturday","https://schema.org/Sunday"],"startTime":"21:00:00","endTime":"03:00:00","scheduleTimezone":"Asia/Bangkok"},"organizer":{"@id":"https://pattayastream.com/#org"},"performer":[{"@id":"https://pattayastream.com/#tim"},{"@id":"https://pattayastream.com/#paemi"}],"offers":{"@type":"Offer","url":"https://www.youtube.com/@timpaemi/live","price":"0","priceCurrency":"USD","availability":"https://schema.org/InStock","validFrom":"2024-01-01"}},
   {"@type":"BreadcrumbList","@id":"https://pattayastream.com/#breadcrumbs","itemListElement":[{"@type":"ListItem","position":1,"name":"PATTAYA VILLA STREAM","item":"https://pattayastream.com/"}]}
@@ -152,7 +153,7 @@ document.addEventListener('click',function(e){var t=e.target.closest('[data-gtm]
 </script>
 
 <style>
-:root{--pink:#ff2f8e;--cyan:#00e5ff;--yellow:#ffe156;--green:#6aff9f;--red:#e60030;--red-text:#ff3b5c;--red-deep:#c4002a;--red-hover:#ff1f4d;--wa-green:#25d366;--line-green:#06c755;--bg:#08080c;--surface:rgba(255,255,255,.03);--surface-2:rgba(255,255,255,.06);--border:rgba(255,255,255,.08);--border-strong:rgba(255,255,255,.2);--text:rgba(255,255,255,.92);--muted:rgba(255,255,255,.6);--dim:rgba(255,255,255,.48)}
+:root{--pink:#ff2f8e;--cyan:#00e5ff;--yellow:#ffe156;--green:#6aff9f;--red:#e60030;--red-text:#ff3b5c;--red-deep:#c4002a;--red-hover:#ff1f4d;--wa-green:#25d366;--line-green:#06c755;--bg:#08080c;--surface:rgba(255,255,255,.03);--surface-2:rgba(255,255,255,.06);--border:rgba(255,255,255,.08);--border-strong:rgba(255,255,255,.2);--text:rgba(255,255,255,.92);--muted:rgba(255,255,255,.78);--dim:rgba(255,255,255,.68)}
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
@@ -161,7 +162,7 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--text);-webkit-tap-
 :focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:2px}
 a:focus-visible,button:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;box-shadow:0 0 0 4px rgba(0,229,255,.18)}
 .btn:focus-visible,.btn-mega:focus-visible{outline-color:#fff;box-shadow:0 0 0 4px rgba(255,255,255,.25)}
-.skip-link{position:absolute;left:-9999px;top:0;background:var(--pink);color:#fff;padding:.75rem 1.2rem;font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:1.4px;text-transform:uppercase;font-weight:800;z-index:9999;border-radius:0 0 6px 0;text-decoration:none}
+.skip-link{position:absolute;left:-9999px;top:0;background:var(--pink);color:#fff;padding:.75rem 1.2rem;font-family:'JetBrains Mono','JetBrains-fallback',monospace;font-size:.7rem;letter-spacing:1.4px;text-transform:uppercase;font-weight:800;z-index:9999;border-radius:0 0 6px 0;text-decoration:none}
 .skip-link:focus{left:0;outline:2px solid var(--cyan);outline-offset:2px}
 a{color:var(--cyan);text-decoration:none}
 a:hover{color:#fff}
@@ -170,27 +171,27 @@ a:hover{color:#fff}
 .slash-bg::before{top:15%}
 .slash-bg::after{top:65%;background:linear-gradient(90deg,transparent,rgba(0,229,255,.05) 30%,rgba(0,229,255,.05) 70%,transparent);transform:rotate(8deg)}
 .marquee{position:relative;overflow:hidden;border-bottom:2px solid var(--pink);background:linear-gradient(180deg,rgba(255,47,142,.08),transparent);padding:.7rem 0}
-.marquee-track{display:flex;width:max-content;animation:scroll 60s linear infinite;will-change:transform;font-family:'JetBrains Mono',monospace;font-size:.82rem;letter-spacing:2.4px;text-transform:uppercase;font-weight:800;color:#fff}
+.marquee-track{display:flex;width:max-content;animation:scroll 60s linear infinite;will-change:transform;font-family:'JetBrains Mono','JetBrains-fallback',monospace;font-size:.82rem;letter-spacing:2.4px;text-transform:uppercase;font-weight:800;color:#fff}
 .marquee-group{display:flex;align-items:center;gap:1.6rem;padding-right:1.6rem;white-space:nowrap;flex-shrink:0}
 .m-pink{color:var(--pink)} .m-cyan{color:var(--cyan)} .m-yellow{color:var(--yellow)} .m-red{color:var(--red-text)}
 @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 @media(prefers-reduced-motion:reduce){.marquee-track{animation:none}}
-.utility-bar{display:flex;justify-content:center;align-items:center;gap:1.5rem;padding:.5rem 1rem;font-family:'JetBrains Mono',monospace;font-size:.55rem;letter-spacing:1.6px;text-transform:uppercase;color:var(--muted);font-weight:700;border-bottom:1px solid var(--border);background:rgba(0,0,0,.5);flex-wrap:wrap}
+.utility-bar{display:flex;justify-content:center;align-items:center;gap:1.5rem;padding:.5rem 1rem;font-family:'JetBrains Mono','JetBrains-fallback',monospace;font-size:.55rem;letter-spacing:1.6px;text-transform:uppercase;color:var(--muted);font-weight:700;border-bottom:1px solid var(--border);background:rgba(0,0,0,.5);flex-wrap:wrap}
 .utility-bar a{color:var(--muted);text-decoration:none}
 .utility-bar a:hover{color:var(--cyan)}
 .utility-bar .separator{color:var(--border-strong)}
 .hero{position:relative;text-align:center;padding:3rem 1.5rem 4rem;max-width:1100px;margin:0 auto}
-.hero-eyebrow{display:inline-block;padding:.4rem 1rem;border:1px solid var(--pink);background:rgba(255,47,142,.08);color:var(--pink);font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:2px;text-transform:uppercase;font-weight:800;border-radius:4px;margin-bottom:1.5rem;animation:flicker 3s infinite}
+.hero-eyebrow{display:inline-block;padding:.4rem 1rem;border:1px solid var(--pink);background:rgba(255,47,142,.08);color:var(--pink);font-family:'JetBrains Mono','JetBrains-fallback',monospace;font-size:.62rem;letter-spacing:2px;text-transform:uppercase;font-weight:800;border-radius:4px;margin-bottom:1.5rem;animation:flicker 3s infinite}
 @keyframes flicker{0%,100%{opacity:1}50%{opacity:.7}}
 @media(prefers-reduced-motion:reduce){.hero-eyebrow{animation:none}}
-.hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(5rem,16vw,12rem);line-height:.85;letter-spacing:-.015em;font-weight:400;margin:0 0 1.2rem;color:#fff;text-transform:uppercase}
+.hero h1{font-family:'Bebas Neue','Bebas-fallback',sans-serif;font-size:clamp(5rem,16vw,12rem);line-height:.85;letter-spacing:-.015em;font-weight:400;margin:0 0 1.2rem;color:#fff;text-transform:uppercase}
 .hero h1 .pink{color:var(--pink);text-shadow:0 0 60px rgba(255,47,142,.55)}
 .hero h1 .cyan{color:var(--cyan);text-shadow:0 0 60px rgba(0,229,255,.55)}
 .hero h1 .yellow{color:var(--yellow);text-shadow:0 0 60px rgba(255,225,86,.45)}
 .hero-sub{max-width:720px;margin:0 auto 2rem;font-size:1.15rem;line-height:1.5;color:var(--text)}
 .hero-sub strong{color:var(--yellow);font-weight:700}
-.hero-meta{font-family:'JetBrains Mono',monospace;font-size:.7rem;font-weight:800;letter-spacing:2.4px;text-transform:uppercase;color:var(--muted);margin-bottom:2.2rem}
-.btn{display:inline-flex;align-items:center;gap:.6rem;min-height:48px;padding:1rem 2rem;border-radius:9999px;font-family:'JetBrains Mono',monospace;font-size:.82rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;text-decoration:none;cursor:pointer;border:2px solid transparent;transition:transform .18s,box-shadow .18s,background .18s}
+.hero-meta{font-family:'JetBrains Mono','JetBrains-fallback',monospace;font-size:.7rem;font-weight:800;letter-spacing:2.4px;text-transform:uppercase;color:var(--muted);margin-bottom:2.2rem}
+.btn{display:inline-flex;align-items:center;gap:.6rem;min-height:48px;padding:1rem 2rem;border-radius:9999px;font-family:'JetBrains Mono','JetBrains-fallback',monospace;font-size:.82rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;text-decoration:none;cursor:pointer;border:2px solid transparent;transition:transform .18s,box-shadow .18s,background .18s}
 .btn-red{background:var(--red);border-color:var(--red);color:#fff;box-shadow:0 0 0 4px rgba(230,0,48,.18),0 8px 30px rgba(230,0,48,.35)}
 .btn-red:hover{background:var(--red-hover);transform:translateY(-2px);color:#fff;box-shadow:0 0 0 6px rgba(255,31,77,.22),0 12px 40px rgba(230,0,48,.5)}
 .btn-pink{background:var(--pink);border-color:var(--pink);color:#fff;box-shadow:0 0 0 4px rgba(255,47,142,.18),0 8px 30px rgba(255,47,142,.3)}
@@ -206,8 +207,8 @@ a:hover{color:#fff}
 @media(max-width:540px){.btn{padding:.85rem 1.4rem;font-size:.72rem;letter-spacing:1.6px}.btn-mega{font-size:.92rem;padding:1.1rem 1.8rem;letter-spacing:1.9px}}
 .hero-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:.8rem}
 section{position:relative;padding:5rem 1.5rem;max-width:1100px;margin:0 auto;scroll-margin-top:2rem;content-visibility:auto;contain-intrinsic-size:auto 800px}
-.section-tag{display:inline-block;padding:.4rem .8rem;background:var(--yellow);color:#08080c;font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:2px;text-transform:uppercase;font-weight:800;margin-bottom:1.5rem;border-radius:3px}
-.section-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,9vw,7rem);line-height:.95;letter-spacing:-.005em;font-weight:400;color:#fff;margin:0 0 1.2rem;text-transform:uppercase}
+.section-tag{display:inline-block;padding:.4rem .8rem;background:var(--yellow);color:#08080c;font-family:'JetBrains Mono','JetBrains-fallback',monospace;font-size:.62rem;letter-spacing:2px;text-transform:uppercase;font-weight:800;margin-bottom:1.5rem;border-radius:3px}
+.section-title{font-family:'Bebas Neue','Bebas-fallback',sans-serif;font-size:clamp(3rem,9vw,7rem);line-height:.95;letter-spacing:-.005em;font-weight:400;color:#fff;margin:0 0 1.2rem;text-transform:uppercase}
 .section-title .pink{color:var(--pink)}
 .section-title .cyan{color:var(--cyan)}
 .section-title .yellow{color:var(--yellow)}
@@ -220,11 +221,11 @@ section{position:relative;padding:5rem 1.5rem;max-width:1100px;margin:0 auto;scr
 .stat.cyan::before{background:var(--cyan);box-shadow:0 0 24px rgba(0,229,255,.5)}
 .stat.yellow::before{background:var(--yellow);box-shadow:0 0 24px rgba(255,225,86,.5)}
 .stat.green::before{background:var(--green);box-shadow:0 0 24px rgba(106,255,159,.5)}
-.stat-num{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.6rem,6vw,4rem);line-height:1;color:#fff;display:block;letter-spacing:-.01em;margin-bottom:.2rem}
+.stat-num{font-family:'Bebas Neue','Bebas-fallback',sans-serif;font-size:clamp(2.6rem,6vw,4rem);line-height:1;color:#fff;display:block;letter-spacing:-.01em;margin-bottom:.2rem}
 .stat.pink .stat-num{color:var(--pink)} .stat.cyan .stat-num{color:var(--cyan)} .stat.yellow .stat-num{color:var(--yellow)} .stat.green .stat-num{color:var(--green)}
-.stat-label{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:var(--muted)}
+.stat-label{font-family:'JetBrains Mono','JetBrains-fallback',monospace;font-size:.6rem;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:var(--muted)}
 .sticky-cta{position:fixed;bottom:0;left:0;right:0;z-index:200;display:flex;align-items:stretch;background:rgba(8,8,12,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:2px solid var(--pink);box-shadow:0 -8px 40px rgba(255,47,142,.18),0 -2px 0 0 var(--pink)}
-.sticky-cta a{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.95rem .8rem;text-decoration:none;font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:1.6px;text-transform:uppercase;font-weight:800;color:#fff;transition:background .15s,color .15s;min-height:54px}
+.sticky-cta a{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.95rem .8rem;text-decoration:none;font-family:'JetBrains Mono','JetBrains-fallback',monospace;font-size:.72rem;letter-spacing:1.6px;text-transform:uppercase;font-weight:800;color:#fff;transition:background .15s,color .15s;min-height:54px}
 .sticky-cta .cta-watch{background:var(--red);color:#fff}
 .sticky-cta .cta-watch:hover{background:#ff1f4d}
 .sticky-cta .cta-support{background:var(--yellow);color:#08080c}
@@ -235,17 +236,17 @@ body{padding-bottom:62px}
 .quick-links{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;margin-top:2rem}
 .quick-link{display:block;padding:2rem 1.5rem;border:2px solid var(--border);border-radius:14px;background:var(--surface);text-decoration:none;color:inherit;transition:all .2s;position:relative;overflow:hidden}
 .quick-link:hover{border-color:var(--pink);transform:translateY(-4px);background:var(--surface-2);box-shadow:0 12px 50px rgba(255,47,142,.18)}
-.quick-link-num{font-family:'JetBrains Mono',monospace;font-size:.55rem;letter-spacing:1.8px;color:var(--cyan);margin-bottom:.6rem;font-weight:800}
-.quick-link-title{font-family:'Bebas Neue',sans-serif;font-size:2rem;line-height:1;color:#fff;letter-spacing:.01em;margin-bottom:.4rem}
+.quick-link-num{font-family:'JetBrains Mono','JetBrains-fallback',monospace;font-size:.55rem;letter-spacing:1.8px;color:var(--cyan);margin-bottom:.6rem;font-weight:800}
+.quick-link-title{font-family:'Bebas Neue','Bebas-fallback',sans-serif;font-size:2rem;line-height:1;color:#fff;letter-spacing:.01em;margin-bottom:.4rem}
 .quick-link-desc{font-size:.85rem;color:var(--muted);line-height:1.5}
-.quick-link-arrow{position:absolute;top:1.5rem;right:1.5rem;font-family:'JetBrains Mono',monospace;font-size:1.2rem;color:var(--pink);transition:transform .2s}
+.quick-link-arrow{position:absolute;top:1.5rem;right:1.5rem;font-family:'JetBrains Mono','JetBrains-fallback',monospace;font-size:1.2rem;color:var(--pink);transition:transform .2s}
 .quick-link:hover .quick-link-arrow{transform:translateX(4px)}
-footer{border-top:2px solid var(--pink);background:linear-gradient(180deg,rgba(255,47,142,.03),transparent);padding:3rem 1.5rem 2rem;margin-top:4rem;text-align:center;font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:1.4px;text-transform:uppercase;color:var(--muted);line-height:1.8}
+footer{border-top:2px solid var(--pink);background:linear-gradient(180deg,rgba(255,47,142,.03),transparent);padding:3rem 1.5rem 2rem;margin-top:4rem;text-align:center;font-family:'JetBrains Mono','JetBrains-fallback',monospace;font-size:.62rem;letter-spacing:1.4px;text-transform:uppercase;color:var(--muted);line-height:1.8}
 footer .pink{color:var(--pink)}
 footer .cyan{color:var(--cyan)}
 footer a{color:var(--text);font-weight:700}
 footer a:hover{color:var(--pink)}
-.footer-brand{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:#fff;letter-spacing:.04em;margin-bottom:.5rem;display:block}
+.footer-brand{font-family:'Bebas Neue','Bebas-fallback',sans-serif;font-size:2.2rem;color:#fff;letter-spacing:.04em;margin-bottom:.5rem;display:block}
 .footer-network{margin:1.2rem auto;display:flex;flex-wrap:wrap;justify-content:center;gap:.3rem .9rem;max-width:760px}
 .footer-network a{color:var(--muted)}
 .footer-network a:hover{color:var(--cyan)}
@@ -441,6 +442,6 @@ footer a:hover{color:var(--pink)}
   <a href="/support/" class="cta-support" data-gtm="sticky_support">★ SUPPORT</a>
 </nav>
 
-<script src="/assets/js/pv-live.js?v=14" defer></script>
+<script src="/assets/js/pv-live.js?v=15" defer></script>
 </body>
 </html>

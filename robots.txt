@@ -23,7 +23,7 @@ User-agent: Applebot
 Allow: /
 
 User-agent: Applebot-Extended
-Allow: /
+Disallow: /
 
 User-agent: DuckAssistBot
 Allow: /

@@ -166,7 +166,7 @@
       '  footer{padding:2.2rem 1rem 1rem;font-size:.58rem;letter-spacing:1.1px;line-height:1.7}',
       '  .footer-brand{font-size:1.7rem;margin-bottom:.35rem}',
       '  .footer-network{margin:.9rem auto;gap:.4rem .8rem;font-size:.58rem;letter-spacing:1.1px;line-height:1.6;max-width:100%;padding:0 .5rem}',
-      '  .footer-network a{display:inline-block;padding:.2rem 0;min-height:28px;white-space:nowrap}',
+      '  .footer-network a{display:inline-flex;align-items:center;padding:.6rem .4rem;min-height:44px;white-space:nowrap}',
       '  .footer-legal{margin-top:1.1rem;font-size:.5rem;line-height:1.7;letter-spacing:1px}',
       '  .sticky-cta a{font-size:.7rem;letter-spacing:1.3px;padding:.85rem .6rem;min-height:54px;gap:.35rem}',
       '  body{padding-bottom:calc(60px + env(safe-area-inset-bottom,0px))}',
@@ -194,7 +194,7 @@
       '  .utility-bar{padding:.5rem .75rem;min-height:40px}',
       '  .utility-bar .live-status{font-size:.6rem;letter-spacing:1.5px;padding:.4rem .85rem;min-height:34px}',
       '  .marquee-track{font-size:.62rem;letter-spacing:1.4px;animation-duration:36s}',
-      '  .hero h1{font-size:clamp(2.7rem,13.5vw,4.8rem)!important;line-height:.92}',
+      '  .hero h1{font-size:clamp(2.5rem,12vw,4.4rem)!important;line-height:.92;letter-spacing:-.018em;word-break:break-word;overflow-wrap:anywhere}',
       '  .hero-eyebrow{font-size:.54rem;letter-spacing:1.4px;padding:.28rem .65rem;margin-bottom:.75rem}',
       '  .hero p,.hero-sub{font-size:.95rem}',
       '  section,.hero{padding-left:.85rem!important;padding-right:.85rem!important}',
@@ -210,7 +210,7 @@
       '}',
       '@media(max-width:360px){',
       '  .utility-bar .live-status{font-size:.55rem;letter-spacing:1.3px;padding:.35rem .7rem}',
-      '  .hero h1{font-size:clamp(2.4rem,14vw,4.2rem)!important}',
+      '  .hero h1{font-size:clamp(2.2rem,12.5vw,4rem)!important;letter-spacing:-.02em}',
       '  .marquee-track{font-size:.58rem;animation-duration:30s}',
       '  .stats{grid-template-columns:1fr;gap:.5rem}',
       '  .sticky-cta a{font-size:.58rem;letter-spacing:1px;padding:.75rem .35rem}',
@@ -359,6 +359,8 @@
   /* ---------- skip-to-main link ---------- */
   function buildSkipLink(){
     if (document.getElementById('pv-skip')) return;
+    // Don't inject if page already has a skip-link
+    if (document.querySelector('a.skip-link[href^="#"]')) return;
     var main = document.querySelector('main') || document.querySelector('#main');
     if (!main) return;
     if (!main.id) main.id = 'main';
