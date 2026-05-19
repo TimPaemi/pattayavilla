@@ -1,8 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://pattayavilla.com/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
-  <url><loc>https://pattayavilla.com/support/</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://pattayavilla.com/format/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://pattayavilla.com/code/</loc><changefreq>yearly</changefreq><priority>0.5</priority></url>
-  <url><loc>https://pattayavilla.com/faq/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://pattayavilla.com/</loc>
+    <lastmod>2026-05-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://pattayavilla.com/assets/og/og-home.jpg</image:loc>
+      <image:title>PATTAYA VILLA — Nightly Livestream by Tim &amp; Paemi</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://pattayavilla.com/support/</loc>
+    <lastmod>2026-05-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://pattayavilla.com/assets/og/og-support.jpg</image:loc>
+      <image:title>Support PATTAYA VILLA — multiple payment paths</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://pattayavilla.com/format/</loc>
+    <lastmod>2026-05-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://pattayavilla.com/assets/og/og-home.jpg</image:loc>
+      <image:title>The Format — How PATTAYA VILLA works</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://pattayavilla.com/code/</loc>
+    <lastmod>2026-05-18</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://pattayavilla.com/faq/</loc>
+    <lastmod>2026-05-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
 </urlset>

@@ -1,0 +1,35 @@
+/* TEAM */
+
+  The Show:   Tim & Paemi
+  Operator:   TIMPAEMI Co., Ltd.
+  Site:       https://pattayavilla.com/
+  Brand:      https://timpaemi.com/
+  Network:    https://pattaya-authority.com/
+  Location:   Pattaya · Bang Lamung · Chon Buri · Thailand
+  Schedule:   Every night · 9 PM ICT · 6 to 8 hours · no script
+
+/* THANKS */
+
+  The community.
+  Anonymous on purpose. No rankings, no leaderboards.
+  The mods who keep the room clean every single night.
+  The supporters across every platform.
+  The regulars who became family.
+  You know who you are.
+
+/* SITE */
+
+  Last update:   2026/05/18
+  Standards:     HTML5 · CSS3 · JavaScript (ES6) · Schema.org JSON-LD
+  Components:    Vanilla JS · Service Worker (v2) · Web Vitals · Navigation Preload
+  Fonts:         Bebas Neue (display) · Inter (body) · JetBrains Mono (mono) — all self-hosted
+  Hosting:       Cloudflare Pages
+  Analytics:     GA4 (anonymize_ip · cookie-flagged · deferred-load)
+  No embeds.     No tracking pixels. No third-party widgets.
+
+/* HUMANS.TXT */
+                  ___ ___ ___ ___ ___ ___  __     ___ ___ ___    ___
+                  |__| |__|  |   |   |__| |__|   |   |  |  |  |  |__|
+                  |    |  |  |   |   |  | |   |  \_/ _|_ |__|_ |  |  |
+
+                              · PATTAYA VILLA ·

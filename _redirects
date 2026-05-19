@@ -1,6 +1,46 @@
-# Force trailing slash
+# === Trailing slash enforcement (canonical → with slash) ===
 /support     /support/    301
 /community   /community/  301
 /format      /format/     301
 /code        /code/       301
 /faq        /faq/        301
+
+# === Support page anchor shortcuts (organic shorthand) ===
+/donate     /support/#recurring      301
+/donations  /support/#recurring      301
+/tip        /support/#tip-tonight    301
+/tips       /support/#tip-tonight    301
+/pay        /support/                301
+/payment    /support/                301
+/back       /support/                301
+/contribute /support/#recurring      301
+/patreon    https://www.patreon.com/timpaemi?utm_source=pattayavilla&utm_medium=redirect&utm_campaign=patreon  302
+/paypal     https://www.paypal.me/timpaemi?utm_source=pattayavilla&utm_medium=redirect&utm_campaign=paypal     302
+/kofi       https://ko-fi.com/timpaemi?utm_source=pattayavilla&utm_medium=redirect&utm_campaign=kofi          302
+/bmc        https://www.buymeacoffee.com/timpaemi?utm_source=pattayavilla&utm_medium=redirect&utm_campaign=bmc 302
+
+# === Watch-live shortcuts (highest-value redirect) ===
+/live       https://www.youtube.com/@timpaemi/live?utm_source=pattayavilla&utm_medium=redirect&utm_campaign=live    302
+/watch      https://www.youtube.com/@timpaemi/live?utm_source=pattayavilla&utm_medium=redirect&utm_campaign=watch   302
+/yt         https://www.youtube.com/@timpaemi?utm_source=pattayavilla&utm_medium=redirect&utm_campaign=channel      302
+/youtube    https://www.youtube.com/@timpaemi?utm_source=pattayavilla&utm_medium=redirect&utm_campaign=channel      302
+/sub        https://www.youtube.com/@timpaemi?sub_confirmation=1&utm_source=pattayavilla&utm_medium=redirect&utm_campaign=sub  302
+/subscribe  https://www.youtube.com/@timpaemi?sub_confirmation=1&utm_source=pattayavilla&utm_medium=redirect&utm_campaign=sub  302
+
+# === Network shortcuts (cross-promote sister sites) ===
+/brand      https://timpaemi.com/             302
+/timpaemi   https://timpaemi.com/             302
+/agency     https://pattaya-authority.com/    302
+/restaurants  https://pattaya-restaurant-guide.com/  302
+/gym        https://pattaya-gym.com/          302
+/visa       https://pattayavisahelp.com/      302
+
+# === Common alternate spellings & guesses ===
+/rules      /code/                            301
+/conduct    /code/                            301
+/heroes     /community/                       301
+/supporters /community/                       301
+/mods       /community/                       301
+/help       /faq/                             301
+/about      /format/                          301
+/contact    /faq/#contact                     301
