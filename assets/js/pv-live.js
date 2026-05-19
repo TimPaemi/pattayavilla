@@ -1,8 +1,9 @@
-/* PATTAYA VILLA STREAM · pv-live.js — v5 (2026-05-18 focused-mobile-header)
- * Injects: live-now indicator (mobile focal element), share tray (desktop only on mobile UA),
+/* PATTAYA VILLA STREAM · pv-live.js — v6 (2026-05-18 modern-css)
+ * Injects: live-now indicator (mobile focal element), share tray, ::selection polish,
  * scrollbar styling, text-wrap balance, forced-colors a11y, aria-current navigation,
- * scroll-triggered stat counters, /support/ live banner toggle, AND a unified
- * mobile responsive system with a FOCUSED HEADER (no network clutter on phones).
+ * scroll-triggered stat counters, /support/ live banner toggle, focused-mobile-header,
+ * AND 2026 modern CSS: @property color tokens, view-transition-name on hero, text-box-trim,
+ * hanging-punctuation, @starting-style entrance animations.
  * Live window: 21:00-03:00 Asia/Bangkok (ICT, UTC+7). Pure JS, zero deps. */
 (function(){
   'use strict';
@@ -13,10 +14,29 @@
     var s = document.createElement('style');
     s.id = 'pv-runtime-css';
     s.textContent = [
+      /* === 2026 MODERN: @property typed color tokens for animation === */
+      '@property --pv-pink{syntax:"<color>";inherits:true;initial-value:#ff2f8e}',
+      '@property --pv-cyan{syntax:"<color>";inherits:true;initial-value:#00e5ff}',
+      '@property --pv-yellow{syntax:"<color>";inherits:true;initial-value:#ffe156}',
+      '@property --pv-green{syntax:"<color>";inherits:true;initial-value:#6aff9f}',
+      '@property --pv-red{syntax:"<color>";inherits:true;initial-value:#e60030}',
+      '@property --pv-glow{syntax:"<percentage>";inherits:true;initial-value:0%}',
+      /* === View Transitions === */
       '@view-transition{navigation:auto}',
       '::view-transition-old(root),::view-transition-new(root){animation-duration:.18s;animation-timing-function:cubic-bezier(.4,0,.2,1)}',
+      ':root{view-transition-name:root}',
+      '.hero h1{view-transition-name:hero-stack}',
+      '.footer-brand{view-transition-name:footer-brand}',
+      '.sticky-cta{view-transition-name:sticky-cta}',
+      /* === 2026 typography polish === */
+      'html{hanging-punctuation:first allow-end last}',
       'h1,h2,h3,.section-title,.tier-name,.equal-paths-q{text-wrap:balance}',
       '.lead,.hero-sub,.body-section p,.tier-body,.manifesto p{text-wrap:pretty}',
+      '.hero h1,.footer-brand,.section-title{text-box:trim-both cap alphabetic}',
+      /* === @starting-style entrance for live pill + hero eyebrow === */
+      '@starting-style{.live-status{opacity:0;transform:translateY(-4px)}.hero-eyebrow{opacity:0;transform:translateY(6px)}}',
+      '.live-status,.hero-eyebrow{transition:opacity .35s ease, transform .35s cubic-bezier(.2,.7,.3,1)}',
+      /* === Selection / scrollbar === */
       '::selection{background:#ff2f8e;color:#fff}',
       '::-moz-selection{background:#ff2f8e;color:#fff}',
       'html{scrollbar-color:#ff2f8e #08080c;scrollbar-width:thin}',
@@ -24,8 +44,9 @@
       '::-webkit-scrollbar-track{background:#08080c}',
       '::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#ff2f8e,#c4002a);border-radius:9999px;border:2px solid #08080c}',
       '::-webkit-scrollbar-thumb:hover{background:linear-gradient(180deg,#ff4d9f,#ff1f4d)}',
+      /* === Live pill === */
       '@keyframes pvlive{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(230,0,48,.55)}70%{opacity:.5;box-shadow:0 0 0 8px rgba(230,0,48,0)}}',
-      '@media(prefers-reduced-motion:reduce){.live-status .dot,.live-banner,.live-banner-dot{animation:none!important}}',
+      '@media(prefers-reduced-motion:reduce){.live-status .dot,.live-banner,.live-banner-dot{animation:none!important}.live-status,.hero-eyebrow{transition:none!important}}',
       '.live-status{display:inline-flex;align-items:center;gap:.4rem;font-family:"JetBrains Mono",monospace;font-size:.62rem;letter-spacing:1.6px;text-transform:uppercase;font-weight:800;color:#fff;padding:.3rem .7rem;background:rgba(230,0,48,.15);border:1px solid rgba(230,0,48,.4);border-radius:9999px}',
       '.live-status.is-offline{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.12);color:rgba(255,255,255,.7)}',
       '.live-status .dot{width:8px;height:8px;border-radius:50%;background:#e60030;animation:pvlive 1.8s ease-out infinite}',
@@ -34,6 +55,7 @@
       '.live-status a:hover{color:#ffe156}',
       '.utility-bar a[aria-current="page"]{color:#ffe156;text-decoration:underline;text-decoration-color:#ff2f8e;text-underline-offset:3px;text-decoration-thickness:2px}',
       '.footer-network a[aria-current="page"]{color:#ffe156;text-decoration:underline;text-decoration-color:#ff2f8e;text-underline-offset:3px}',
+      /* === Share button + dialog === */
       '.pv-share{position:relative;display:inline-flex;align-items:center;gap:.4rem;color:#00e5ff;font-weight:800;letter-spacing:1.6px;cursor:pointer;background:none;border:none;font-family:inherit;font-size:inherit;text-transform:inherit;padding:0;line-height:inherit}',
       '.pv-share:hover{color:#fff}',
       '.pv-share:focus-visible{outline:2px solid #00e5ff;outline-offset:3px;border-radius:3px}',
@@ -49,10 +71,12 @@
       '.pv-share-btn.copy-state-done{background:rgba(106,255,159,.18);border-color:#6aff9f;color:#6aff9f}',
       '.pv-share-close{position:absolute;top:.5rem;right:.6rem;background:none;border:none;color:rgba(255,255,255,.6);cursor:pointer;font-size:1.5rem;line-height:1;padding:.3rem .55rem;border-radius:6px;min-height:36px;min-width:36px}',
       '.pv-share-close:hover,.pv-share-close:focus-visible{color:#fff;background:rgba(255,255,255,.08);outline:none}',
+      /* === /support/ live banner === */
       '@keyframes pv-live-banner-pulse{0%,100%{box-shadow:0 0 0 0 rgba(230,0,48,.45)}70%{box-shadow:0 0 0 12px rgba(230,0,48,0)}}',
       '.live-banner{margin:0 0 1rem;border:2px solid #e60030;background:rgba(230,0,48,.1);border-radius:10px;animation:pv-live-banner-pulse 2.2s ease-out infinite}',
       '.live-banner a{display:flex;align-items:center;justify-content:center;gap:.6rem;padding:.8rem 1rem;text-decoration:none;color:#fff;font-family:"JetBrains Mono",monospace;font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;font-weight:800}',
       '.live-banner-dot{width:9px;height:9px;border-radius:50%;background:#e60030;flex-shrink:0;animation:pvlive 1.8s ease-out infinite}',
+      /* === Forced colors / a11y === */
       '@media(forced-colors:active){',
       '  .btn,.sticky-cta a,.quick-link,.support-card,.tier,.pv-share-btn{forced-color-adjust:none;border:1px solid CanvasText;background:Canvas;color:CanvasText}',
       '  .btn-red,.btn-pink,.btn-yellow,.cta-watch,.cta-support,.cta-tip{background:Highlight;color:HighlightText}',
@@ -71,27 +95,27 @@
       '  dialog.pv-share-dialog .pv-share-inner,.utility-bar{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;background:rgba(8,8,12,.96)}',
       '  dialog.pv-share-dialog::backdrop{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;background:rgba(8,8,12,.95)}',
       '}',
+      /* === 2026 FAQ exclusive-accordion polish === */
+      'details[name="faq"] summary{position:relative;cursor:pointer;list-style:none}',
+      'details[name="faq"] summary::-webkit-details-marker{display:none}',
+      'details[name="faq"] summary::after{content:"+";position:absolute;right:1rem;top:50%;transform:translateY(-50%);font-family:"JetBrains Mono",monospace;font-size:1.2rem;color:#ff2f8e;transition:transform .25s ease,content .25s}',
+      'details[name="faq"][open] summary::after{content:"−";transform:translateY(-50%) rotate(180deg)}',
+      'details[name="faq"][open] summary{color:#ff2f8e}',
+      /* === Save-Data / reduced-data: skip non-essential animations === */
+      '@media (prefers-reduced-data:reduce){.marquee-track,.live-status .dot,.live-banner{animation:none!important}.hero-eyebrow,.btn-mega::after{animation:none!important}}',
       /* ============================================================
-       * MOBILE SYSTEM v5 — FOCUSED HEADER. Single-purpose LIVE pill
-       * on phones. Network/share/separator clutter all gone <=760px.
-       * No hscroll. No overflow. Hero scales. Sticky CTA safe-area.
+       * MOBILE SYSTEM v6 — FOCUSED HEADER. Single LIVE pill on phones.
        * ============================================================ */
       'html,body{overflow-x:clip;max-width:100vw}',
       'img,video,iframe,svg{max-width:100%;height:auto}',
       '@media(max-width:760px){',
-      /* === FOCUSED MOBILE HEADER === */
-      /* Hide every direct child of utility-bar EXCEPT the JS-injected .live-status pill */
       '  .utility-bar > *:not(.live-status){display:none!important}',
-      /* Utility-bar becomes a clean centered band with just the live pill */
       '  .utility-bar{padding:.6rem 1rem;min-height:44px;display:flex;justify-content:center;align-items:center;border-bottom:1px solid rgba(255,255,255,.08);background:rgba(0,0,0,.55)}',
-      /* Make the live pill more prominent: slightly larger, comfortable tap target */
       '  .utility-bar .live-status{font-size:.66rem;letter-spacing:1.8px;padding:.45rem 1rem;min-height:32px;gap:.5rem}',
       '  .utility-bar .live-status .dot{width:9px;height:9px}',
-      /* === MARQUEE — tighter, snappier on mobile === */
       '  .marquee{padding:.55rem 0}',
       '  .marquee-track{font-size:.7rem;letter-spacing:1.8px;animation-duration:45s}',
       '  .marquee-group{gap:1.1rem;padding-right:1.1rem}',
-      /* === SECTIONS + MAIN === */
       '  main{padding-left:0;padding-right:0}',
       '  section{padding:2.4rem 1rem!important}',
       '  .hero{padding:2rem 1rem 2.6rem!important}',
@@ -100,12 +124,10 @@
       '  .hero-eyebrow{font-size:.6rem;letter-spacing:1.6px;padding:.35rem .8rem;margin-bottom:1.1rem}',
       '  .hero-meta{font-size:.62rem;letter-spacing:1.8px;margin-bottom:1.6rem;line-height:1.6}',
       '  .section-title{font-size:clamp(2.2rem,9vw,4rem)!important;line-height:.95}',
-      /* === BUTTONS + CTAS === */
       '  .hero-cta,.end-cta,.equal-paths-cta,.watch-bar,.cta-row{display:flex;flex-direction:column;align-items:stretch;gap:.7rem;width:100%}',
       '  .hero-cta .btn,.end-cta .btn,.equal-paths-cta a,.watch-bar .btn{width:100%;justify-content:center;text-align:center}',
       '  .btn{padding:.95rem 1.4rem;font-size:.75rem;letter-spacing:1.6px;min-height:48px}',
       '  .btn-mega{font-size:.95rem;padding:1.1rem 1.6rem;letter-spacing:1.9px}',
-      /* === GRIDS === */
       '  .quick-links{grid-template-columns:1fr;gap:.75rem;margin-top:1.5rem}',
       '  .quick-link{padding:1.4rem 1.2rem;border-radius:12px}',
       '  .support-grid,.tier-grid{grid-template-columns:1fr;gap:.9rem}',
@@ -114,27 +136,23 @@
       '  .stat{padding:1.1rem .8rem}',
       '  .stat-num{font-size:clamp(2rem,8vw,3rem)}',
       '  .stat-label{font-size:.55rem;letter-spacing:1.3px}',
-      /* === FOOTER (where network sites belong) === */
       '  footer{padding:2.4rem 1rem 1.2rem;font-size:.6rem;letter-spacing:1.1px;line-height:1.7}',
       '  .footer-brand{font-size:1.8rem;margin-bottom:.4rem}',
       '  .footer-network{margin:1rem auto;gap:.4rem .8rem;font-size:.6rem;letter-spacing:1.1px;line-height:1.6;max-width:100%;padding:0 .5rem}',
       '  .footer-network a{display:inline-block;padding:.2rem 0;min-height:28px;white-space:nowrap}',
       '  .footer-legal{margin-top:1.2rem;font-size:.52rem;line-height:1.7;letter-spacing:1px}',
-      /* === STICKY CTA — safe-area + comfortable text === */
       '  .sticky-cta a{font-size:.68rem;letter-spacing:1.3px;padding:.85rem .6rem;min-height:52px;gap:.35rem}',
       '  body{padding-bottom:calc(58px + env(safe-area-inset-bottom,0px))}',
-      /* === CONTENT RHYTHM === */
       '  .body-section h2,.body-section-title{font-size:clamp(1.8rem,7vw,2.6rem);line-height:1}',
       '  .body-section p{font-size:1rem;line-height:1.65}',
       '  .pullquote{font-size:1.05rem;padding:1.1rem 1.1rem;margin:1.3rem 0}',
-      '  details summary{padding:1rem 1.1rem;font-size:.95rem;line-height:1.35}',
+      '  details summary{padding:1rem 2.4rem 1rem 1.1rem;font-size:.95rem;line-height:1.35}',
       '  details > div,details > p{padding:0 1.1rem 1.1rem;font-size:.96rem}',
       '  .toc,.toc-nav{flex-direction:column;align-items:stretch;gap:.4rem;padding:1rem}',
       '  .toc a{padding:.6rem .8rem;font-size:.72rem;letter-spacing:1.4px;display:block;width:100%}',
       '  .manifesto,.recipe-steps{padding:1.4rem 1.1rem}',
       '  .recipe-step{padding:1rem .9rem}',
       '  .live-banner a{padding:.7rem 1rem;font-size:.65rem;letter-spacing:1.2px;text-align:center;line-height:1.45}',
-      /* === SUB-PAGE BACK LINK polish === */
       '  .back-link{padding:.5rem 0;font-size:.62rem;letter-spacing:1.4px;margin-bottom:1rem}',
       '}',
       '@media(max-width:440px){',
@@ -166,25 +184,14 @@
   }
 
   /* ---------- ICT (UTC+7) helper ---------- */
-  function ictNow(){
-    var d = new Date();
-    var utcMs = d.getTime() + d.getTimezoneOffset()*60000;
-    return new Date(utcMs + 7*3600000);
-  }
-  function isLiveICT(){
-    var h = ictNow().getHours();
-    return (h >= 21) || (h < 3);
-  }
+  function ictNow(){var d = new Date();return new Date(d.getTime() + d.getTimezoneOffset()*60000 + 7*3600000);}
+  function isLiveICT(){var h = ictNow().getHours();return (h >= 21) || (h < 3);}
   function hoursUntilLive(){
     var now = ictNow();
     if (now.getHours() >= 21 || now.getHours() < 3) return 0;
-    if (now.getHours() >= 3 && now.getHours() < 21) {
-      var target = new Date(now);
-      target.setHours(21,0,0,0);
-      var ms = target - now;
-      return {h: Math.floor(ms / 3600000), m: Math.floor((ms % 3600000) / 60000)};
-    }
-    return {h:0, m:0};
+    var target = new Date(now); target.setHours(21,0,0,0);
+    var ms = target - now;
+    return {h: Math.floor(ms / 3600000), m: Math.floor((ms % 3600000) / 60000)};
   }
 
   /* ---------- live indicator ---------- */
@@ -196,57 +203,40 @@
     wrap.target = '_blank';
     wrap.rel = 'noopener';
     wrap.setAttribute('data-gtm','live_pill_click');
-    var dot = document.createElement('span');
-    dot.className = 'dot';
-    var txt = document.createElement('span');
-    txt.className = 'txt';
-    wrap.appendChild(dot);
-    wrap.appendChild(txt);
+    var dot = document.createElement('span'); dot.className = 'dot';
+    var txt = document.createElement('span'); txt.className = 'txt';
+    wrap.appendChild(dot); wrap.appendChild(txt);
     bar.insertBefore(wrap, bar.firstChild);
-    var sep = document.createElement('span');
-    sep.className = 'separator';
-    sep.textContent = '·';
+    var sep = document.createElement('span'); sep.className = 'separator'; sep.textContent = '·';
     bar.insertBefore(sep, wrap.nextSibling);
     tickLive(wrap);
     setInterval(function(){ tickLive(wrap); }, 60000);
   }
   function tickLive(el){
-    var txt = el.querySelector('.txt');
-    if(!txt) return;
+    var txt = el.querySelector('.txt'); if(!txt) return;
     if (isLiveICT()){
       el.classList.remove('is-offline');
       txt.textContent = 'LIVE NOW · WATCH';
     } else {
       el.classList.add('is-offline');
       var t = hoursUntilLive();
-      if (t && (t.h || t.m)){
-        txt.textContent = 'NEXT LIVE IN ' + t.h + 'H ' + t.m + 'M';
-      } else {
-        txt.textContent = 'LIVE NIGHTLY 9 PM ICT';
-      }
+      txt.textContent = (t && (t.h || t.m)) ? 'NEXT LIVE IN ' + t.h + 'H ' + t.m + 'M' : 'LIVE NIGHTLY 9 PM ICT';
     }
   }
 
   /* ---------- /support/ live banner toggle ---------- */
-  function toggleLiveBanner(){
-    var el = document.querySelector('[data-live-banner]');
-    if(!el) return;
-    el.hidden = !isLiveICT();
-  }
+  function toggleLiveBanner(){var el = document.querySelector('[data-live-banner]');if(el) el.hidden = !isLiveICT();}
 
-  /* ---------- share dialog (desktop primary, hidden on mobile via CSS) ---------- */
+  /* ---------- share dialog ---------- */
   function buildShare(bar){
     if(!bar || bar.querySelector('.pv-share')) return;
     var btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'pv-share';
+    btn.type = 'button'; btn.className = 'pv-share';
     btn.setAttribute('aria-haspopup','dialog');
     btn.setAttribute('aria-expanded','false');
     btn.setAttribute('aria-label','Open share menu');
     btn.textContent = '★ SHARE';
-    var sep = document.createElement('span');
-    sep.className = 'separator';
-    sep.textContent = '·';
+    var sep = document.createElement('span'); sep.className = 'separator'; sep.textContent = '·';
     bar.insertBefore(sep, bar.firstChild);
     bar.insertBefore(btn, bar.firstChild);
 
@@ -271,10 +261,7 @@
       '</div>';
     document.body.appendChild(dlg);
 
-    btn.addEventListener('click', function(){
-      btn.setAttribute('aria-expanded','true');
-      try { dlg.showModal(); } catch(_) { dlg.setAttribute('open',''); }
-    });
+    btn.addEventListener('click', function(){ btn.setAttribute('aria-expanded','true'); try { dlg.showModal(); } catch(_) { dlg.setAttribute('open',''); } });
     dlg.addEventListener('click', function(e){ if (e.target === dlg) dlg.close(); });
     dlg.addEventListener('close', function(){ btn.setAttribute('aria-expanded','false'); });
     dlg.querySelector('.pv-share-close').addEventListener('click', function(){ dlg.close(); });
@@ -283,18 +270,14 @@
       try {
         navigator.clipboard.writeText(url).then(function(){
           b.classList.add('copy-state-done');
-          var prev = b.textContent;
-          b.textContent = 'Copied!';
+          var prev = b.textContent; b.textContent = 'Copied!';
           setTimeout(function(){ b.classList.remove('copy-state-done'); b.textContent = prev; }, 1800);
         });
       } catch(_) {}
     });
     dlg.querySelector('.pv-share-native').addEventListener('click', function(){
-      if (navigator.share){
-        navigator.share({ title:document.title, text:shareText, url:url }).catch(function(){});
-      } else {
-        alert('Native share not available - use one of the buttons above.');
-      }
+      if (navigator.share) navigator.share({ title:document.title, text:shareText, url:url }).catch(function(){});
+      else alert('Native share not available - use one of the buttons above.');
     });
   }
 
@@ -353,17 +336,11 @@
     injectStyles();
     markActiveNav();
     var bar = document.querySelector('.utility-bar');
-    if (bar){
-      buildLive(bar);
-      buildShare(bar);
-    }
+    if (bar){ buildLive(bar); buildShare(bar); }
     toggleLiveBanner();
     setInterval(toggleLiveBanner, 60000);
     buildCounters();
   }
-  if (document.readyState === 'loading'){
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
 }());
