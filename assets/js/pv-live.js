@@ -182,6 +182,11 @@
       '  .recipe-step{padding:1rem .9rem}',
       '  .live-banner a{padding:.7rem 1rem;font-size:.65rem;letter-spacing:1.2px;text-align:center;line-height:1.45}',
       '  .back-link{padding:.5rem 0;font-size:.62rem;letter-spacing:1.4px;margin-bottom:.8rem;min-height:36px;display:inline-flex;align-items:center}',
+      /* Sub-page mobile brand bar — sticky top "← PATTAYA VILLA STREAM" replaces tiny back-link */
+      '  .back-bar{position:sticky;top:0;z-index:100;background:rgba(8,8,12,.94);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:2px solid #ff2f8e;margin:0 0 1.2rem 0!important;padding:0;width:100%;view-transition-name:brand-bar}',
+      '  .back-bar a{display:flex;align-items:center;justify-content:center;padding:.85rem 1rem;font-family:"Bebas Neue",sans-serif;font-size:1.35rem;letter-spacing:.04em;text-transform:uppercase;color:#fff;text-decoration:none;min-height:52px;line-height:1;font-weight:400}',
+      '  .back-bar a:active{transform:scale(.98);transition:transform .08s ease}',
+      '  .back-bar a:hover{color:#ffe156}',
       '  .pv-install{left:.8rem;right:.8rem;bottom:76px;padding:.75rem .9rem;font-size:.6rem;letter-spacing:1.2px}',
       '  .pv-install-btn{padding:.45rem .7rem;font-size:.6rem}',
       '}',
