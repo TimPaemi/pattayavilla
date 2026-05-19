@@ -1,4 +1,4 @@
-/* PATTAYA VILLA Service Worker — v2
+/* PATTAYA VILLA STREAM Service Worker — v2
  * - Network-first for HTML (always fresh, falls back to cache, then /offline)
  * - Cache-first for assets (fonts, images, JS)
  * - Navigation preload for faster nav

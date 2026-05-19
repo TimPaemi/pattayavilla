@@ -1,19 +1,78 @@
-# PATTAYA VILLA
+<div align="center">
 
-🔴 **Live every night 9 PM ICT** from a Pattaya villa.
-The nightly livestream show by [Tim & Paemi](https://timpaemi.com) · operated by [Pattaya-Authority.com](https://pattaya-authority.com).
+# PATTAYA VILLA STREAM
 
-→ [pattayavilla.com](https://pattayavilla.com)
+**The nightly Pattaya villa livestream by Tim & Paemi**
+🔴 Live every night · 9 PM ICT · 6 to 8 hours · no script
+
+[![Site](https://img.shields.io/badge/site-pattayastream.com-ff2f8e?style=for-the-badge)](https://pattayastream.com)
+[![Brand](https://img.shields.io/badge/brand-timpaemi.com-00e5ff?style=for-the-badge)](https://timpaemi.com)
+[![Network](https://img.shields.io/badge/network-Pattaya--Authority-ffe156?style=for-the-badge&labelColor=08080c)](https://pattaya-authority.com)
+[![License](https://img.shields.io/badge/license-Proprietary-e60030?style=for-the-badge)](LICENSE)
+
+[![YouTube](https://img.shields.io/badge/YouTube-@timpaemi-FF0000?logo=youtube&logoColor=white)](https://www.youtube.com/@timpaemi)
+[![TikTok](https://img.shields.io/badge/TikTok-@timpaemi.com-000000?logo=tiktok&logoColor=white)](https://www.tiktok.com/@timpaemi.com)
+[![Instagram](https://img.shields.io/badge/Instagram-@timpaemi-E4405F?logo=instagram&logoColor=white)](https://www.instagram.com/timpaemi/)
+[![Facebook](https://img.shields.io/badge/Facebook-Tim%20%26%20Paemi-1877F2?logo=facebook&logoColor=white)](https://www.facebook.com/profile.php?id=61583166493467)
+
+</div>
 
 ---
 
-## Stack
+## About
 
-- Static HTML/CSS/JS — Cloudflare Pages
-- Self-hosted fonts (no Google Fonts roundtrip)
-- GA4 + (optional) Cloudflare Web Analytics
-- PWA installable (manifest + service worker)
-- No embeds. No comments. Fast.
+PATTAYA VILLA STREAM is the dedicated home for the nightly livestream by **Tim** (Germany) and **Paemi** (Thailand) — a married couple broadcasting from their Pattaya villa every single night at 9 PM ICT. No script. Six to eight hours. Chat decides everything.
+
+Part of the **TIMPAEMI Co., Ltd.** network — **5M+ followers across 60+ social accounts**.
+
+## The site
+
+Static HTML / CSS / JS — no framework, no build step.
+Deployed on **Cloudflare Pages**. Production: **<https://pattayastream.com>**
+
+### Six indexed pages
+- `/` — Homepage · scale signals + hero + quick-links
+- `/support/` — 12 payment paths (recurring → one-time → live-stream → Thai → free)
+- `/community/` — Mods, heroes, regulars · anonymous by design
+- `/format/` — How the show works · 4-section breakdown
+- `/code/` — Chat code of conduct
+- `/faq/` — Common questions · FAQPage schema
+
+Plus error pages: `/offline.html` (Service Worker fallback) and `/404.html` (Cloudflare default).
+
+## What's wired
+
+| Layer | What |
+|---|---|
+| **Schema** | Organization · 2 Persons · WebSite · BroadcastService · recurring Event · BreadcrumbList · WebPage · DonateAction · ItemList · Article · FAQPage · HowTo |
+| **Analytics** | GA4 (deferred, anonymize_ip, beacon, no signals/ads) · Web Vitals → GA4 · scroll-depth events · universal `data-gtm` click delegation · 404 hit tracking |
+| **Conversion** | Sticky bottom CTA on every page (`WATCH LIVE` + `SUPPORT`) · live-now indicator (pulses red 9PM–3AM ICT) · share tray (X / WhatsApp / Telegram / Facebook / copy / native) |
+| **PWA** | Manifest with `share_target` + shortcuts · Service Worker v3 (network-first nav + nav preload + smart precache) · iOS splash for 7 device sizes · installable on every platform |
+| **Performance** | Self-hosted fonts (Bebas Neue / Inter / JetBrains Mono) · `<link rel="preload">` chain · Speculation Rules prerender · View Transitions API · `content-visibility: auto` on long sections |
+| **Security** | HSTS preload-eligible · strict CSP · `frame-ancestors: 'none'` · Permissions-Policy locked · COOP + CORP · CSRF-safe (no forms) |
+| **SEO** | Canonical + hreflang on every page · sitemap with `<lastmod>` + `<image>` · robots.txt blocks all known AI training scrapers · IndieWeb `rel=me` social verification |
+| **Routing** | 37 `_redirects` rules covering `/tip`, `/donate`, `/live`, `/patreon`, `/paypal`, `/kofi`, etc. |
+| **Quality gate** | `deploy.ps1` pre-flight (HTML close-tag + JSON parse + sitemap lastmod auto-update) · GitHub Actions: preflight on every push + Lighthouse CI on every deploy |
+
+## What is LOCKED (by operator policy)
+
+- No embeds (YouTube, Twitch, anything). External-link only.
+- No chat / comments / forums on the site.
+- No villa photos. **No names of crew, mods, supporters, or regulars beyond Tim & Paemi — ever.**
+- No individual donation amounts, no supporter rankings, no leaderboards.
+- No crypto support paths (operator does not use crypto).
+- No new pages added without operator approval.
+- No Google Fonts. No Facebook Pixel. No cookie banner.
+
+## Network
+
+Part of the TIMPAEMI Co., Ltd. site network:
+
+- [**timpaemi.com**](https://timpaemi.com/) — the brand site
+- [**pattaya-authority.com**](https://pattaya-authority.com/) — parent agency
+- [**pattaya-restaurant-guide.com**](https://pattaya-restaurant-guide.com/)
+- [**pattaya-gym.com**](https://pattaya-gym.com/)
+- [**pattayavisahelp.com**](https://pattayavisahelp.com/)
 
 ## Deploy
 
@@ -21,32 +80,18 @@ The nightly livestream show by [Tim & Paemi](https://timpaemi.com) · operated b
 .\deploy.ps1
 ```
 
-Clean staging deploy with allowlist gate (no dirty deploys, no leaked files).
+Runs the 4-stage pre-flight gate (HTML integrity · JSON parse · TODO leak · sitemap lastmod auto-update), then `wrangler pages deploy` to Cloudflare.
 
-## Site structure
+Or — push to `master` and Cloudflare Pages auto-deploys via the GitHub integration.
 
-6 pages, all live at apex `pattayavilla.com`:
+## Support the show
 
-- `/` — homepage
-- `/support/` — multiple payment options
-- `/community/` — mods + supporters (anonymized, no ranking)
-- `/format/` — how the show works
-- `/code/` — chat code of conduct
-- `/faq/` — common questions
+If you found this site and got curious — the easiest way to back the operation is via the [Sponsor button](https://github.com/sponsors/TimPaemi) at the top of the repo, or visit [pattayastream.com/support](https://pattayastream.com/support/) for every path.
 
-## Network
+## Press inquiries
 
-Part of the TIMPAEMI Co., Ltd. network — alongside:
-- [timpaemi.com](https://timpaemi.com) (brand)
-- [pattaya-authority.com](https://pattaya-authority.com) (agency)
-- [pattaya-restaurant-guide.com](https://pattaya-restaurant-guide.com)
-- [pattaya-gym.com](https://pattaya-gym.com)
-- [pattayavisahelp.com](https://pattayavisahelp.com)
-
-## AI agent instructions
-
-See [CLAUDE.md](CLAUDE.md).
+**info@pattayastream.com** · LINE (@timpaemi) · WhatsApp (+66 96 728 6999)
 
 ## License
 
-Proprietary · TIMPAEMI Co., Ltd. · Pattaya, Thailand.
+[Proprietary](LICENSE) · © 2024–present TIMPAEMI Co., Ltd. · Pattaya · Thailand

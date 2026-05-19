@@ -1,4 +1,4 @@
-# PATTAYA VILLA · Cloudflare Pages headers
+# PATTAYA VILLA STREAM · Cloudflare Pages headers
 /assets/fonts/*
   Cache-Control: public, max-age=31536000, immutable
   Access-Control-Allow-Origin: *

@@ -1,12 +1,12 @@
-# PATTAYA VILLA — Brand Site
+# PATTAYA VILLA STREAM — Brand Site
 
 ## Project
-The dedicated home for the **PATTAYA VILLA livestream** — the nightly show by Tim & Paemi.
+The dedicated home for the **PATTAYA VILLA STREAM livestream** — the nightly show by Tim & Paemi.
 Operated by **Pattaya-Authority.com** (TIMPAEMI Co., Ltd.).
 Audience-driven: support page + community recognition + show explainer.
 
 ## Domain
-- Production: **https://pattayavilla.com**
+- Production: **https://pattayastream.com**
 - Repo: https://github.com/TimPaemi/pattayavilla
 - Hosting: **Cloudflare Pages**, project name: `pattayavilla`
 - Production branch: `master`

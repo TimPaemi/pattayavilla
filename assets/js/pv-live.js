@@ -1,4 +1,4 @@
-/* PATTAYA VILLA · pv-live.js — v2
+/* PATTAYA VILLA STREAM · pv-live.js — v2
  * Injects: live-now indicator, share tray, ::selection polish, scrollbar styling.
  * Live window: 21:00–03:00 Asia/Bangkok (ICT, UTC+7). Pure JS, zero deps. */
 (function(){
@@ -10,6 +10,8 @@
     var s = document.createElement('style');
     s.id = 'pv-runtime-css';
     s.textContent = [
+      '@view-transition{navigation:auto}',
+      '::view-transition-old(root),::view-transition-new(root){animation-duration:.18s;animation-timing-function:cubic-bezier(.4,0,.2,1)}',
       '::selection{background:#ff2f8e;color:#fff}',
       '::-moz-selection{background:#ff2f8e;color:#fff}',
       'html{scrollbar-color:#ff2f8e #08080c;scrollbar-width:thin}',
@@ -100,7 +102,7 @@
     menu.setAttribute('role','dialog');
     menu.setAttribute('aria-label','Share this page');
     var url = location.origin + location.pathname;
-    var shareText = '🔴 PATTAYA VILLA — live every night 9 PM ICT';
+    var shareText = '🔴 PATTAYA VILLA STREAM — live every night 9 PM ICT';
     var enc = encodeURIComponent;
     menu.innerHTML =
       '<button type="button" class="pv-share-close" aria-label="Close share menu">×</button>' +
@@ -140,7 +142,7 @@
       }else if(pf === 'native'){
         e.preventDefault();
         if(navigator.share){
-          navigator.share({title:'PATTAYA VILLA', text:shareText, url:url}).catch(function(){});
+          navigator.share({title:'PATTAYA VILLA STREAM', text:shareText, url:url}).catch(function(){});
           ga('share_click','native');
         }
       }else{

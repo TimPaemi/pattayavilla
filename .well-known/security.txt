@@ -1,5 +1,5 @@
-Contact: mailto:info@timpaemi.com
+Contact: mailto:info@pattayastream.com
 Expires: 2027-05-18T23:59:59Z
 Preferred-Languages: en, th, de
-Canonical: https://pattayavilla.com/.well-known/security.txt
+Canonical: https://pattayastream.com/.well-known/security.txt
 Policy: https://timpaemi.com/privacy/

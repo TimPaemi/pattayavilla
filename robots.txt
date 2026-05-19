@@ -1,4 +1,4 @@
-# PATTAYA VILLA · robots.txt — clean syntax, no experimental directives
+# PATTAYA VILLA STREAM · robots.txt — clean syntax, no experimental directives
 User-agent: *
 Allow: /
 
@@ -29,4 +29,4 @@ User-agent: meta-externalagent
 Disallow: /
 
 # Sitemap
-Sitemap: https://pattayavilla.com/sitemap.xml
+Sitemap: https://pattayastream.com/sitemap.xml

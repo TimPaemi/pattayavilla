@@ -1,0 +1,36 @@
+# PATTAYA VILLA · Lighthouse CI
+# Runs Lighthouse against the Cloudflare Pages preview URL after each deploy.
+# Posts scores to the workflow summary and as a check comment.
+name: Lighthouse CI
+
+on:
+  deployment_status:
+
+jobs:
+  lighthouse:
+    if: github.event.deployment_status.state == 'success' && github.event.deployment_status.environment_url != ''
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Wait for deploy to be reachable
+        run: sleep 10
+
+      - name: Run Lighthouse
+        uses: treosh/lighthouse-ci-action@v11
+        with:
+          urls: |
+            ${{ github.event.deployment_status.environment_url }}
+            ${{ github.event.deployment_status.environment_url }}/support/
+            ${{ github.event.deployment_status.environment_url }}/community/
+            ${{ github.event.deployment_status.environment_url }}/format/
+            ${{ github.event.deployment_status.environment_url }}/code/
+            ${{ github.event.deployment_status.environment_url }}/faq/
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+          configPath: '.github/workflows/lighthouserc.json'
+
+      - name: Summary
+        if: always()
+        run: |
+          echo '## Lighthouse scores' >> $GITHUB_STEP_SUMMARY
+          echo 'See the uploaded artifacts for per-page Performance, Accessibility, Best Practices, and SEO scores.' >> $GITHUB_STEP_SUMMARY

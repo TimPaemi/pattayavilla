@@ -1,7 +1,7 @@
-# PATTAYA VILLA deploy — clean staging deploy with pre-flight validation + allowlist gate
+# PATTAYA VILLA STREAM deploy — clean staging deploy with pre-flight validation + allowlist gate
 Write-Host ""
 Write-Host "===========================================" -ForegroundColor Cyan
-Write-Host "  PATTAYA VILLA DEPLOY" -ForegroundColor Cyan
+Write-Host "  PATTAYA VILLA STREAM DEPLOY" -ForegroundColor Cyan
 Write-Host "===========================================" -ForegroundColor Cyan
 
 # ============================================================
@@ -119,5 +119,5 @@ if ($LASTEXITCODE -ne 0) {
 Remove-Item -Recurse -Force $STAGE
 Write-Host ""
 Write-Host "===========================================" -ForegroundColor Green
-Write-Host "  LIVE: https://pattayavilla.com/" -ForegroundColor Green
+Write-Host "  LIVE: https://pattayastream.com/" -ForegroundColor Green
 Write-Host "===========================================" -ForegroundColor Green
