@@ -1,32 +1,83 @@
-# PATTAYA VILLA STREAM · robots.txt — clean syntax, no experimental directives
+# PATTAYA VILLA STREAM · robots.txt
+# 2026 AI policy: ALLOW search bots (discoverability) · BLOCK training bots (IP protection)
+
+# ===== Default: everyone is welcome =====
 User-agent: *
 Allow: /
 
-# Block AI training scrapers (manual list — keeps Lighthouse SEO score clean)
+# ===== AI SEARCH BOTS — ALLOWED =====
+# These crawl on user request, then cite the site. We want to appear in AI search.
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: DuckAssistBot
+Allow: /
+
+User-agent: YouBot
+Allow: /
+
+# ===== AI TRAINING BOTS — BLOCKED =====
+# These scrape content for model training without citation. We don't allow that.
 User-agent: GPTBot
 Disallow: /
-User-agent: ChatGPT-User
-Disallow: /
-User-agent: OAI-SearchBot
-Disallow: /
-User-agent: Google-Extended
-Disallow: /
+
 User-agent: ClaudeBot
 Disallow: /
+
 User-agent: anthropic-ai
 Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
 User-agent: CCBot
 Disallow: /
-User-agent: PerplexityBot
-Disallow: /
+
 User-agent: Bytespider
 Disallow: /
+
 User-agent: Amazonbot
 Disallow: /
-User-agent: Applebot-Extended
-Disallow: /
+
 User-agent: meta-externalagent
 Disallow: /
 
-# Sitemap
+User-agent: FacebookBot
+Disallow: /
+
+User-agent: cohere-ai
+Disallow: /
+
+User-agent: cohere-training-data-crawler
+Disallow: /
+
+User-agent: Diffbot
+Disallow: /
+
+User-agent: omgili
+Disallow: /
+
+User-agent: ImagesiftBot
+Disallow: /
+
+User-agent: PetalBot
+Disallow: /
+
+# ===== Sitemaps =====
 Sitemap: https://pattayastream.com/sitemap.xml
+Sitemap: https://pattayastream.com/sitemap-network.xml

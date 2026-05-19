@@ -6,6 +6,8 @@
 <title>The Format — How PATTAYA VILLA STREAM Works · Unscripted Nightly Livestream</title>
 <meta name="description" content="How the PATTAYA VILLA STREAM livestream works. 9 PM ICT, 6 to 8 hours. Tim, Paemi &amp; friends in the villa — challenges, games, food, conversation. Chat is the room.">
 
+<meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1">
+
 <link rel="canonical" href="https://pattayastream.com/format/">
 <link rel="alternate" hreflang="x-default" href="https://pattayastream.com/format/">
 <link rel="alternate" hreflang="en" href="https://pattayastream.com/format/">
@@ -21,6 +23,15 @@
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="PATTAYA VILLA STREAM — the nightly livestream by Tim &amp; Paemi · 9 PM ICT">
 <meta property="og:locale" content="en_US">
+
+<!-- Article meta — for /format/ as og:type=article -->
+<meta property="article:published_time" content="2024-01-01T21:00:00+07:00">
+<meta property="article:modified_time" content="2026-05-18T00:00:00+07:00">
+<meta property="article:author" content="https://timpaemi.com/">
+<meta property="article:section" content="Format">
+<meta property="article:tag" content="Pattaya">
+<meta property="article:tag" content="Livestream">
+<meta property="article:tag" content="Tim &amp; Paemi">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@timpaemi">
@@ -55,8 +66,8 @@
 <link rel="apple-touch-startup-image" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3)" href="/assets/splash/iphone-14-pro-max.png">
 
 
-<link rel="preload" href="/assets/fonts/bebas-neue-400.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/assets/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/bebas-neue-400.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
+<link rel="preload" href="/assets/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin fetchpriority="auto">
 <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
 <link rel="dns-prefetch" href="https://www.youtube.com">
 <link rel="preconnect" href="https://www.youtube.com" crossorigin>
@@ -162,6 +173,12 @@ footer a:hover{color:var(--pink)}
 @media(max-width:380px){.sticky-cta a{font-size:.62rem;letter-spacing:1.2px;padding:.85rem .5rem}}
 body{padding-bottom:62px}
 @media(max-width:540px){.hero{padding:.5rem 1rem 2rem}.hero h1{font-size:clamp(3.5rem,12vw,7rem)}}
+
+.toc{margin:0 0 2rem;padding:1rem 1.2rem;border:1px solid var(--border-strong);border-radius:10px;background:linear-gradient(135deg,rgba(0,229,255,.04),rgba(255,47,142,.03));display:flex;flex-wrap:wrap;gap:.4rem .9rem;align-items:center}
+.toc-label{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:1.8px;text-transform:uppercase;color:var(--cyan);font-weight:800}
+.toc a{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:1.2px;text-transform:uppercase;color:var(--text);font-weight:700;padding:.35rem .6rem;border-radius:6px;transition:all .15s}
+.toc a:hover,.toc a:focus-visible{color:#fff;background:rgba(255,47,142,.14)}
+.body-section{scroll-margin-top:2rem}
 </style>
 </head>
 <body>
@@ -202,7 +219,15 @@ body{padding-bottom:62px}
 
 <main id="main">
 
-  <article class="body-section">
+  <!-- Inline TOC — jump nav for long-form content -->
+  <nav class="toc" aria-label="Sections on this page">
+    <span class="toc-label">JUMP TO:</span>
+    <a href="#typical-night" data-gtm="toc_jump" data-gtm-platform="typical-night">01 · A typical night</a>
+    <a href="#the-crew" data-gtm="toc_jump" data-gtm-platform="the-crew">02 · The crew</a>
+    <a href="#chat-is-the-room" data-gtm="toc_jump" data-gtm-platform="chat-is-the-room">03 · Chat is the room</a>
+    <a href="#the-vibe" data-gtm="toc_jump" data-gtm-platform="the-vibe">04 · The vibe</a>
+  </nav>
+  <article class="body-section" id="typical-night">
     <span class="section-tag cyan">// 01 — A TYPICAL NIGHT</span>
     <h2>A typical <span class="cyan">night.</span></h2>
     <p><strong>9 PM Bangkok time.</strong> The stream goes live from the villa. We're already there — Tim, Paemi, and a small group of friends. The music is on (copyright-free, set before the stream starts), the cameras are rolling, and chat is showing up.</p>
@@ -211,14 +236,14 @@ body{padding-bottom:62px}
     <p>Then we do it again the next night.</p>
   </article>
 
-  <article class="body-section">
+  <article class="body-section" id="the-crew">
     <span class="section-tag pink">// 02 — THE CREW</span>
     <h2>The <span class="pink">crew.</span></h2>
     <p>A small group of close friends rotates through most nights. <strong>It's a family vibe — we hang out, we eat together, we mess with each other on camera.</strong> Watch a few nights and you'll learn who's who.</p>
     <p>We don't put their names on the website. Only two names ever go here: <strong>Tim</strong> and <strong>Paemi</strong>. Everyone else stays in the room, in chat, in the show. That's the deal.</p>
   </article>
 
-  <article class="body-section">
+  <article class="body-section" id="chat-is-the-room">
     <span class="section-tag cyan">// 03 — CHAT IS THE ROOM</span>
     <h2>Chat is the <span class="cyan">room.</span></h2>
     <p>The show isn't scripted — but it isn't random either. <strong>The music is copyright-free, picked and queued before we go live.</strong> The villa is where we are, every night, the whole night. We don't go outside. We don't call strangers. We don't chase the next viral moment.</p>
@@ -227,7 +252,7 @@ body{padding-bottom:62px}
     <p>This is why we don't take sponsors. A sponsor wants a deliverable. Chat wants a conversation. You can only serve one.</p>
   </article>
 
-  <article class="body-section">
+  <article class="body-section" id="the-vibe">
     <span class="section-tag green">// 04 — THE VIBE</span>
     <h2>The <span class="green">vibe.</span></h2>
     <p><strong>This is not a podcast.</strong> There's no episode, no edit, no thesis. It runs, then it ends. The next night is a different show.</p>
@@ -260,10 +285,10 @@ body{padding-bottom:62px}
     <a href="https://pattaya-coffee.com/" target="_blank" rel="noopener">Pattaya Coffee</a> ·
     <a href="https://pattaya-school-guide.com/" target="_blank" rel="noopener">School Guide</a>
   </div>
-  <div class="footer-legal">
+  <address class="footer-legal" itemscope itemtype="https://schema.org/PostalAddress">
     © 2026 <span class="pink">TIMPAEMI CO., LTD.</span> · ALL RIGHTS RESERVED<br>
-    PATTAYA CITY · BANG LAMUNG DISTRICT · CHON BURI 20150 · THAILAND
-  </div>
+    <span itemprop="addressLocality">PATTAYA CITY</span> · BANG LAMUNG DISTRICT · <span itemprop="addressRegion">CHON BURI</span> <span itemprop="postalCode">20150</span> · <span itemprop="addressCountry">THAILAND</span>
+  </address>
 </footer>
 
 <nav class="sticky-cta" aria-label="Watch live and support">

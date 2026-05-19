@@ -6,6 +6,8 @@
 <title>FAQ — Common Questions · PATTAYA VILLA STREAM</title>
 <meta name="description" content="Frequently asked questions about the PATTAYA VILLA STREAM livestream by Tim &amp; Paemi. Schedule, support, becoming a moderator, contact. Quick answers, no fluff.">
 
+<meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1">
+
 <link rel="canonical" href="https://pattayastream.com/faq/">
 <link rel="alternate" hreflang="x-default" href="https://pattayastream.com/faq/">
 <link rel="alternate" hreflang="en" href="https://pattayastream.com/faq/">
@@ -55,8 +57,8 @@
 <link rel="apple-touch-startup-image" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3)" href="/assets/splash/iphone-14-pro-max.png">
 
 
-<link rel="preload" href="/assets/fonts/bebas-neue-400.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/assets/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/bebas-neue-400.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
+<link rel="preload" href="/assets/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin fetchpriority="auto">
 <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
 <style>
 @font-face{font-family:'Bebas Neue';font-style:normal;font-weight:400;font-display:swap;src:url('/assets/fonts/bebas-neue-400.woff2') format('woff2')}
@@ -75,10 +77,11 @@ document.addEventListener('click',function(e){var t=e.target.closest('[data-gtm]
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
   {"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"PATTAYA VILLA STREAM","item":"https://pattayastream.com/"},{"@type":"ListItem","position":2,"name":"FAQ","item":"https://pattayastream.com/faq/"}]},
-  {"@type":"FAQPage","mainEntity":[
+  {"@type":"FAQPage","speakable":{"@type":"SpeakableSpecification","cssSelector":["main details summary","main details p","main details p a"]},
+    "mainEntity":[
     {"@type":"Question","name":"When do you stream?","acceptedAnswer":{"@type":"Answer","text":"Every night at 9 PM Bangkok time (ICT). 6 to 8 hours per stream. No nights off."}},
     {"@type":"Question","name":"Where do I watch?","acceptedAnswer":{"@type":"Answer","text":"YouTube — @timpaemi live channel. The short link timpaemi.com/live always points to the current broadcast."}},
-    {"@type":"Question","name":"Do you take requests?","acceptedAnswer":{"@type":"Answer","text":"Chat decides everything in real time. Drop a Super Chat to surface your question or song request to the top of the queue."}},
+    {"@type":"Question","name":"Do you take requests?","acceptedAnswer":{"@type":"Answer","text":"We don't take music requests — the music is copyright-free and queued before the stream starts. But we read every Super Chat, and chat questions drive the conversation. Drop a Super Chat to surface your question to the top."}},
     {"@type":"Question","name":"Can I become a moderator?","acceptedAnswer":{"@type":"Answer","text":"Mods are invited, never applied for. Be active in chat for 30+ nights, respectful, and known to the regulars. We approach you."}},
     {"@type":"Question","name":"How do I support without spending money?","acceptedAnswer":{"@type":"Answer","text":"Subscribe with the bell on YouTube, watch live each night, and share the stream link with friends. All free, all matter."}},
     {"@type":"Question","name":"How do I support with money?","acceptedAnswer":{"@type":"Answer","text":"Right now: Super Chat or Super Thanks during the stream. Both run through YouTube. Every donation gets a live shoutout on stream. More paths will open as we grow."}},
@@ -231,7 +234,7 @@ body{padding-bottom:62px}
 
   <details>
     <summary>Do you take requests?</summary>
-    <p>Chat decides everything in real time. Drop a Super Chat to surface your question or song request to the top of the queue.</p>
+    <p>We don&#39;t take music requests — <strong>the music is copyright-free and queued before the stream starts</strong>. But we read every Super Chat, and <strong>chat questions drive the conversation</strong>. Drop a Super Chat to surface your question to the top.</p>
   </details>
 
   <details>
@@ -288,10 +291,10 @@ body{padding-bottom:62px}
     <a href="https://pattaya-coffee.com/" target="_blank" rel="noopener">Pattaya Coffee</a> ·
     <a href="https://pattaya-school-guide.com/" target="_blank" rel="noopener">School Guide</a>
   </div>
-  <div class="footer-legal">
+  <address class="footer-legal" itemscope itemtype="https://schema.org/PostalAddress">
     © 2026 <span class="pink">TIMPAEMI CO., LTD.</span> · ALL RIGHTS RESERVED<br>
-    PATTAYA CITY · BANG LAMUNG DISTRICT · CHON BURI 20150 · THAILAND
-  </div>
+    <span itemprop="addressLocality">PATTAYA CITY</span> · BANG LAMUNG DISTRICT · <span itemprop="addressRegion">CHON BURI</span> <span itemprop="postalCode">20150</span> · <span itemprop="addressCountry">THAILAND</span>
+  </address>
 </footer>
 
 <nav class="sticky-cta" aria-label="Watch live and support">
