@@ -1,10 +1,8 @@
-/* PATTAYA VILLA STREAM · pv-live.js — v4 (2026-05-18 mobile overhaul)
- * Injects: live-now indicator, share tray (native <dialog>), ::selection polish,
+/* PATTAYA VILLA STREAM · pv-live.js — v5 (2026-05-18 focused-mobile-header)
+ * Injects: live-now indicator (mobile focal element), share tray (desktop only on mobile UA),
  * scrollbar styling, text-wrap balance, forced-colors a11y, aria-current navigation,
  * scroll-triggered stat counters, /support/ live banner toggle, AND a unified
- * mobile responsive system (<=760 / <=440 / <=360 breakpoints) that kills horizontal
- * scroll, aligns utility-bar + footer-network, scales hero typography, and
- * safe-area-proofs the sticky CTA across all 8 pages.
+ * mobile responsive system with a FOCUSED HEADER (no network clutter on phones).
  * Live window: 21:00-03:00 Asia/Bangkok (ICT, UTC+7). Pure JS, zero deps. */
 (function(){
   'use strict';
@@ -74,30 +72,40 @@
       '  dialog.pv-share-dialog::backdrop{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;background:rgba(8,8,12,.95)}',
       '}',
       /* ============================================================
-       * MOBILE SYSTEM v4 — kills hscroll, fixes header/footer/sticky,
-       * scales hero, aligns network row, hits 44px tap targets.
+       * MOBILE SYSTEM v5 — FOCUSED HEADER. Single-purpose LIVE pill
+       * on phones. Network/share/separator clutter all gone <=760px.
+       * No hscroll. No overflow. Hero scales. Sticky CTA safe-area.
        * ============================================================ */
       'html,body{overflow-x:clip;max-width:100vw}',
       'img,video,iframe,svg{max-width:100%;height:auto}',
       '@media(max-width:760px){',
-      '  .utility-bar{gap:.55rem .9rem;padding:.55rem .8rem;font-size:.58rem;letter-spacing:1.2px;line-height:1.45;justify-content:center;flex-wrap:wrap}',
-      '  .utility-bar .separator{display:none!important}',
-      '  .utility-bar a{padding:.25rem 0;display:inline-block;min-height:32px;line-height:1.6;white-space:nowrap}',
+      /* === FOCUSED MOBILE HEADER === */
+      /* Hide every direct child of utility-bar EXCEPT the JS-injected .live-status pill */
+      '  .utility-bar > *:not(.live-status){display:none!important}',
+      /* Utility-bar becomes a clean centered band with just the live pill */
+      '  .utility-bar{padding:.6rem 1rem;min-height:44px;display:flex;justify-content:center;align-items:center;border-bottom:1px solid rgba(255,255,255,.08);background:rgba(0,0,0,.55)}',
+      /* Make the live pill more prominent: slightly larger, comfortable tap target */
+      '  .utility-bar .live-status{font-size:.66rem;letter-spacing:1.8px;padding:.45rem 1rem;min-height:32px;gap:.5rem}',
+      '  .utility-bar .live-status .dot{width:9px;height:9px}',
+      /* === MARQUEE — tighter, snappier on mobile === */
       '  .marquee{padding:.55rem 0}',
       '  .marquee-track{font-size:.7rem;letter-spacing:1.8px;animation-duration:45s}',
       '  .marquee-group{gap:1.1rem;padding-right:1.1rem}',
+      /* === SECTIONS + MAIN === */
       '  main{padding-left:0;padding-right:0}',
       '  section{padding:2.4rem 1rem!important}',
       '  .hero{padding:2rem 1rem 2.6rem!important}',
       '  .hero h1{font-size:clamp(3.2rem,13.5vw,6rem)!important;line-height:.88;letter-spacing:-.01em;margin-bottom:1rem}',
       '  .hero p,.hero-sub,.lead{font-size:1rem;line-height:1.55}',
       '  .hero-eyebrow{font-size:.6rem;letter-spacing:1.6px;padding:.35rem .8rem;margin-bottom:1.1rem}',
-      '  .hero-meta{font-size:.62rem;letter-spacing:1.8px;margin-bottom:1.6rem}',
+      '  .hero-meta{font-size:.62rem;letter-spacing:1.8px;margin-bottom:1.6rem;line-height:1.6}',
       '  .section-title{font-size:clamp(2.2rem,9vw,4rem)!important;line-height:.95}',
+      /* === BUTTONS + CTAS === */
       '  .hero-cta,.end-cta,.equal-paths-cta,.watch-bar,.cta-row{display:flex;flex-direction:column;align-items:stretch;gap:.7rem;width:100%}',
       '  .hero-cta .btn,.end-cta .btn,.equal-paths-cta a,.watch-bar .btn{width:100%;justify-content:center;text-align:center}',
       '  .btn{padding:.95rem 1.4rem;font-size:.75rem;letter-spacing:1.6px;min-height:48px}',
       '  .btn-mega{font-size:.95rem;padding:1.1rem 1.6rem;letter-spacing:1.9px}',
+      /* === GRIDS === */
       '  .quick-links{grid-template-columns:1fr;gap:.75rem;margin-top:1.5rem}',
       '  .quick-link{padding:1.4rem 1.2rem;border-radius:12px}',
       '  .support-grid,.tier-grid{grid-template-columns:1fr;gap:.9rem}',
@@ -106,13 +114,16 @@
       '  .stat{padding:1.1rem .8rem}',
       '  .stat-num{font-size:clamp(2rem,8vw,3rem)}',
       '  .stat-label{font-size:.55rem;letter-spacing:1.3px}',
+      /* === FOOTER (where network sites belong) === */
       '  footer{padding:2.4rem 1rem 1.2rem;font-size:.6rem;letter-spacing:1.1px;line-height:1.7}',
       '  .footer-brand{font-size:1.8rem;margin-bottom:.4rem}',
       '  .footer-network{margin:1rem auto;gap:.4rem .8rem;font-size:.6rem;letter-spacing:1.1px;line-height:1.6;max-width:100%;padding:0 .5rem}',
       '  .footer-network a{display:inline-block;padding:.2rem 0;min-height:28px;white-space:nowrap}',
       '  .footer-legal{margin-top:1.2rem;font-size:.52rem;line-height:1.7;letter-spacing:1px}',
+      /* === STICKY CTA — safe-area + comfortable text === */
       '  .sticky-cta a{font-size:.68rem;letter-spacing:1.3px;padding:.85rem .6rem;min-height:52px;gap:.35rem}',
       '  body{padding-bottom:calc(58px + env(safe-area-inset-bottom,0px))}',
+      /* === CONTENT RHYTHM === */
       '  .body-section h2,.body-section-title{font-size:clamp(1.8rem,7vw,2.6rem);line-height:1}',
       '  .body-section p{font-size:1rem;line-height:1.65}',
       '  .pullquote{font-size:1.05rem;padding:1.1rem 1.1rem;margin:1.3rem 0}',
@@ -123,10 +134,12 @@
       '  .manifesto,.recipe-steps{padding:1.4rem 1.1rem}',
       '  .recipe-step{padding:1rem .9rem}',
       '  .live-banner a{padding:.7rem 1rem;font-size:.65rem;letter-spacing:1.2px;text-align:center;line-height:1.45}',
+      /* === SUB-PAGE BACK LINK polish === */
+      '  .back-link{padding:.5rem 0;font-size:.62rem;letter-spacing:1.4px;margin-bottom:1rem}',
       '}',
       '@media(max-width:440px){',
-      '  .utility-bar{font-size:.55rem;gap:.4rem .7rem;padding:.5rem .6rem}',
-      '  .utility-bar a{min-height:28px;line-height:1.7}',
+      '  .utility-bar{padding:.55rem .8rem;min-height:40px}',
+      '  .utility-bar .live-status{font-size:.6rem;letter-spacing:1.5px;padding:.4rem .85rem}',
       '  .marquee-track{font-size:.62rem;letter-spacing:1.4px;animation-duration:36s}',
       '  .hero h1{font-size:clamp(2.9rem,14.5vw,5.2rem)!important;line-height:.9}',
       '  .hero-eyebrow{font-size:.55rem;letter-spacing:1.4px;padding:.3rem .7rem}',
@@ -142,6 +155,7 @@
       '  body{padding-bottom:calc(56px + env(safe-area-inset-bottom,0px))}',
       '}',
       '@media(max-width:360px){',
+      '  .utility-bar .live-status{font-size:.56rem;letter-spacing:1.3px;padding:.35rem .75rem}',
       '  .hero h1{font-size:clamp(2.6rem,15vw,4.6rem)!important}',
       '  .marquee-track{font-size:.58rem;animation-duration:30s}',
       '  .stats{grid-template-columns:1fr;gap:.5rem}',
@@ -163,14 +177,12 @@
   }
   function hoursUntilLive(){
     var now = ictNow();
-    var target = new Date(now);
-    target.setHours(21,0,0,0);
     if (now.getHours() >= 21 || now.getHours() < 3) return 0;
     if (now.getHours() >= 3 && now.getHours() < 21) {
+      var target = new Date(now);
+      target.setHours(21,0,0,0);
       var ms = target - now;
-      var h = Math.floor(ms / 3600000);
-      var m = Math.floor((ms % 3600000) / 60000);
-      return {h:h, m:m};
+      return {h: Math.floor(ms / 3600000), m: Math.floor((ms % 3600000) / 60000)};
     }
     return {h:0, m:0};
   }
@@ -208,9 +220,9 @@
       el.classList.add('is-offline');
       var t = hoursUntilLive();
       if (t && (t.h || t.m)){
-        txt.textContent = 'NEXT LIVE IN ' + t.h + 'H ' + t.m + 'M · 9 PM ICT';
+        txt.textContent = 'NEXT LIVE IN ' + t.h + 'H ' + t.m + 'M';
       } else {
-        txt.textContent = 'LIVE EVERY NIGHT 9 PM ICT';
+        txt.textContent = 'LIVE NIGHTLY 9 PM ICT';
       }
     }
   }
@@ -219,14 +231,10 @@
   function toggleLiveBanner(){
     var el = document.querySelector('[data-live-banner]');
     if(!el) return;
-    if (isLiveICT()){
-      el.hidden = false;
-    } else {
-      el.hidden = true;
-    }
+    el.hidden = !isLiveICT();
   }
 
-  /* ---------- share dialog ---------- */
+  /* ---------- share dialog (desktop primary, hidden on mobile via CSS) ---------- */
   function buildShare(bar){
     if(!bar || bar.querySelector('.pv-share')) return;
     var btn = document.createElement('button');
@@ -267,12 +275,8 @@
       btn.setAttribute('aria-expanded','true');
       try { dlg.showModal(); } catch(_) { dlg.setAttribute('open',''); }
     });
-    dlg.addEventListener('click', function(e){
-      if (e.target === dlg) dlg.close();
-    });
-    dlg.addEventListener('close', function(){
-      btn.setAttribute('aria-expanded','false');
-    });
+    dlg.addEventListener('click', function(e){ if (e.target === dlg) dlg.close(); });
+    dlg.addEventListener('close', function(){ btn.setAttribute('aria-expanded','false'); });
     dlg.querySelector('.pv-share-close').addEventListener('click', function(){ dlg.close(); });
     dlg.querySelector('.pv-share-copy').addEventListener('click', function(e){
       var b = e.currentTarget;
@@ -289,7 +293,7 @@
       if (navigator.share){
         navigator.share({ title:document.title, text:shareText, url:url }).catch(function(){});
       } else {
-        alert('Native share not available — use one of the buttons above.');
+        alert('Native share not available - use one of the buttons above.');
       }
     });
   }
@@ -298,14 +302,11 @@
   function markActiveNav(){
     var p = location.pathname;
     if (p !== '/' && p.length > 1 && p[p.length-1] !== '/') p = p + '/';
-    var sels = ['.utility-bar a', '.footer-network a'];
-    sels.forEach(function(sel){
+    ['.utility-bar a', '.footer-network a'].forEach(function(sel){
       document.querySelectorAll(sel).forEach(function(a){
         try {
           var u = new URL(a.href, location.origin);
-          if (u.origin === location.origin && u.pathname === p){
-            a.setAttribute('aria-current','page');
-          }
+          if (u.origin === location.origin && u.pathname === p) a.setAttribute('aria-current','page');
         } catch(_) {}
       });
     });
@@ -326,16 +327,12 @@
         var target = parseFloat(el.dataset.count) || 0;
         var suffix = el.dataset.suffix || '';
         var prefix = el.dataset.prefix || '';
-        if (reduce){
-          el.textContent = prefix + formatStat(target) + suffix;
-          return;
-        }
+        if (reduce){ el.textContent = prefix + formatStat(target) + suffix; return; }
         var dur = 1400, start = performance.now();
         function step(t){
           var p = Math.min(1, (t - start) / dur);
           var eased = 1 - Math.pow(1 - p, 3);
-          var val = target * eased;
-          el.textContent = prefix + formatStat(val) + suffix;
+          el.textContent = prefix + formatStat(target * eased) + suffix;
           if (p < 1) requestAnimationFrame(step);
           else el.textContent = prefix + formatStat(target) + suffix;
         }
