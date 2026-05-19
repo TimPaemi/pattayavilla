@@ -32,7 +32,7 @@ In scope:
 
 Out of scope:
 - Cloudflare Pages infrastructure itself (report to Cloudflare directly)
-- Third-party services we link to (YouTube, Patreon, PayPal, etc. — report to those providers)
+- Third-party services we link to (YouTube, WhatsApp share, etc. — report to those providers)
 - Issues requiring physical access to operator devices
 - Self-XSS or attacks requiring social engineering against the operator
 

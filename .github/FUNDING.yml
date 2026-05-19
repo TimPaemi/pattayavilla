@@ -1,10 +1,8 @@
-# PATTAYA VILLA — GitHub Sponsor button targets
+# PATTAYA VILLA STREAM — GitHub Sponsor button targets
+# Tim & Paemi support paths — YouTube-only for now. See https://pattayastream.com/support/
 # https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/displaying-a-sponsor-button-in-your-repository
 
-patreon: timpaemi
-ko_fi: timpaemi
-buy_me_a_coffee: timpaemi
 custom:
-  - "https://www.youtube.com/@timpaemi/join"
-  - "https://www.paypal.me/timpaemi"
-  - "https://pattayavilla.com/support/"
+  - "https://www.youtube.com/@timpaemi/live"
+  - "https://www.youtube.com/@timpaemi?sub_confirmation=1"
+  - "https://pattayastream.com/support/"

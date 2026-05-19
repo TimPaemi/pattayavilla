@@ -51,7 +51,7 @@ Plus error pages: `/offline.html` (Service Worker fallback) and `/404.html` (Clo
 | **Performance** | Self-hosted fonts (Bebas Neue / Inter / JetBrains Mono) · `<link rel="preload">` chain · Speculation Rules prerender · View Transitions API · `content-visibility: auto` on long sections |
 | **Security** | HSTS preload-eligible · strict CSP · `frame-ancestors: 'none'` · Permissions-Policy locked · COOP + CORP · CSRF-safe (no forms) |
 | **SEO** | Canonical + hreflang on every page · sitemap with `<lastmod>` + `<image>` · robots.txt blocks all known AI training scrapers · IndieWeb `rel=me` social verification |
-| **Routing** | 37 `_redirects` rules covering `/tip`, `/donate`, `/live`, `/patreon`, `/paypal`, `/kofi`, etc. |
+| **Routing** | 40+ `_redirects` rules covering `/tip`, `/donate`, `/superchat`, `/live`, `/watch`, `/sub`, `/coffee`, `/school`, etc. |
 | **Quality gate** | `deploy.ps1` pre-flight (HTML close-tag + JSON parse + sitemap lastmod auto-update) · GitHub Actions: preflight on every push + Lighthouse CI on every deploy |
 
 ## What is LOCKED (by operator policy)

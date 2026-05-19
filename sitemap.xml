@@ -3,7 +3,7 @@
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://pattayastream.com/</loc>
-    <lastmod>2026-05-19</lastmod>
+    <lastmod>2026-05-18</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     <image:image>
@@ -13,7 +13,7 @@
   </url>
   <url>
     <loc>https://pattayastream.com/support/</loc>
-    <lastmod>2026-05-19</lastmod>
+    <lastmod>2026-05-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <image:image>
@@ -23,23 +23,23 @@
   </url>
   <url>
     <loc>https://pattayastream.com/format/</loc>
-    <lastmod>2026-05-19</lastmod>
+    <lastmod>2026-05-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://pattayastream.com/assets/og/og-home.jpg</image:loc>
+      <image:loc>https://pattayastream.com/assets/og/og-format.jpg</image:loc>
       <image:title>The Format — How PATTAYA VILLA STREAM works</image:title>
     </image:image>
   </url>
   <url>
     <loc>https://pattayastream.com/code/</loc>
-    <lastmod>2026-05-19</lastmod>
+    <lastmod>2026-05-18</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://pattayastream.com/faq/</loc>
-    <lastmod>2026-05-19</lastmod>
+    <lastmod>2026-05-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
