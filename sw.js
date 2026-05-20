@@ -4,7 +4,7 @@
  * - Navigation preload for faster nav
  * - Aggressive precache of money + content pages
  * - Strict same-origin only; never intercepts cross-origin */
-const VERSION = 'pattayastream-v18-2026-05-18-new-ga-id';
+const VERSION = 'pattayastream-v19-2026-05-18-ga-final';
 const OFFLINE_URL = '/offline';
 
 const PRECACHE = [
