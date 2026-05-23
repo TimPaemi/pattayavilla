@@ -15,7 +15,7 @@
     {"src":"/apple-touch-icon.png","sizes":"180x180","type":"image/png","purpose":"any"}
   ],
   "shortcuts": [
-    {"name":"Watch Live Tonight","short_name":"Live","description":"Open the live broadcast","url":"https://www.youtube.com/@timpaemi/live?utm_source=pwa","icons":[{"src":"/assets/icons/icon-192.png","sizes":"192x192"}]},
+    {"name":"Watch Live Tonight","short_name":"Live","description":"Open the live broadcast","url":"/live","icons":[{"src":"/assets/icons/icon-192.png","sizes":"192x192"}]},
     {"name":"Support the Show","short_name":"Support","description":"Back the villa stream","url":"/support/","icons":[{"src":"/assets/icons/icon-192.png","sizes":"192x192"}]}
   ],
   "share_target": {

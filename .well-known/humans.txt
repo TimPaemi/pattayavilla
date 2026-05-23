@@ -19,12 +19,12 @@
 
 /* SITE */
 
-  Last update:   2026/05/18
+  Last update:   2026/05/23
   Standards:     HTML5 · CSS3 · JavaScript (ES6) · Schema.org JSON-LD
   Components:    Vanilla JS · Service Worker (v2) · Web Vitals · Navigation Preload
   Fonts:         Bebas Neue (display) · Inter (body) · JetBrains Mono (mono) — all self-hosted
   Hosting:       Cloudflare Pages
-  Analytics:     GA4 (anonymize_ip · cookie-flagged · deferred-load)
+  Analytics:     GA4 · gtag.js — page views, Web Vitals, scroll depth
   No embeds.     No tracking pixels. No third-party widgets.
 
 /* HUMANS.TXT */

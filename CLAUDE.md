@@ -50,11 +50,13 @@ Plus error pages: `/offline.html` (Service Worker fallback) and `/404.html` (Clo
 - pattaya-restaurant-guide.com
 - pattaya-gym.com
 - pattayavisahelp.com
+- pattaya-coffee.com
+- pattaya-school-guide.com
 
 ## Analytics
-- GA4 measurement ID: **TBD** (replace `G-PLACEHOLDER` in all 6 pages once Tim provides)
+- GA4 measurement ID: **G-WSGWG7999E** (live — canonical gtag.js snippet on all 7 HTML pages)
 - Cloudflare Web Analytics: optional (decide post-launch)
-- Web Vitals beacon: TODO (port from timpaemi.com if desired)
+- Web Vitals beacon: live — `/assets/js/web-vitals.iife.js` reports LCP/CLS/INP/FCP/TTFB to GA4
 
 ## Dead context — IGNORE
 This is a sibling site to timpaemi.com, NOT a continuation of the old 1057-page Pattaya SEO site (archived on `archive-2026-05-17-pre-cleanup` branch over there). Different repo, different domain, different purpose.

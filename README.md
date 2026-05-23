@@ -21,7 +21,7 @@
 
 ## About
 
-PATTAYA VILLA STREAM is the dedicated home for the nightly livestream by **Tim** (Germany) and **Paemi** (Thailand) — a married couple broadcasting from their Pattaya villa every single night at 9 PM ICT. No script. Six to eight hours. Chat decides everything.
+PATTAYA VILLA STREAM is the dedicated home for the nightly livestream by **Tim** (Germany) and **Paemi** (Thailand) — a married couple broadcasting from their Pattaya villa every single night at 9 PM ICT. No script. Six to eight hours. Chat is the room.
 
 Part of the **TIMPAEMI Co., Ltd.** network — **5M+ followers across 60+ social accounts**.
 
@@ -32,7 +32,7 @@ Deployed on **Cloudflare Pages**. Production: **<https://pattayastream.com>**
 
 ### Six indexed pages
 - `/` — Homepage · scale signals + hero + quick-links
-- `/support/` — 12 payment paths (recurring → one-time → live-stream → Thai → free)
+- `/support/` — YouTube-only support · 3 free paths + 2 live-stream paths (Super Chat / Super Thanks)
 - `/community/` — Mods, heroes, regulars · anonymous by design
 - `/format/` — How the show works · 4-section breakdown
 - `/code/` — Chat code of conduct
@@ -44,10 +44,10 @@ Plus error pages: `/offline.html` (Service Worker fallback) and `/404.html` (Clo
 
 | Layer | What |
 |---|---|
-| **Schema** | Organization · 2 Persons · WebSite · BroadcastService · recurring Event · BreadcrumbList · WebPage · DonateAction · ItemList · Article · FAQPage · HowTo |
-| **Analytics** | GA4 (deferred, anonymize_ip, beacon, no signals/ads) · Web Vitals → GA4 · scroll-depth events · universal `data-gtm` click delegation · 404 hit tracking |
+| **Schema** | Organization · Brand · 2 Persons · WebSite · BroadcastService · recurring Event · BreadcrumbList · WebPage · DonateAction · ItemList · Article · FAQPage |
+| **Analytics** | GA4 via canonical `gtag.js` · Web Vitals → GA4 · scroll-depth events · universal `data-gtm` click delegation |
 | **Conversion** | Sticky bottom CTA on every page (`WATCH LIVE` + `SUPPORT`) · live-now indicator (pulses red 9PM–3AM ICT) · share tray (X / WhatsApp / Telegram / Facebook / copy / native) |
-| **PWA** | Manifest with `share_target` + shortcuts · Service Worker v3 (network-first nav + nav preload + smart precache) · iOS splash for 7 device sizes · installable on every platform |
+| **PWA** | Manifest with `share_target` + shortcuts · Service Worker v2 (network-first nav + nav preload + smart precache) · iOS splash for 7 device sizes · installable on every platform |
 | **Performance** | Self-hosted fonts (Bebas Neue / Inter / JetBrains Mono) · `<link rel="preload">` chain · Speculation Rules prerender · View Transitions API · `content-visibility: auto` on long sections |
 | **Security** | HSTS preload-eligible · strict CSP · `frame-ancestors: 'none'` · Permissions-Policy locked · COOP + CORP · CSRF-safe (no forms) |
 | **SEO** | Canonical + hreflang on every page · sitemap with `<lastmod>` + `<image>` · robots.txt blocks all known AI training scrapers · IndieWeb `rel=me` social verification |
@@ -73,6 +73,8 @@ Part of the TIMPAEMI Co., Ltd. site network:
 - [**pattaya-restaurant-guide.com**](https://pattaya-restaurant-guide.com/)
 - [**pattaya-gym.com**](https://pattaya-gym.com/)
 - [**pattayavisahelp.com**](https://pattayavisahelp.com/)
+- [**pattaya-coffee.com**](https://pattaya-coffee.com/)
+- [**pattaya-school-guide.com**](https://pattaya-school-guide.com/)
 
 ## Deploy
 
