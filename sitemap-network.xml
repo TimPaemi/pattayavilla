@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- PATTAYA VILLA STREAM · Network sitemap index — declares the 8-site TIMPAEMI network -->
+<!-- PATTAYA VILLA STREAM · Network sitemap index — declares the 11-site TIMPAEMI Pattaya network -->
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <sitemap>
     <loc>https://pattayastream.com/sitemap.xml</loc>
-    <lastmod>2026-05-23</lastmod>
+    <lastmod>2026-05-25</lastmod>
   </sitemap>
   <sitemap>
     <loc>https://timpaemi.com/sitemap.xml</loc>
@@ -32,5 +32,17 @@
   <sitemap>
     <loc>https://pattaya-school-guide.com/sitemap.xml</loc>
     <lastmod>2026-05-18</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://pattaya-medical.com/sitemap.xml</loc>
+    <lastmod>2026-05-25</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://pattayapets.com/sitemap.xml</loc>
+    <lastmod>2026-05-25</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://pattaya-vehicle-rentals.com/sitemap.xml</loc>
+    <lastmod>2026-05-25</lastmod>
   </sitemap>
 </sitemapindex>

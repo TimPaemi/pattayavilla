@@ -50,7 +50,8 @@
 /supporters  /community/       301
 /mods        /community/       301
 /help        /faq/             301
-/about       /format/          301
 /show        /format/          301
 /how         /format/          301
+/story       /about/           301
+/who         /about/           301
 /contact     /faq/#contact     301

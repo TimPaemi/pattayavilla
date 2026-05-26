@@ -19,7 +19,7 @@
 
 /* SITE */
 
-  Last update:   2026/05/23
+  Last update:   2026/05/25
   Standards:     HTML5 · CSS3 · JavaScript (ES6) · Schema.org JSON-LD
   Components:    Vanilla JS · Service Worker (v2) · Web Vitals · Navigation Preload
   Fonts:         Bebas Neue (display) · Inter (body) · JetBrains Mono (mono) — all self-hosted

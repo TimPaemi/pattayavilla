@@ -91,12 +91,12 @@ jobs:
           set -e
           python3 -c "
           import re, glob, sys
-          known = {'/','/support/','/community/','/format/','/code/','/faq/','/404','/offline',
+          known = {'/','/about/','/support/','/community/','/format/','/code/','/faq/','/404','/offline',
                    '/manifest.json','/favicon.svg','/favicon.ico','/apple-touch-icon.png',
                    '/sw.js','/sitemap.xml','/robots.txt'}
           anchors = {'#main','#top','#hero','#tip-tonight','#free','#why-heading','#welcome-heading',
                      '#banned-heading','#scale-heading','#explore-heading','#contact','#become-a-regular',
-                     '#become-heading','#typical-night','#the-crew','#chat-is-the-room','#the-vibe'}
+                     '#become-heading','#typical-night','#the-crew','#chat-is-the-room','#the-vibe','#first-night','#story','#show','#network','#principles'}
           broken = []
           for f in glob.glob('**/*.html', recursive=True):
               if '_pattayavilla-scaffold' in f: continue

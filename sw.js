@@ -1,14 +1,14 @@
-/* PATTAYA VILLA STREAM Service Worker — v2
+/* PATTAYA VILLA STREAM Service Worker — v3
  * - Network-first for HTML (always fresh, falls back to cache, then /offline)
  * - Cache-first for assets (fonts, images, JS)
  * - Navigation preload for faster nav
  * - Aggressive precache of money + content pages
  * - Strict same-origin only; never intercepts cross-origin */
-const VERSION = 'pattayastream-v20-2026-05-23-audit';
+const VERSION = 'pattayastream-v22-2026-05-25-network-rebuild';
 const OFFLINE_URL = '/offline';
 
 const PRECACHE = [
-  '/', '/support/', '/community/', '/format/', '/code/', '/faq/',
+  '/', '/about/', '/support/', '/community/', '/format/', '/code/', '/faq/',
   '/offline', '/404',
   '/manifest.json',
   '/favicon.svg', '/favicon.ico', '/apple-touch-icon.png',
@@ -16,7 +16,7 @@ const PRECACHE = [
   '/assets/fonts/inter-var.woff2',
   '/assets/fonts/jetbrains-mono-var.woff2',
   '/assets/js/web-vitals.iife.js',
-  '/assets/js/pv-live.js?v=19',
+  '/assets/js/pv-live.js?v=20',
   '/assets/og/og-home.jpg',
   '/assets/og/og-support.jpg',
   '/assets/og/og-community.jpg',

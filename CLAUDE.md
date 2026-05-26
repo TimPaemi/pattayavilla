@@ -52,6 +52,9 @@ Plus error pages: `/offline.html` (Service Worker fallback) and `/404.html` (Clo
 - pattayavisahelp.com
 - pattaya-coffee.com
 - pattaya-school-guide.com
+- pattaya-medical.com
+- pattayapets.com
+- pattaya-vehicle-rentals.com
 
 ## Analytics
 - GA4 measurement ID: **G-WSGWG7999E** (live — canonical gtag.js snippet on all 7 HTML pages)

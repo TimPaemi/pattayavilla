@@ -75,6 +75,9 @@ Part of the TIMPAEMI Co., Ltd. site network:
 - [**pattayavisahelp.com**](https://pattayavisahelp.com/)
 - [**pattaya-coffee.com**](https://pattaya-coffee.com/)
 - [**pattaya-school-guide.com**](https://pattaya-school-guide.com/)
+- [**pattaya-medical.com**](https://pattaya-medical.com/) — Pattaya medical + healthcare
+- [**pattayapets.com**](https://pattayapets.com/) — Pattaya pets + vets
+- [**pattaya-vehicle-rentals.com**](https://pattaya-vehicle-rentals.com/) — Pattaya vehicle rentals
 
 ## Deploy
 
