@@ -51,6 +51,7 @@ jobs:
             https://pattayastream.com/about/
             https://pattayastream.com/support/
             https://pattayastream.com/format/
+            https://pattayastream.com/code/
             https://pattayastream.com/faq/
           uploadArtifacts: true
           temporaryPublicStorage: true
