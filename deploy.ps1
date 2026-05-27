@@ -11,7 +11,7 @@ $ErrorActionPreference = "Stop"
 $valFailed = $false
 
 Write-Host ""
-Write-Host "[1/4] HTML integrity check..." -ForegroundColor Yellow
+Write-Host "[1/5] HTML integrity check..." -ForegroundColor Yellow
 $htmlFiles = Get-ChildItem -Recurse -Filter "*.html" -File | Where-Object { $_.FullName -notmatch '\.deploy-stage|_pattayavilla-scaffold|\.git' }
 foreach ($f in $htmlFiles) {
     $content = Get-Content $f.FullName -Raw
@@ -27,7 +27,7 @@ foreach ($f in $htmlFiles) {
 }
 
 Write-Host ""
-Write-Host "[2/4] JSON parse check..." -ForegroundColor Yellow
+Write-Host "[2/5] JSON parse check..." -ForegroundColor Yellow
 $jsonFiles = @('manifest.json')
 foreach ($f in $jsonFiles) {
     if (Test-Path $f) {
@@ -42,7 +42,7 @@ foreach ($f in $jsonFiles) {
 }
 
 Write-Host ""
-Write-Host "[3/4] TODO / PLACEHOLDER leak check (HTML only)..." -ForegroundColor Yellow
+Write-Host "[3/5] TODO / PLACEHOLDER leak check (HTML only)..." -ForegroundColor Yellow
 $leakHits = 0
 foreach ($f in $htmlFiles) {
     $content = Get-Content $f.FullName -Raw
@@ -78,7 +78,10 @@ if (Test-Path "sitemap.xml") {
     }
     foreach ($f in $htmlFiles) {
         $h = Get-Content $f.FullName -Raw
-        $h2 = [System.Text.RegularExpressions.Regex]::Replace($h, '"dateModified":"\d{4}-\d{2}-\d{2}(?:T[^"]+)?"', "`"dateModified`":`"$isoToday`"")
+        $dq = [char]34
+        $pattern = ($dq.ToString() + 'dateModified' + $dq.ToString() + ':' + $dq.ToString() + '\d{4}-\d{2}-\d{2}(?:T[^' + $dq.ToString() + ']+)?' + $dq.ToString())
+        $replacement = ($dq.ToString() + 'dateModified' + $dq.ToString() + ':' + $dq.ToString() + $isoToday + $dq.ToString())
+        $h2 = [System.Text.RegularExpressions.Regex]::Replace($h, $pattern, $replacement)
         if ($h2 -ne $h) { Set-Content $f.FullName -Value $h2 -NoNewline; Write-Host "  OK: updated dateModified in $($f.Name)" -ForegroundColor Green }
     }
 }
