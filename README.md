@@ -30,11 +30,11 @@ Part of the **TIMPAEMI Co., Ltd.** network — **5M+ followers across 60+ social
 Static HTML / CSS / JS — no framework, no build step.
 Deployed on **Cloudflare Pages**. Production: **<https://pattayastream.com>**
 
-### Seven indexed pages
+### Seven indexed pages (+ 1 noindex)
 - `/` — Homepage · scale signals + hero + quick-links
 - `/about/` — Tim & Paemi story · villa · 11-site network
 - `/support/` — YouTube-only support · 3 free paths + 2 live-stream paths (Super Chat / Super Thanks)
-- `/community/` — Mods, heroes, regulars · anonymous by design
+- `/community/` — Mods, heroes, regulars · **noindex** (anonymous by design)
 - `/format/` — How the show works · 4-section breakdown
 - `/code/` — Chat code of conduct
 - `/faq/` — Common questions · FAQPage schema
@@ -48,7 +48,7 @@ Plus error pages: `/offline.html` (Service Worker fallback) and `/404.html` (Clo
 | **Schema** | Organization · Brand · 2 Persons · WebSite · BroadcastService · recurring Event · BreadcrumbList · WebPage · DonateAction · ItemList · Article · FAQPage |
 | **Analytics** | GA4 via canonical `gtag.js` · Web Vitals → GA4 · scroll-depth events · universal `data-gtm` click delegation |
 | **Conversion** | Sticky bottom CTA on every page (`WATCH LIVE` + `SUPPORT`) · live-now indicator (pulses red 9PM–3AM ICT) · share tray (X / WhatsApp / Telegram / Facebook / copy / native) |
-| **PWA** | Manifest with `share_target` + shortcuts · Service Worker v2 (network-first nav + nav preload + smart precache) · iOS splash for 7 device sizes · installable on every platform |
+| **PWA** | Manifest with `share_target` + shortcuts · Service Worker (network-first nav + nav preload + smart precache) · iOS splash for 7 device sizes · installable on every platform |
 | **Performance** | Self-hosted fonts (Bebas Neue / Inter / JetBrains Mono) · `<link rel="preload">` chain · Speculation Rules prerender · View Transitions API · `content-visibility: auto` on long sections |
 | **Security** | HSTS preload-eligible · strict CSP · `frame-ancestors: 'none'` · Permissions-Policy locked · COOP + CORP · CSRF-safe (no forms) |
 | **SEO** | Canonical + hreflang on every page · sitemap with `<lastmod>` + `<image>` · robots.txt blocks all known AI training scrapers · IndieWeb `rel=me` social verification |

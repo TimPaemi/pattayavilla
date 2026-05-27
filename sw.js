@@ -4,7 +4,7 @@
  * - Navigation preload for faster nav
  * - Aggressive precache of money + content pages
  * - Strict same-origin only; never intercepts cross-origin */
-const VERSION = 'pattayastream-v23-2026-05-27-audit-pass';
+const VERSION = 'pattayastream-v24-2026-05-27-audit-improve';
 const OFFLINE_URL = '/offline';
 
 const PRECACHE = [
@@ -20,7 +20,9 @@ const PRECACHE = [
   '/assets/og/og-home.jpg',
   '/assets/og/og-support.jpg',
   '/assets/og/og-community.jpg',
-  '/assets/og/og-format.jpg'
+  '/assets/og/og-format.jpg',
+  '/assets/icons/icon-192.png',
+  '/assets/icons/icon-512.png'
 ];
 
 self.addEventListener('install', (e) => {

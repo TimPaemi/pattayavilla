@@ -1,4 +1,4 @@
-/* PATTAYA VILLA STREAM · pv-live.js — v8 (2026-05-27 audit pass)
+/* PATTAYA VILLA STREAM · pv-live.js — v9 (2026-05-27 audit improve)
  * Mobile-first usability layer + 2026 platform features:
  *  - Live pill (focal mobile header element)
  *  - Smart sticky CTA (hide on scroll-down, show on scroll-up)
@@ -71,7 +71,8 @@
       '.live-status a{color:inherit;text-decoration:none}',
       '.live-status a:hover{color:#ffe156}',
       '.utility-bar a[aria-current="page"]{color:#ffe156;text-decoration:underline;text-decoration-color:#ff2f8e;text-underline-offset:3px;text-decoration-thickness:2px}',
-      '.footer-network a[aria-current="page"]{color:#ffe156;text-decoration:underline;text-decoration-color:#ff2f8e;text-underline-offset:3px}',
+      '.site-footer .footer-grid a[aria-current="page"] strong{color:#ffe156}',
+      '.site-footer .footer-grid a[aria-current="page"]{border-color:#ff2f8e}',
       /* === Marquee mask + paused state === */
       '.marquee{mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent)}',
       '.marquee.is-paused .marquee-track{animation-play-state:paused}',
@@ -348,7 +349,7 @@
   function markActiveNav(){
     var p = location.pathname;
     if (p !== '/' && p.length > 1 && p[p.length-1] !== '/') p = p + '/';
-    ['.utility-bar a', '.footer-network a'].forEach(function(sel){
+    ['.utility-bar a', '.site-footer .footer-grid a'].forEach(function(sel){
       document.querySelectorAll(sel).forEach(function(a){
         try { var u = new URL(a.href, location.origin); if (u.origin === location.origin && u.pathname === p) a.setAttribute('aria-current','page'); } catch(_) {}
       });
@@ -473,11 +474,24 @@
   }
 
 
+  /* ---------- FAQ accordion aria-expanded ---------- */
+  function bindFaqA11y(){
+    document.querySelectorAll('details[name="faq"]').forEach(function(d){
+      var s = d.querySelector('summary');
+      if (!s) return;
+      s.setAttribute('aria-expanded', d.open ? 'true' : 'false');
+      d.addEventListener('toggle', function(){
+        s.setAttribute('aria-expanded', d.open ? 'true' : 'false');
+      });
+    });
+  }
+
   /* ---------- init ---------- */
   function init(){
     injectStyles();
     buildSkipLink();
     markActiveNav();
+    bindFaqA11y();
     var bar = document.querySelector('.utility-bar');
     if (bar){ buildLive(bar); buildShare(bar); }
     toggleLiveBanner();

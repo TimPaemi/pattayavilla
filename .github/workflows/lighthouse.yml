@@ -22,6 +22,7 @@ jobs:
             ${{ github.event.deployment_status.environment_url }}
             ${{ github.event.deployment_status.environment_url }}/support/
             ${{ github.event.deployment_status.environment_url }}/community/
+            ${{ github.event.deployment_status.environment_url }}/about/
             ${{ github.event.deployment_status.environment_url }}/format/
             ${{ github.event.deployment_status.environment_url }}/code/
             ${{ github.event.deployment_status.environment_url }}/faq/

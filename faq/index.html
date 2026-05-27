@@ -39,6 +39,7 @@
 <meta name="geo.position" content="12.9236;100.8825">
 <meta name="ICBM" content="12.9236, 100.8825">
 
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="PATTAYA VILLA STREAM">
@@ -87,7 +88,7 @@
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
-gtag('config', 'G-WSGWG7999E');
+gtag('config', 'G-WSGWG7999E', { anonymize_ip: true, allow_google_signals: false, allow_ad_personalization_signals: false });
 if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){});});}
 document.addEventListener('click',function(e){var t=e.target.closest('[data-gtm]');if(!t)return;var k=t.getAttribute('data-gtm'),p=t.getAttribute('data-gtm-platform')||'';if(typeof gtag==='function')gtag('event',k,{platform:p,event_category:'cta'});},{passive:true});
 </script>
@@ -95,8 +96,8 @@ document.addEventListener('click',function(e){var t=e.target.closest('[data-gtm]
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
   {"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"PATTAYA VILLA STREAM","item":"https://pattayastream.com/"},{"@type":"ListItem","position":2,"name":"FAQ","item":"https://pattayastream.com/faq/"}]},
-  {"@type":"WebPage","@id":"https://pattayastream.com/faq/#webpage","url":"https://pattayastream.com/faq/","name":"FAQ — Common Questions · PATTAYA VILLA STREAM","description":"Frequently asked questions about the PATTAYA VILLA STREAM nightly livestream — schedule, timezones, how to watch, support, and contact.","inLanguage":"en","isPartOf":{"@id":"https://pattayastream.com/#website"},"datePublished":"2024-01-01","dateModified":"2026-05-25"},
-  {"@type":"FAQPage","speakable":{"@type":"SpeakableSpecification","cssSelector":["main details summary","main details p","main details p a"]},
+  {"@type":"WebPage","@id":"https://pattayastream.com/faq/#webpage","url":"https://pattayastream.com/faq/","name":"FAQ — Common Questions · PATTAYA VILLA STREAM","description":"Frequently asked questions about the PATTAYA VILLA STREAM nightly livestream — schedule, timezones, how to watch, support, and contact.","inLanguage":"en","isPartOf":{"@id":"https://pattayastream.com/#website"},"datePublished":"2024-01-01","dateModified":"2026-05-27","mainEntity":{"@id":"https://pattayastream.com/faq/#faqpage"}},
+  {"@type":"FAQPage","@id":"https://pattayastream.com/faq/#faqpage","url":"https://pattayastream.com/faq/","isPartOf":{"@id":"https://pattayastream.com/#website"},"speakable":{"@type":"SpeakableSpecification","cssSelector":["main details summary","main details p","main details p a"]},
     "mainEntity":[
     {"@type":"Question","name":"When do you stream?","acceptedAnswer":{"@type":"Answer","text":"Every night at 9 PM Bangkok time (ICT). 6 to 8 hours per stream. No nights off."}},
     {"@type":"Question","name":"Where do I watch?","acceptedAnswer":{"@type":"Answer","text":"YouTube — @timpaemi live channel. The short link timpaemi.com/live always points to the current broadcast."}},
@@ -341,7 +342,7 @@ body{padding-bottom:62px}
   </details>
 
   <div class="end-cta">
-    <h2>Question not answered? <span class="pink">Ask in chat.</span></h2>
+    <h3>Question not answered? <span class="pink">Ask in chat.</span></h3>
     <p>The best place to ask anything is during the live stream. Drop a Super Chat and it goes to the top of the queue.</p>
     <div class="btn-row">
       <a href="https://www.youtube.com/@timpaemi/live?utm_source=pattayastream&amp;utm_medium=faq&amp;utm_campaign=watch_live" target="_blank" rel="noopener" class="btn btn-red" data-gtm="faq_watch_live">▶ WATCH LIVE</a>
