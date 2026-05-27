@@ -115,36 +115,8 @@
 <link rel="prefetch" href="/about/" as="document">
 <link rel="prefetch" href="/format/" as="document">
 
-<style>
-@font-face{font-family:'Bebas Neue';font-style:normal;font-weight:400;font-display:swap;src:url('/assets/fonts/bebas-neue-400.woff2') format('woff2')}
-@font-face{font-family:'Inter';font-style:normal;font-weight:100 900;font-display:swap;src:url('/assets/fonts/inter-var.woff2') format('woff2')}
-@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:100 900;font-display:swap;src:url('/assets/fonts/jetbrains-mono-var.woff2') format('woff2')}
-@font-face{font-family:'Inter-fallback';size-adjust:107%;ascent-override:90%;descent-override:22%;line-gap-override:0%;src:local('Arial')}
-@font-face{font-family:'Bebas-fallback';size-adjust:90%;ascent-override:97%;descent-override:8%;line-gap-override:0%;src:local('Impact'),local('Arial Black'),local('Arial Narrow Bold')}
-@font-face{font-family:'JetBrains-fallback';size-adjust:104%;ascent-override:90%;descent-override:22%;line-gap-override:0%;src:local('Consolas'),local('Menlo'),local('Courier New')}
-</style>
-
-<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-WSGWG7999E"></script>
-<script>
-window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', 'G-WSGWG7999E', { anonymize_ip: true, allow_google_signals: false, allow_ad_personalization_signals: false });
-if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){});});}
-document.addEventListener('click',function(e){var t=e.target.closest('[data-gtm]');if(!t)return;var k=t.getAttribute('data-gtm'),p=t.getAttribute('data-gtm-platform')||'';if(typeof gtag==='function')gtag('event',k,{platform:p,event_category:'cta'});},{passive:true});
-</script>
-
-<script>
-(function(){
-  var sd={25:false,50:false,75:false,100:false},t=null;
-  function sdTick(){var doc=document.documentElement;var h=Math.max(doc.scrollHeight,document.body.scrollHeight)-window.innerHeight;if(h<=0)return;var pct=Math.round((window.scrollY||window.pageYOffset)/h*100);[25,50,75,100].forEach(function(m){if(pct>=m&&!sd[m]){sd[m]=true;if(typeof gtag==='function')gtag('event','scroll_depth',{percent:m,event_category:'engagement',non_interaction:true,transport_type:'beacon'});}});}
-  window.addEventListener('scroll',function(){clearTimeout(t);t=setTimeout(sdTick,80);},{passive:true});
-  var wv=false;function loadWV(){if(wv)return;wv=true;var s=document.createElement('script');s.async=true;s.src='/assets/js/web-vitals.iife.js';s.onload=function(){if(!window.webVitals)return;var send=function(m){if(typeof gtag==='function')gtag('event',m.name,{value:Math.round(m.name==='CLS'?m.value*1000:m.value),metric_id:m.id,metric_rating:m.rating,event_category:'web_vitals',non_interaction:true,transport_type:'beacon'});};webVitals.onLCP(send);webVitals.onCLS(send);webVitals.onINP(send);webVitals.onFCP(send);webVitals.onTTFB(send);};document.head.appendChild(s);}
-  ['scroll','mousemove','touchstart','keydown','click'].forEach(function(e){window.addEventListener(e,loadWV,{once:true,passive:true});});setTimeout(loadWV,500);
-})();
-</script>
-
+<script src="/assets/js/pv-analytics.js?v=1" defer></script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
   {"@type":"Organization","@id":"https://pattayastream.com/#org","name":"PATTAYA VILLA STREAM","alternateName":["The Villa Show","TIMPAEMI Villa","Pattaya Villa"],"url":"https://pattayastream.com/","logo":{"@type":"ImageObject","url":"https://pattayastream.com/apple-touch-icon.png","width":180,"height":180},"image":"https://pattayastream.com/assets/og/og-home.jpg","description":"Nightly Pattaya villa livestream by Tim & Paemi. Operated by Pattaya-Authority.com (TIMPAEMI Co., Ltd.). 5M+ followers across 60+ social accounts.","slogan":"Live every night 9 PM ICT — chat is the room.","numberOfEmployees":{"@type":"QuantitativeValue","minValue":2,"maxValue":10},"interactionStatistic":[{"@type":"InteractionCounter","interactionType":"https://schema.org/FollowAction","userInteractionCount":5000000,"name":"Total followers across all platforms (network-wide)"},{"@type":"InteractionCounter","interactionType":"https://schema.org/SubscribeAction","userInteractionCount":60,"name":"Number of social accounts in the TIMPAEMI network"}],"foundingDate":"2024-01-01","founder":[{"@id":"https://pattayastream.com/#tim"},{"@id":"https://pattayastream.com/#paemi"}],"employee":[{"@id":"https://pattayastream.com/#tim"},{"@id":"https://pattayastream.com/#paemi"}],"areaServed":[{"@type":"Place","name":"Pattaya, Thailand"},{"@type":"Country","name":"Thailand"},{"@type":"AdministrativeArea","name":"Worldwide (online)"}],"address":{"@type":"PostalAddress","addressLocality":"Pattaya","addressRegion":"Chon Buri","postalCode":"20150","addressCountry":"TH"},"contactPoint":{"@type":"ContactPoint","contactType":"customer support","email":"info@pattayastream.com","availableLanguage":["en","th","de"]},"audience":{"@type":"Audience","audienceType":"Pattaya residents, Thailand expats, international viewers interested in Pattaya, livestream audience"},"knowsAbout":["Pattaya nightlife","Pattaya livestreams","Thailand expat life","YouTube livestreaming","Pattaya villa entertainment","Thai-Western cultural exchange","Chon Buri tourism","Pattaya restaurants","Pattaya bars","Pattaya gyms","Thailand visa process","Pattaya coffee culture","Pattaya schools"],"keywords":"pattaya livestream, pattaya villa, tim and paemi, pattaya nightly show, pattaya youtube, thailand livestream, pattaya entertainment","parentOrganization":{"@type":"Organization","name":"TIMPAEMI Co., Ltd.","url":"https://timpaemi.com/"},"brand":{"@id":"https://pattayastream.com/#brand"},"subjectOf":{"@id":"https://pattayastream.com/#nightly-show"},"publishingPrinciples":"https://pattayastream.com/code/","ethicsPolicy":"https://pattayastream.com/code/","ownershipFundingInfo":"https://pattayastream.com/support/","correctionsPolicy":"https://pattayastream.com/faq/","actionableFeedbackPolicy":"https://pattayastream.com/faq/","sameAs":["https://www.youtube.com/@timpaemi","https://www.tiktok.com/@timpaemi.com","https://www.instagram.com/timpaemi/","https://www.facebook.com/profile.php?id=61583166493467","https://timpaemi.com/","https://pattaya-authority.com/","https://pattaya-restaurant-guide.com/","https://pattaya-gym.com/","https://pattayavisahelp.com/","https://pattaya-coffee.com/","https://pattaya-school-guide.com/","https://pattaya-medical.com/","https://pattayapets.com/","https://pattaya-vehicle-rentals.com/"]},
@@ -155,10 +127,11 @@ document.addEventListener('click',function(e){var t=e.target.closest('[data-gtm]
   {"@type":"Brand","@id":"https://pattayastream.com/#brand","name":"PATTAYA VILLA STREAM","alternateName":["The Villa Show","TIMPAEMI Villa"],"logo":"https://pattayastream.com/apple-touch-icon.png","slogan":"Live every night 9 PM ICT — chat is the room.","url":"https://pattayastream.com/","sameAs":["https://www.youtube.com/@timpaemi","https://www.tiktok.com/@timpaemi.com","https://www.instagram.com/timpaemi/","https://www.facebook.com/profile.php?id=61583166493467"]},
   {"@type":"Event","@id":"https://pattayastream.com/#nightly-show","name":"PATTAYA VILLA STREAM — Nightly Livestream","description":"Nightly livestream from a Pattaya villa by Tim & Paemi. 6 to 8 hours every night — challenges, games, food, conversation. Chat is the room. Live every night at 9 PM ICT.","image":"https://pattayastream.com/assets/og/og-home.jpg","eventStatus":"https://schema.org/EventScheduled","eventAttendanceMode":"https://schema.org/OnlineEventAttendanceMode","isAccessibleForFree":true,"inLanguage":"en","startDate":"2024-01-01T21:00:00+07:00","location":{"@type":"VirtualLocation","name":"YouTube · @timpaemi","url":"https://www.youtube.com/@timpaemi/live"},"eventSchedule":{"@type":"Schedule","repeatFrequency":"P1D","byDay":["https://schema.org/Monday","https://schema.org/Tuesday","https://schema.org/Wednesday","https://schema.org/Thursday","https://schema.org/Friday","https://schema.org/Saturday","https://schema.org/Sunday"],"startTime":"21:00:00","endTime":"03:00:00","scheduleTimezone":"Asia/Bangkok"},"organizer":{"@id":"https://pattayastream.com/#org"},"performer":[{"@id":"https://pattayastream.com/#tim"},{"@id":"https://pattayastream.com/#paemi"}],"offers":{"@type":"Offer","url":"https://www.youtube.com/@timpaemi/live","price":"0","priceCurrency":"USD","availability":"https://schema.org/InStock","validFrom":"2024-01-01"}},
   {"@type":"BreadcrumbList","@id":"https://pattayastream.com/#breadcrumbs","itemListElement":[{"@type":"ListItem","position":1,"name":"PATTAYA VILLA STREAM","item":"https://pattayastream.com/"}]},
-  {"@type":"WebPage","@id":"https://pattayastream.com/#webpage","url":"https://pattayastream.com/","name":"PATTAYA VILLA STREAM — Nightly Live with Tim & Paemi","description":"The nightly Pattaya villa livestream by Tim & Paemi — live every night 9 PM ICT, 6 to 8 hours from the villa.","inLanguage":"en","isPartOf":{"@id":"https://pattayastream.com/#website"},"about":{"@id":"https://pattayastream.com/#org"},"primaryImageOfPage":{"@type":"ImageObject","url":"https://pattayastream.com/assets/og/og-home.jpg"},"datePublished":"2024-01-01","dateModified":"2026-05-27","breadcrumb":{"@id":"https://pattayastream.com/#breadcrumbs"}}
+  {"@type":"WebPage","@id":"https://pattayastream.com/#webpage","url":"https://pattayastream.com/","name":"PATTAYA VILLA STREAM — Nightly Live with Tim & Paemi","description":"The nightly Pattaya villa livestream by Tim & Paemi — live every night 9 PM ICT, 6 to 8 hours from the villa.","inLanguage":"en","isPartOf":{"@id":"https://pattayastream.com/#website"},"about":{"@id":"https://pattayastream.com/#org"},"primaryImageOfPage":{"@type":"ImageObject","url":"https://pattayastream.com/assets/og/og-home.jpg"},"datePublished":"2024-01-01T00:00:00+07:00","dateModified":"2026-05-27T00:00:00+07:00","breadcrumb":{"@id":"https://pattayastream.com/#breadcrumbs"}}
 ]}
 </script>
 
+<link rel="stylesheet" href="/assets/css/pv-core.css?v=1">
 <style>
 :root{--pink:#ff2f8e;--cyan:#00e5ff;--yellow:#ffe156;--green:#6aff9f;--red:#e60030;--red-text:#ff3b5c;--red-deep:#c4002a;--red-hover:#ff1f4d;--wa-green:#25d366;--line-green:#06c755;--bg:#08080c;--surface:rgba(255,255,255,.03);--surface-2:rgba(255,255,255,.06);--border:rgba(255,255,255,.08);--border-strong:rgba(255,255,255,.2);--text:rgba(255,255,255,.92);--muted:rgba(255,255,255,.78);--dim:rgba(255,255,255,.68)}
 *{box-sizing:border-box}
@@ -250,7 +223,7 @@ section{position:relative;padding:5rem 1.5rem;max-width:1100px;margin:0 auto;scr
 .sticky-cta .cta-support:hover{background:#fff;color:#08080c}
 .sticky-cta .cta-divider{width:0;border-left:2px solid var(--pink)}
 @media(max-width:380px){.sticky-cta a{font-size:.62rem;letter-spacing:1.2px;padding:.85rem .5rem}}
-body{padding-bottom:62px}
+body{}
 .quick-links{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;margin-top:2rem}
 .quick-link{display:block;padding:2rem 1.5rem;border:2px solid var(--border);border-radius:14px;background:var(--surface);text-decoration:none;color:inherit;transition:all .2s;position:relative;overflow:hidden}
 .quick-link:hover{border-color:var(--pink);transform:translateY(-4px);background:var(--surface-2);box-shadow:0 12px 50px rgba(255,47,142,.18)}
@@ -265,14 +238,11 @@ footer .cyan{color:var(--cyan)}
 footer a{color:var(--text);font-weight:700}
 footer a:hover{color:var(--pink)}
 .footer-brand{font-family:'Bebas Neue','Bebas-fallback',sans-serif;font-size:2.2rem;color:#fff;letter-spacing:.04em;margin-bottom:.5rem;display:block}
-.footer-network{margin:1.2rem auto;display:flex;flex-wrap:wrap;justify-content:center;gap:.3rem .9rem;max-width:760px}
-.footer-network a{color:var(--muted)}
-.footer-network a:hover{color:var(--cyan)}
 .footer-legal{margin-top:1.5rem;font-size:.55rem;color:var(--dim)}
 @media(max-width:540px){.hero{padding:2rem 1rem 2.5rem}.hero h1{font-size:clamp(3.5rem,12vw,7rem)}.section-title{font-size:clamp(2.4rem,8vw,4.5rem)}section{padding:3rem 1rem}}
 </style>
 </head>
-<body>
+<body class="has-sticky-cta">
 
 <a class="skip-link" href="#main">Skip to content</a>
 <div class="slash-bg" aria-hidden="true"></div>
@@ -526,6 +496,6 @@ footer a:hover{color:var(--pink)}
   <a href="/support/" class="cta-support" data-gtm="sticky_support">★ SUPPORT</a>
 </nav>
 
-<script src="/assets/js/pv-live.js?v=20" defer></script>
+<script src="/assets/js/pv-live.js?v=21" defer></script>
 </body>
 </html>

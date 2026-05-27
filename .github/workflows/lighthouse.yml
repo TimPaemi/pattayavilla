@@ -5,10 +5,12 @@ name: Lighthouse CI
 
 on:
   deployment_status:
+  push:
+    branches: [master, main]
 
 jobs:
   lighthouse:
-    if: github.event.deployment_status.state == 'success' && github.event.deployment_status.environment_url != ''
+    if: github.event_name == 'deployment_status' && github.event.deployment_status.state == 'success' && github.event.deployment_status.environment_url != ''
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -35,3 +37,21 @@ jobs:
         run: |
           echo '## Lighthouse scores' >> $GITHUB_STEP_SUMMARY
           echo 'See the uploaded artifacts for per-page Performance, Accessibility, Best Practices, and SEO scores.' >> $GITHUB_STEP_SUMMARY
+
+  lighthouse-production:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Lighthouse on production
+        uses: treosh/lighthouse-ci-action@v11
+        with:
+          urls: |
+            https://pattayastream.com/
+            https://pattayastream.com/about/
+            https://pattayastream.com/support/
+            https://pattayastream.com/format/
+            https://pattayastream.com/faq/
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+          configPath: '.github/workflows/lighthouserc.json'

@@ -1,10 +1,10 @@
-/* PATTAYA VILLA STREAM Service Worker — v3
+/* PATTAYA VILLA STREAM Service Worker — v4
  * - Network-first for HTML (always fresh, falls back to cache, then /offline)
- * - Cache-first for assets (fonts, images, JS)
+ * - Cache-first for assets (fonts, images, JS, CSS)
  * - Navigation preload for faster nav
  * - Aggressive precache of money + content pages
  * - Strict same-origin only; never intercepts cross-origin */
-const VERSION = 'pattayastream-v24-2026-05-27-audit-improve';
+const VERSION = 'pattayastream-v25-2026-05-27-full-audit';
 const OFFLINE_URL = '/offline';
 
 const PRECACHE = [
@@ -12,23 +12,31 @@ const PRECACHE = [
   '/offline', '/404',
   '/manifest.json',
   '/favicon.svg', '/favicon.ico', '/apple-touch-icon.png',
+  '/assets/css/pv-core.css?v=1',
   '/assets/fonts/bebas-neue-400.woff2',
   '/assets/fonts/inter-var.woff2',
   '/assets/fonts/jetbrains-mono-var.woff2',
+  '/assets/js/pv-analytics.js?v=1',
   '/assets/js/web-vitals.iife.js',
-  '/assets/js/pv-live.js?v=20',
+  '/assets/js/pv-live.js?v=21',
   '/assets/og/og-home.jpg',
   '/assets/og/og-support.jpg',
   '/assets/og/og-community.jpg',
   '/assets/og/og-format.jpg',
   '/assets/icons/icon-192.png',
-  '/assets/icons/icon-512.png'
+  '/assets/icons/icon-512.png',
+  '/assets/splash/iphone-se.png',
+  '/assets/splash/iphone-8.png',
+  '/assets/splash/iphone-x.png',
+  '/assets/splash/iphone-11pro-max.png',
+  '/assets/splash/iphone-12-13.png',
+  '/assets/splash/iphone-12-13-pro-max.png',
+  '/assets/splash/iphone-14-pro-max.png'
 ];
 
 self.addEventListener('install', (e) => {
   e.waitUntil((async () => {
     const cache = await caches.open(VERSION);
-    // Use Promise.allSettled so one missing asset doesn't kill the install
     await Promise.allSettled(PRECACHE.map(u => cache.add(new Request(u, {cache:'reload'}))));
     self.skipWaiting();
   })());
@@ -36,14 +44,14 @@ self.addEventListener('install', (e) => {
 
 self.addEventListener('activate', (e) => {
   e.waitUntil((async () => {
-    // Enable navigation preload for faster HTML responses
     if (self.registration.navigationPreload) {
       try { await self.registration.navigationPreload.enable(); } catch(_) {}
     }
-    // Drop old cache versions
     const keys = await caches.keys();
     await Promise.all(keys.filter(k => k !== VERSION).map(k => caches.delete(k)));
     await self.clients.claim();
+    const clients = await self.clients.matchAll({ type: 'window' });
+    clients.forEach(c => { try { c.postMessage({ type: 'SW_UPDATED' }); } catch(_) {} });
   })());
 });
 
@@ -51,9 +59,7 @@ self.addEventListener('fetch', (e) => {
   const req = e.request;
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
-  // Strict same-origin only
   if (url.origin !== self.location.origin) return;
-  // Skip Cloudflare internals + robots + sitemap + .well-known + GA
   if (url.pathname.startsWith('/cdn-cgi/')) return;
   if (url.pathname === '/robots.txt' || url.pathname.endsWith('sitemap.xml')) return;
   if (url.pathname.includes('/.well-known/')) return;
@@ -62,7 +68,6 @@ self.addEventListener('fetch', (e) => {
   const isHTML = req.mode === 'navigate' || accept.includes('text/html');
 
   if (isHTML) {
-    // Network-first with navigation preload, fall back to cache, then /offline
     e.respondWith((async () => {
       const cache = await caches.open(VERSION);
       try {
@@ -83,7 +88,6 @@ self.addEventListener('fetch', (e) => {
   }
 
   if (url.pathname.startsWith('/assets/') || url.pathname.endsWith('.svg') || url.pathname.endsWith('.png') || url.pathname.endsWith('.ico') || url.pathname.endsWith('.woff2')) {
-    // Cache-first for static assets
     e.respondWith((async () => {
       const cache = await caches.open(VERSION);
       const cached = await cache.match(req);

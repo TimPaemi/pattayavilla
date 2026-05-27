@@ -46,11 +46,19 @@
     <lastmod>2026-05-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+    <image:image>
+      <image:loc>https://pattayastream.com/assets/og/og-home.jpg</image:loc>
+      <image:title>Code of Conduct — PATTAYA VILLA STREAM chat rules</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://pattayastream.com/faq/</loc>
     <lastmod>2026-05-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://pattayastream.com/assets/og/og-home.jpg</image:loc>
+      <image:title>FAQ — Common questions · PATTAYA VILLA STREAM</image:title>
+    </image:image>
   </url>
 </urlset>

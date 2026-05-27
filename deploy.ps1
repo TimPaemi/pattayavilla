@@ -59,9 +59,10 @@ if ($leakHits -eq 0) {
 }
 
 Write-Host ""
-Write-Host "[4/4] Auto-update sitemap.xml lastmod..." -ForegroundColor Yellow
+Write-Host "[4/5] Auto-update sitemap.xml + JSON-LD lastmod..." -ForegroundColor Yellow
 if (Test-Path "sitemap.xml") {
     $today = (Get-Date).ToString("yyyy-MM-dd")
+    $isoToday = (Get-Date).ToString("yyyy-MM-dd") + "T00:00:00+07:00"
     $sitemap = Get-Content "sitemap.xml" -Raw
     $updated = [System.Text.RegularExpressions.Regex]::Replace($sitemap, '<lastmod>\d{4}-\d{2}-\d{2}</lastmod>', "<lastmod>$today</lastmod>")
     if ($updated -ne $sitemap) {
@@ -70,7 +71,36 @@ if (Test-Path "sitemap.xml") {
     } else {
         Write-Host "  OK: sitemap.xml lastmod already current" -ForegroundColor Green
     }
+    if (Test-Path "sitemap-network.xml") {
+        $net = Get-Content "sitemap-network.xml" -Raw
+        $netUp = [System.Text.RegularExpressions.Regex]::Replace($net, '(<loc>https://pattayastream\.com/sitemap\.xml</loc>\s*<lastmod>)\d{4}-\d{2}-\d{2}', "`${1}$today")
+        if ($netUp -ne $net) { Set-Content "sitemap-network.xml" -Value $netUp -NoNewline }
+    }
+    foreach ($f in $htmlFiles) {
+        $h = Get-Content $f.FullName -Raw
+        $h2 = [System.Text.RegularExpressions.Regex]::Replace($h, '"dateModified":"\d{4}-\d{2}-\d{2}(?:T[^"]+)?"', "`"dateModified`":`"$isoToday`"")
+        if ($h2 -ne $h) { Set-Content $f.FullName -Value $h2 -NoNewline; Write-Host "  OK: updated dateModified in $($f.Name)" -ForegroundColor Green }
+    }
 }
+
+Write-Host ""
+Write-Host "[5/5] Asset existence check..." -ForegroundColor Yellow
+$assetFail = $false
+$refs = @()
+foreach ($f in $htmlFiles) {
+    $content = Get-Content $f.FullName -Raw
+    foreach ($m in [regex]::Matches($content, '(?:href|src)="(/assets/[^"?]+)')) {
+        $refs += $m.Groups[1].Value
+    }
+}
+$refs = $refs | Select-Object -Unique
+foreach ($r in $refs) {
+    if (-not (Test-Path ".$r")) {
+        Write-Host "  FAIL: missing asset $r" -ForegroundColor Red
+        $assetFail = $true
+    }
+}
+if (-not $assetFail) { Write-Host "  OK: $($refs.Count) asset refs exist" -ForegroundColor Green } else { $valFailed = $true }
 
 if ($valFailed) {
     Write-Host ""

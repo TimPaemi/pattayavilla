@@ -93,7 +93,7 @@ jobs:
           import re, glob, sys
           known = {'/','/about/','/support/','/community/','/format/','/code/','/faq/','/404','/offline',
                    '/manifest.json','/favicon.svg','/favicon.ico','/apple-touch-icon.png',
-                   '/sw.js','/sitemap.xml','/robots.txt'}
+                   '/sw.js','/sitemap.xml','/robots.txt','/offline.html','/404.html'}
           anchors = {'#main','#top','#hero','#when-heading','#tip-tonight','#free','#why-heading','#welcome-heading',
                      '#banned-heading','#scale-heading','#explore-heading','#contact','#become-a-regular',
                      '#become-heading','#typical-night','#the-crew','#chat-is-the-room','#the-vibe','#first-night','#story','#show','#network','#principles'}
@@ -111,9 +111,29 @@ jobs:
                       broken.append((f, h))
           if broken:
               for f, h in broken[:20]:
-                  print(f'::warning file={f}::potentially broken link: {h}')
-          else:
-              print('Internal links: PASS')
+                  print(f'::error file={f}::broken internal link: {h}')
+              sys.exit(1)
+          print('Internal links: PASS')
+          "
+
+      - name: Asset existence check
+        run: |
+          set -e
+          python3 -c "
+          import re, glob, os, sys
+          refs = set()
+          for f in glob.glob('**/*.html', recursive=True):
+              if '_pattayavilla-scaffold' in f: continue
+              html = open(f).read()
+              for m in re.findall(r'(?:href|src)=\"(/assets/[^\"?]+)', html):
+                  refs.add(m.split('?')[0])
+          refs.update(['/assets/css/pv-core.css','/assets/js/pv-analytics.js','/assets/js/pv-live.js','/assets/js/web-vitals.iife.js'])
+          missing = [r for r in sorted(refs) if not os.path.isfile('.' + r)]
+          if missing:
+              for m in missing:
+                  print(f'::error::missing asset: {m}')
+              sys.exit(1)
+          print(f'Asset existence: PASS ({len(refs)} refs)')
           "
 
       - name: Summary

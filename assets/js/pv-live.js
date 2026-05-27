@@ -1,4 +1,4 @@
-/* PATTAYA VILLA STREAM · pv-live.js — v9 (2026-05-27 audit improve)
+/* PATTAYA VILLA STREAM · pv-live.js — v10 (2026-05-27 full audit)
  * Mobile-first usability layer + 2026 platform features:
  *  - Live pill (focal mobile header element)
  *  - Smart sticky CTA (hide on scroll-down, show on scroll-up)
@@ -486,12 +486,57 @@
     });
   }
 
+  /* ---------- share_target landing (?shared=1) ---------- */
+  function handleSharedLanding(){
+    try {
+      var p = new URLSearchParams(location.search);
+      if (!p.has('shared') && !p.has('title') && !p.has('text') && !p.has('url')) return;
+      var main = document.querySelector('main') || document.body;
+      var box = document.createElement('div');
+      box.className = 'pv-shared-banner';
+      box.setAttribute('role', 'status');
+      box.textContent = 'Shared with you — watch live tonight 9 PM ICT';
+      if (main.firstChild) main.insertBefore(box, main.firstChild);
+      else main.appendChild(box);
+      if (typeof gtag === 'function') gtag('event', 'share_target_open', { event_category: 'engagement' });
+    } catch (_) {}
+  }
+
+  /* ---------- SW update toast ---------- */
+  function bindSwUpdate(){
+    if (!('serviceWorker' in navigator)) return;
+    navigator.serviceWorker.addEventListener('message', function(e){
+      if (e.data && e.data.type === 'SW_UPDATED') showSwToast();
+    });
+    navigator.serviceWorker.getRegistration().then(function(reg){
+      if (!reg) return;
+      reg.addEventListener('updatefound', function(){
+        var nw = reg.installing;
+        if (!nw) return;
+        nw.addEventListener('statechange', function(){
+          if (nw.state === 'installed' && navigator.serviceWorker.controller) showSwToast();
+        });
+      });
+    }).catch(function(){});
+  }
+  function showSwToast(){
+    if (document.getElementById('pv-sw-toast')) return;
+    var t = document.createElement('div');
+    t.id = 'pv-sw-toast';
+    t.className = 'pv-sw-toast';
+    t.innerHTML = '<span>Site updated</span><button type="button">Refresh</button>';
+    t.querySelector('button').addEventListener('click', function(){ location.reload(); });
+    document.body.appendChild(t);
+  }
+
   /* ---------- init ---------- */
   function init(){
     injectStyles();
     buildSkipLink();
     markActiveNav();
     bindFaqA11y();
+    handleSharedLanding();
+    bindSwUpdate();
     var bar = document.querySelector('.utility-bar');
     if (bar){ buildLive(bar); buildShare(bar); }
     toggleLiveBanner();
