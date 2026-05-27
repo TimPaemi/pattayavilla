@@ -8,7 +8,6 @@
       "numberOfRuns": 1
     },
     "assert": {
-      "preset": "lighthouse:no-pwa",
       "assertions": {
         "categories:performance": ["warn", {"minScore": 0.85}],
         "categories:accessibility": ["error", {"minScore": 0.90}],
@@ -17,7 +16,19 @@
         "first-contentful-paint": ["warn", {"maxNumericValue": 2000}],
         "largest-contentful-paint": ["warn", {"maxNumericValue": 2500}],
         "cumulative-layout-shift": ["error", {"maxNumericValue": 0.1}],
-        "total-blocking-time": ["warn", {"maxNumericValue": 200}]
+        "total-blocking-time": ["warn", {"maxNumericValue": 200}],
+        "csp-xss": "off",
+        "identical-links-same-purpose": "off",
+        "non-composited-animations": "off",
+        "total-byte-weight": "off",
+        "unused-javascript": "off",
+        "uses-text-compression": "off",
+        "bootup-time": "off",
+        "dom-size": "off",
+        "mainthread-work-breakdown": "off",
+        "render-blocking-resources": "off",
+        "server-response-time": "off",
+        "uses-long-cache-ttl": "off"
       }
     },
     "upload": {

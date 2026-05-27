@@ -1,11 +1,11 @@
-# PATTAYA VILLA STREAM deploy — clean staging deploy with pre-flight validation + allowlist gate
+# PATTAYA VILLA STREAM deploy - clean staging deploy with pre-flight validation + allowlist gate
 Write-Host ""
 Write-Host "===========================================" -ForegroundColor Cyan
 Write-Host "  PATTAYA VILLA STREAM DEPLOY" -ForegroundColor Cyan
 Write-Host "===========================================" -ForegroundColor Cyan
 
 # ============================================================
-# PRE-FLIGHT VALIDATION — fails the deploy if anything is wrong
+# PRE-FLIGHT VALIDATION - fails the deploy if anything is wrong
 # ============================================================
 $ErrorActionPreference = "Stop"
 $valFailed = $false
@@ -35,7 +35,7 @@ foreach ($f in $jsonFiles) {
             $null = Get-Content $f -Raw | ConvertFrom-Json -ErrorAction Stop
             Write-Host "  OK: $f parses" -ForegroundColor Green
         } catch {
-            Write-Host "  FAIL: $f does not parse — $($_.Exception.Message)" -ForegroundColor Red
+            Write-Host "  FAIL: $f does not parse - $($_.Exception.Message)" -ForegroundColor Red
             $valFailed = $true
         }
     }
@@ -46,23 +46,22 @@ Write-Host "[3/5] TODO / PLACEHOLDER leak check (HTML only)..." -ForegroundColor
 $leakHits = 0
 foreach ($f in $htmlFiles) {
     $content = Get-Content $f.FullName -Raw
-    # Find unintended TODO markers — but allow [PLACEHOLDER href ...] which is intentional
-    if ($content -match '\[TODO[^\]]*\]') {
-        Write-Host "  WARN: $($f.FullName.Replace($PWD,'.')) has [TODO] marker" -ForegroundColor Yellow
+    # Find unintended TODO markers - but allow [PLACEHOLDER href ...] which is intentional
+    if ($content -match '\[TODO') {
+        Write-Host "  WARN: $($f.FullName.Replace($PWD,'.')) has `[TODO`] marker" -ForegroundColor Yellow
         $leakHits++
     }
 }
 if ($leakHits -eq 0) {
-    Write-Host "  OK: no [TODO] leaks" -ForegroundColor Green
+    Write-Host "  OK: no `[TODO`] leaks" -ForegroundColor Green
 } else {
-    Write-Host "  $leakHits TODO markers found — review before deploy" -ForegroundColor Yellow
+    Write-Host "  $leakHits TODO markers found - review before deploy" -ForegroundColor Yellow
 }
 
 Write-Host ""
-Write-Host "[4/5] Auto-update sitemap.xml + JSON-LD lastmod..." -ForegroundColor Yellow
+Write-Host "[4/5] Auto-update sitemap.xml lastmod..." -ForegroundColor Yellow
 if (Test-Path "sitemap.xml") {
     $today = (Get-Date).ToString("yyyy-MM-dd")
-    $isoToday = (Get-Date).ToString("yyyy-MM-dd") + "T00:00:00+07:00"
     $sitemap = Get-Content "sitemap.xml" -Raw
     $updated = [System.Text.RegularExpressions.Regex]::Replace($sitemap, '<lastmod>\d{4}-\d{2}-\d{2}</lastmod>', "<lastmod>$today</lastmod>")
     if ($updated -ne $sitemap) {
@@ -70,19 +69,6 @@ if (Test-Path "sitemap.xml") {
         Write-Host "  OK: sitemap.xml lastmod updated to $today" -ForegroundColor Green
     } else {
         Write-Host "  OK: sitemap.xml lastmod already current" -ForegroundColor Green
-    }
-    if (Test-Path "sitemap-network.xml") {
-        $net = Get-Content "sitemap-network.xml" -Raw
-        $netUp = [System.Text.RegularExpressions.Regex]::Replace($net, '(<loc>https://pattayastream\.com/sitemap\.xml</loc>\s*<lastmod>)\d{4}-\d{2}-\d{2}', "`${1}$today")
-        if ($netUp -ne $net) { Set-Content "sitemap-network.xml" -Value $netUp -NoNewline }
-    }
-    foreach ($f in $htmlFiles) {
-        $h = Get-Content $f.FullName -Raw
-        $dq = [char]34
-        $pattern = ($dq.ToString() + 'dateModified' + $dq.ToString() + ':' + $dq.ToString() + '\d{4}-\d{2}-\d{2}(?:T[^' + $dq.ToString() + ']+)?' + $dq.ToString())
-        $replacement = ($dq.ToString() + 'dateModified' + $dq.ToString() + ':' + $dq.ToString() + $isoToday + $dq.ToString())
-        $h2 = [System.Text.RegularExpressions.Regex]::Replace($h, $pattern, $replacement)
-        if ($h2 -ne $h) { Set-Content $f.FullName -Value $h2 -NoNewline; Write-Host "  OK: updated dateModified in $($f.Name)" -ForegroundColor Green }
     }
 }
 
@@ -92,8 +78,8 @@ $assetFail = $false
 $refs = @()
 foreach ($f in $htmlFiles) {
     $content = Get-Content $f.FullName -Raw
-    foreach ($m in [regex]::Matches($content, '(?:href|src)="(/assets/[^"?]+)')) {
-        $refs += $m.Groups[1].Value
+    foreach ($m in [regex]::Matches($content, '/assets/[a-zA-Z0-9/_.-]+')) {
+        $refs += $m.Value
     }
 }
 $refs = $refs | Select-Object -Unique
@@ -120,17 +106,20 @@ Write-Host "  PRE-FLIGHT VALIDATION: PASSED" -ForegroundColor Green
 Write-Host "===========================================" -ForegroundColor Green
 
 # ============================================================
-# STAGING — copy to .deploy-stage, purge disallowed files
+# STAGING - copy to .deploy-stage, purge disallowed files
 # ============================================================
 $STAGE = ".deploy-stage"
 $SRC = "."
 if (Test-Path $STAGE) { Remove-Item -Recurse -Force $STAGE }
-Copy-Item -Recurse -Force $SRC $STAGE | Out-Null
+New-Item -ItemType Directory -Path $STAGE -Force | Out-Null
+Get-ChildItem -Path $SRC -Force | Where-Object { $_.Name -ne $STAGE } | ForEach-Object {
+    Copy-Item -Path $_.FullName -Destination $STAGE -Recurse -Force
+}
 
 $disallow = @(
     'AUDIT*.md','NUKLEAR*.md','*.bak','.DS_Store','Thumbs.db','__pycache__',
     '.deploy-stage','.git','.github','.wrangler','deploy.ps1','README.md','CLAUDE.md',
-    '_pattayavilla-scaffold','index.lock','index.lock.*'
+    '_pattayavilla-scaffold','index.lock'
 )
 foreach ($p in $disallow) {
     Get-ChildItem -Path $STAGE -Recurse -Force -Include $p -ErrorAction SilentlyContinue | ForEach-Object {
