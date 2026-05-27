@@ -30,8 +30,9 @@ Part of the **TIMPAEMI Co., Ltd.** network — **5M+ followers across 60+ social
 Static HTML / CSS / JS — no framework, no build step.
 Deployed on **Cloudflare Pages**. Production: **<https://pattayastream.com>**
 
-### Six indexed pages
+### Seven indexed pages
 - `/` — Homepage · scale signals + hero + quick-links
+- `/about/` — Tim & Paemi story · villa · 11-site network
 - `/support/` — YouTube-only support · 3 free paths + 2 live-stream paths (Super Chat / Super Thanks)
 - `/community/` — Mods, heroes, regulars · anonymous by design
 - `/format/` — How the show works · 4-section breakdown

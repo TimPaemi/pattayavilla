@@ -1,9 +1,8 @@
-/* PATTAYA VILLA STREAM · pv-live.js — v7 (2026-05-18 mobile-deep)
+/* PATTAYA VILLA STREAM · pv-live.js — v8 (2026-05-27 audit pass)
  * Mobile-first usability layer + 2026 platform features:
  *  - Live pill (focal mobile header element)
  *  - Smart sticky CTA (hide on scroll-down, show on scroll-up)
  *  - Reading progress bar on Article pages
- *  - PWA install prompt (beforeinstallprompt capture)
  *  - Marquee mask + IntersectionObserver pause-when-hidden
  *  - Skip-to-main a11y link
  *  - Vibration API on critical CTA taps

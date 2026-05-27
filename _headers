@@ -39,6 +39,8 @@
   Cache-Control: public, max-age=300, s-maxage=86400, stale-while-revalidate=604800
 /format/
   Cache-Control: public, max-age=300, s-maxage=86400, stale-while-revalidate=604800
+/about/
+  Cache-Control: public, max-age=300, s-maxage=86400, stale-while-revalidate=604800
 /code/
   Cache-Control: public, max-age=300, s-maxage=86400, stale-while-revalidate=604800
 /faq/

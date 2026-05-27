@@ -12,8 +12,9 @@ Audience-driven: support page + community recognition + show explainer.
 - Production branch: `master`
 
 ## Working surface
-**Repo root = deployable surface.** 6 indexed pages:
+**Repo root = deployable surface.** 7 indexed pages:
 - `/` (homepage — louder hero, network bar, quick-links to all sub-pages)
+- `/about/` (Tim & Paemi story, villa, 11-site network — indexed)
 - `/support/` (YouTube-only for now: Subscribe + Watch + Share + Super Chat + Super Thanks. **NO crypto. NO Patreon/PayPal/Ko-fi/BMC/Thai QR.** Tim adds more paths step by step.)
 - `/community/` (mods + heroes + regulars — **anonymous on site, shoutouts on stream**. Only Tim & Paemi publicly named. noindex.)
 - `/format/` (how the show works — unscripted, **chat is the room**. Music is copyright-free and pre-queued. Never leave villa. No random calls.)
