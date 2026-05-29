@@ -4,7 +4,7 @@
  * - Navigation preload for faster nav
  * - Aggressive precache of money + content pages
  * - Strict same-origin only; never intercepts cross-origin */
-const VERSION = 'pattayastream-v27-2026-05-28-audit-sync';
+const VERSION = 'pattayastream-v29-2026-05-28-footer-fix';
 const OFFLINE_URL = '/offline';
 
 const PRECACHE = [
@@ -12,13 +12,15 @@ const PRECACHE = [
   '/offline', '/404',
   '/manifest.json',
   '/favicon.svg', '/favicon.ico', '/apple-touch-icon.png',
-  '/assets/css/pv-core.css?v=3',
+  '/assets/css/pv-core.css?v=5',
+  '/assets/css/pv-home.css?v=5',
+  '/assets/css/pv-sub.css?v=5',
   '/assets/fonts/bebas-neue-400.woff2',
   '/assets/fonts/inter-var.woff2',
   '/assets/fonts/jetbrains-mono-var.woff2',
   '/assets/js/pv-analytics.js?v=1',
   '/assets/js/web-vitals.iife.js',
-  '/assets/js/pv-live.js?v=21',
+  '/assets/js/pv-live.js?v=23',
   '/assets/og/og-home.jpg',
   '/assets/og/og-support.jpg',
   '/assets/og/og-community.jpg',
@@ -50,8 +52,7 @@ self.addEventListener('activate', (e) => {
     const keys = await caches.keys();
     await Promise.all(keys.filter(k => k !== VERSION).map(k => caches.delete(k)));
     await self.clients.claim();
-    const clients = await self.clients.matchAll({ type: 'window' });
-    clients.forEach(c => { try { c.postMessage({ type: 'SW_UPDATED' }); } catch(_) {} });
+    /* Do not broadcast SW_UPDATED — pv-live.js shows toast only when a waiting worker exists */
   })());
 });
 
