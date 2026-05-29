@@ -24,6 +24,7 @@ backups/
 # Logs
 *.log
 *.tmp
-# Generated
+# Local workspace docs (not deployed)
+AGENTS.md
 *.dll
 *.exe

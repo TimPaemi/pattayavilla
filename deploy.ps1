@@ -118,7 +118,7 @@ Get-ChildItem -Path $SRC -Force | Where-Object { $_.Name -ne $STAGE } | ForEach-
 
 $disallow = @(
     'AUDIT*.md','NUKLEAR*.md','*.bak','.DS_Store','Thumbs.db','__pycache__',
-    '.deploy-stage','.git','.github','.wrangler','deploy.ps1','README.md','CLAUDE.md',
+    '.deploy-stage','.git','.github','.wrangler','deploy.ps1','README.md','CLAUDE.md','AGENTS.md',
     '_pattayavilla-scaffold','index.lock'
 )
 foreach ($p in $disallow) {
