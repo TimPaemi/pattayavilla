@@ -1,64 +1,93 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- PATTAYA VILLA STREAM · sitemap.xml
+     Indexed pages only (6). Excluded by design: /community/ (noindex), /404, /offline.
+     Last full SEO audit: 2026-05-28 -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
   <url>
     <loc>https://pattayastream.com/</loc>
-    <lastmod>2026-05-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pattayastream.com/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pattayastream.com/"/>
+    <lastmod>2026-05-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     <image:image>
       <image:loc>https://pattayastream.com/assets/og/og-home.jpg</image:loc>
       <image:title>PATTAYA VILLA STREAM — Nightly Livestream by Tim &amp; Paemi</image:title>
+      <image:caption>Live every night 9 PM ICT from a Pattaya villa · chat is the room</image:caption>
     </image:image>
   </url>
+
   <url>
     <loc>https://pattayastream.com/support/</loc>
-    <lastmod>2026-05-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pattayastream.com/support/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pattayastream.com/support/"/>
+    <lastmod>2026-05-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <image:image>
       <image:loc>https://pattayastream.com/assets/og/og-support.jpg</image:loc>
-      <image:title>Support PATTAYA VILLA STREAM — subscribe, watch, Super Chat</image:title>
+      <image:title>Support PATTAYA VILLA STREAM — Subscribe, Watch, Super Chat</image:title>
+      <image:caption>YouTube-only support paths · every donation gets a live shoutout</image:caption>
     </image:image>
   </url>
+
   <url>
     <loc>https://pattayastream.com/format/</loc>
-    <lastmod>2026-05-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pattayastream.com/format/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pattayastream.com/format/"/>
+    <lastmod>2026-05-29</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.85</priority>
     <image:image>
       <image:loc>https://pattayastream.com/assets/og/og-format.jpg</image:loc>
-      <image:title>The Format — How PATTAYA VILLA STREAM works</image:title>
+      <image:title>The Format — How PATTAYA VILLA STREAM Works</image:title>
+      <image:caption>9 PM ICT · 6–8 hours nightly · unscripted villa show · chat is the room</image:caption>
     </image:image>
   </url>
+
   <url>
     <loc>https://pattayastream.com/about/</loc>
-    <lastmod>2026-05-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pattayastream.com/about/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pattayastream.com/about/"/>
+    <lastmod>2026-05-29</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.85</priority>
     <image:image>
       <image:loc>https://pattayastream.com/assets/og/og-home.jpg</image:loc>
       <image:title>About — Tim &amp; Paemi · PATTAYA VILLA STREAM</image:title>
+      <image:caption>Tim &amp; Paemi · TIMPAEMI Co., Ltd. · Pattaya-Authority network</image:caption>
     </image:image>
   </url>
-  <url>
-    <loc>https://pattayastream.com/code/</loc>
-    <lastmod>2026-05-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-    <image:image>
-      <image:loc>https://pattayastream.com/assets/og/og-home.jpg</image:loc>
-      <image:title>Code of Conduct — PATTAYA VILLA STREAM chat rules</image:title>
-    </image:image>
-  </url>
+
   <url>
     <loc>https://pattayastream.com/faq/</loc>
-    <lastmod>2026-05-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pattayastream.com/faq/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pattayastream.com/faq/"/>
+    <lastmod>2026-05-29</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
     <image:image>
       <image:loc>https://pattayastream.com/assets/og/og-home.jpg</image:loc>
-      <image:title>FAQ — Common questions · PATTAYA VILLA STREAM</image:title>
+      <image:title>FAQ — Common Questions · PATTAYA VILLA STREAM</image:title>
+      <image:caption>Schedule, timezones, how to watch, support, and contact</image:caption>
     </image:image>
   </url>
+
+  <url>
+    <loc>https://pattayastream.com/code/</loc>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pattayastream.com/code/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pattayastream.com/code/"/>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://pattayastream.com/assets/og/og-home.jpg</image:loc>
+      <image:title>Code of Conduct — PATTAYA VILLA STREAM Chat Rules</image:title>
+      <image:caption>House rules for the villa stream chat · one warning, then ban</image:caption>
+    </image:image>
+  </url>
+
 </urlset>

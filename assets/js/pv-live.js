@@ -70,14 +70,14 @@
       '.live-status.is-offline .dot{background:rgba(255,255,255,.4);animation:none}',
       '.live-status a{color:inherit;text-decoration:none}',
       '.live-status a:hover{color:#ffe156}',
-      '.utility-bar a[aria-current="page"]{color:#ffe156;text-decoration:underline;text-decoration-color:#ff2f8e;text-underline-offset:3px;text-decoration-thickness:2px}',
+      '.utility-scroll a[aria-current="page"]{color:#ffe156;text-decoration:underline;text-decoration-color:#ff2f8e;text-underline-offset:3px;text-decoration-thickness:2px}',
       '.site-footer .footer-grid a[aria-current="page"] strong{color:#ffe156}',
       '.site-footer .footer-grid a[aria-current="page"]{border-color:#ff2f8e}',
       /* === Marquee mask + paused state === */
       '.marquee{mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent)}',
       '.marquee.is-paused .marquee-track{animation-play-state:paused}',
       /* === Share button + dialog === */
-      '.pv-share{position:relative;display:inline-flex;align-items:center;gap:.4rem;color:#00e5ff;font-weight:800;letter-spacing:1.6px;cursor:pointer;background:none;border:none;font-family:inherit;font-size:inherit;text-transform:inherit;padding:0;line-height:inherit}',
+      '.pv-share{cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}',
       '.pv-share:hover{color:#fff}',
       '.pv-share:focus-visible{outline:2px solid #00e5ff;outline-offset:3px;border-radius:3px}',
       'dialog.pv-share-dialog{padding:0;border:none;background:transparent;color:inherit;max-width:none;max-height:none}',
@@ -221,9 +221,23 @@
     return {h: Math.floor(ms / 3600000), m: Math.floor((ms % 3600000) / 60000)};
   }
 
+  /* ---------- utility bar action slot (live + share) ---------- */
+  function utilityActions(bar){
+    var el = bar.querySelector('.utility-bar-actions');
+    if (!el) {
+      el = document.createElement('div');
+      el.className = 'utility-bar-actions';
+      bar.insertBefore(el, bar.firstChild);
+    }
+    return el;
+  }
+
+  function isCompactBar(){ try { return window.matchMedia('(max-width:760px)').matches; } catch (_) { return false; } }
+
   /* ---------- live indicator ---------- */
   function buildLive(bar){
     if(!bar || bar.querySelector('.live-status')) return;
+    var actions = utilityActions(bar);
     var wrap = document.createElement('a');
     wrap.className = 'live-status';
     wrap.href = 'https://www.youtube.com/@timpaemi/live?utm_source=pattayastream&utm_medium=live_pill&utm_campaign=watch';
@@ -232,19 +246,20 @@
     var dot = document.createElement('span'); dot.className = 'dot';
     var txt = document.createElement('span'); txt.className = 'txt';
     wrap.appendChild(dot); wrap.appendChild(txt);
-    bar.insertBefore(wrap, bar.firstChild);
-    var sep = document.createElement('span'); sep.className = 'separator'; sep.textContent = '·';
-    bar.insertBefore(sep, wrap.nextSibling);
+    actions.appendChild(wrap);
     tickLive(wrap);
     setInterval(function(){ tickLive(wrap); }, 60000);
+    try { window.matchMedia('(max-width:760px)').addEventListener('change', function(){ tickLive(wrap); }); } catch (_) {}
   }
   function tickLive(el){
     var txt = el.querySelector('.txt'); if(!txt) return;
-    if (isLiveICT()){ el.classList.remove('is-offline'); txt.textContent = 'LIVE NOW · WATCH'; }
+    var compact = isCompactBar();
+    if (isLiveICT()){ el.classList.remove('is-offline'); txt.textContent = compact ? 'LIVE' : 'LIVE NOW · WATCH'; }
     else {
       el.classList.add('is-offline');
       var t = hoursUntilLive();
-      txt.textContent = (t && (t.h || t.m)) ? 'NEXT LIVE IN ' + t.h + 'H ' + t.m + 'M' : 'LIVE NIGHTLY 9 PM ICT';
+      if (t && (t.h || t.m)) txt.textContent = compact ? (t.h + 'H ' + t.m + 'M') : ('NEXT LIVE IN ' + t.h + 'H ' + t.m + 'M');
+      else txt.textContent = compact ? '9 PM ICT' : 'LIVE NIGHTLY 9 PM ICT';
     }
   }
 
@@ -253,15 +268,14 @@
   /* ---------- share dialog ---------- */
   function buildShare(bar){
     if(!bar || bar.querySelector('.pv-share')) return;
+    var actions = utilityActions(bar);
     var btn = document.createElement('button');
     btn.type = 'button'; btn.className = 'pv-share';
     btn.setAttribute('aria-haspopup','dialog');
     btn.setAttribute('aria-expanded','false');
     btn.setAttribute('aria-label','Open share menu');
-    btn.textContent = '★ SHARE';
-    var sep = document.createElement('span'); sep.className = 'separator'; sep.textContent = '·';
-    bar.insertBefore(sep, bar.firstChild);
-    bar.insertBefore(btn, bar.firstChild);
+    btn.textContent = 'SHARE';
+    actions.appendChild(btn);
     var dlg = document.createElement('dialog');
     dlg.className = 'pv-share-dialog';
     dlg.setAttribute('aria-label','Share this page');
@@ -305,7 +319,7 @@
   function markActiveNav(){
     var p = location.pathname;
     if (p !== '/' && p.length > 1 && p[p.length-1] !== '/') p = p + '/';
-    ['.utility-bar a', '.site-footer .footer-grid a'].forEach(function(sel){
+    ['.utility-scroll a', '.site-footer .footer-grid a'].forEach(function(sel){
       document.querySelectorAll(sel).forEach(function(a){
         try { var u = new URL(a.href, location.origin); if (u.origin === location.origin && u.pathname === p) a.setAttribute('aria-current','page'); } catch(_) {}
       });
