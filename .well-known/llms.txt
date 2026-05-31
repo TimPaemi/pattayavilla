@@ -49,7 +49,7 @@ The operator is keeping support simple and YouTube-only for now. More paths will
 
 ## The TIMPAEMI Co., Ltd. network
 
-PATTAYA VILLA STREAM is one site in an 14-site Pattaya network all operated by the same parent company:
+PATTAYA VILLA STREAM is one site in a 14-site Pattaya network all operated by the same parent company:
 
 - [https://pattayastream.com/](https://pattayastream.com/) — this site (the show)
 - [https://timpaemi.com/](https://timpaemi.com/) — the brand site
@@ -62,8 +62,9 @@ PATTAYA VILLA STREAM is one site in an 14-site Pattaya network all operated by t
 - [https://pattaya-medical.com/](https://pattaya-medical.com/) — Pattaya medical + healthcare
 - [https://pattayapets.com/](https://pattayapets.com/) — Pattaya pets + vets
 - [https://pattaya-vehicle-rentals.com/](https://pattaya-vehicle-rentals.com/) — Pattaya vehicle rentals
-
-Additional network properties are in development (personal trainer, restaurant brands, etc.) — not yet in the public sitemap index.
+- [https://pattayapersonaltrainer.com/](https://pattayapersonaltrainer.com/) — Pattaya personal trainer
+- [https://pattayaolympian.com/](https://pattayaolympian.com/) — Olympian Greek souvlaki
+- [https://mrweoutside.com/](https://mrweoutside.com/) — Mr. We Outside
 
 ## Scale
 
