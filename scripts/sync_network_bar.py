@@ -260,6 +260,63 @@ def patch_html(text: str, site_count: int) -> tuple[str, bool]:
         text = new
         changed = True
 
+    text = clean_network_blank_lines(text)
+    return text, changed
+
+
+def clean_network_blank_lines(text: str) -> str:
+    """Strip runaway blank lines after network chrome (sync drift artifact)."""
+    text = re.sub(
+        r'(<div class="utility-scroll">\n(?:.*\n)*?'
+        r'    <a href="https://mrweoutside\.com/"[^>]*>[^<]+</a>)\n(?:[ \t]*\n)+',
+        r'\1\n',
+        text,
+    )
+    text = re.sub(
+        r'(<ul class="footer-grid">\n(?:.*\n)*?'
+        r'        <li><a href="https://mrweoutside\.com/"[^>]*>.*?</a></li>)\n(?:[ \t]*\n)+',
+        r'\1\n',
+        text,
+    )
+    return text
+
+
+def ensure_utility_bar_actions(text: str) -> tuple[str, bool]:
+    if 'utility-bar-actions' in text or 'utility-bar"' not in text:
+        return text, False
+    new, n = re.subn(
+        r'(<div class="utility-bar" aria-label="TIMPAEMI Pattaya network">\n)',
+        r'\1  <div class="utility-bar-actions"></div>\n',
+        text,
+        count=1,
+    )
+    return (new, n > 0) if n else (text, False)
+
+
+def ensure_collapsible_footer(text: str) -> tuple[str, bool]:
+    if 'footer-network-details' in text or 'footer-network-heading' not in text:
+        return text, False
+    changed = False
+    new, n = re.subn(
+        r'<section class="footer-block" aria-labelledby="footer-network-heading">\n'
+        r'\s*<h3 id="footer-network-heading" class="footer-h">(★ THE \d+-SITE PATTAYA NETWORK)</h3>',
+        r'<details class="footer-network-details">\n'
+        r'      <summary id="footer-network-heading" class="footer-h">\1</summary>',
+        text,
+        count=1,
+    )
+    if n:
+        text = new
+        changed = True
+    new, n = re.subn(
+        r'</ul>\n\s*</section>\n\n\s*<section class="footer-block" aria-labelledby="footer-follow-heading">',
+        '</ul>\n    </details>\n\n    <section class="footer-block" aria-labelledby="footer-follow-heading">',
+        text,
+        count=1,
+    )
+    if n:
+        text = new
+        changed = True
     return text, changed
 
 
@@ -298,6 +355,10 @@ def sync_html(manifest: dict, fix: bool) -> tuple[bool, int]:
         if 'utility-scroll' not in text:
             continue
         patched, changed = patch_html(text, site_count)
+        patched, a = ensure_utility_bar_actions(patched)
+        changed = changed or a
+        patched, f = ensure_collapsible_footer(patched)
+        changed = changed or f
         drift = bar_domains(text) != expected_domains or bar_domains(patched) != expected_domains
         if '// THE PATTAYA AUTHORITY NETWORK · 11 PROPERTIES' in text:
             drift = True
