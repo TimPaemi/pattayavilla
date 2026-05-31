@@ -87,6 +87,7 @@ Additional network properties are in development (personal trainer, restaurant b
 - Network sitemap index: [https://pattayastream.com/sitemap-network.xml](https://pattayastream.com/sitemap-network.xml)
 - IndexNow key: [https://pattayastream.com/psindex2026pattayastreamkey.txt](https://pattayastream.com/psindex2026pattayastreamkey.txt)
 - Weekly automated SEO + network audits run in CI on every push
+- IndexNow pings run on every deploy (global API + Bing endpoint)
 
 ## Contact
 

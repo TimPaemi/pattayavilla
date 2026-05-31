@@ -1,0 +1,62 @@
+# Weekly inbound link report — opens a GitHub issue if sister sites drop pattayastream links
+name: Inbound link report
+
+on:
+  schedule:
+    - cron: '0 7 * * 1'
+  workflow_dispatch:
+
+permissions:
+  issues: write
+
+jobs:
+  inbound-report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run inbound audit
+        run: python3 scripts/inbound_audit.py
+
+      - name: Open issue when inbound links are missing
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          missing=$(python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path('.inbound-audit.json')
+          if not p.exists():
+              print('')
+          else:
+              d = json.loads(p.read_text())
+              print(','.join(
+                  k for k, v in d.get('sites', {}).items()
+                  if v.get('status') == 'missing'
+              ))
+          PY
+          )
+          if [ -z "$missing" ]; then
+            echo "All sister sites link back — no issue needed."
+            echo "## Inbound report: all clear" >> $GITHUB_STEP_SUMMARY
+            echo "10/10 sister homepages link to pattayastream.com" >> $GITHUB_STEP_SUMMARY
+            exit 0
+          fi
+          title="Inbound link gap: sister sites missing pattayastream.com ($(date +%Y-%m-%d))"
+          body="$(cat <<EOF
+          ## Inbound link audit — action needed
+
+          The weekly probe found sister-site homepages **without** a link to pattayastream.com:
+
+          \`\`\`
+          $missing
+          \`\`\`
+
+          Fix in each repo's own window (utility bar / footer / homepage). Re-run the **Inbound link report** workflow after updates.
+
+          Automated by \`.github/workflows/inbound-report.yml\` on pattayavilla.
+          EOF
+          )"
+          gh issue create --title "$title" --body "$body"
+          echo "## Inbound report: issue opened" >> $GITHUB_STEP_SUMMARY
+          echo "Missing domains: $missing" >> $GITHUB_STEP_SUMMARY

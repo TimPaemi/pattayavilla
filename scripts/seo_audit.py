@@ -169,6 +169,31 @@ def audit_faq_mesh_links() -> None:
         ok('FAQ format + code mesh links wired')
 
 
+def audit_speakable_selectors() -> None:
+    html = (ROOT / 'index.html').read_text(encoding='utf-8')
+    required = ['class="hero-sub"', 'class="hero-meta"', 'id="when-heading"', 'class="tz-grid"']
+    missing = [s for s in required if s not in html]
+    if missing:
+        fail(f'homepage missing speakable targets: {missing}')
+    else:
+        ok('homepage speakable CSS targets present')
+
+
+def audit_support_backlinks() -> None:
+    support = (ROOT / 'support/index.html').read_text(encoding='utf-8')
+    format_html = (ROOT / 'format/index.html').read_text(encoding='utf-8')
+    if '/faq/' not in support:
+        warn('support page missing /faq/ link')
+    if '/code/' not in support:
+        warn('support page missing /code/ link')
+    if '/faq/' not in format_html:
+        warn('format page missing /faq/ link')
+    if '/support/#tip-tonight' not in format_html:
+        warn('format page missing /support/#tip-tonight deep link')
+    else:
+        ok('support + format cross-links wired')
+
+
 DEDICATED_OG = {
     'about/index.html': 'og-about.jpg',
     'faq/index.html': 'og-faq.jpg',
@@ -254,6 +279,8 @@ def main() -> int:
     audit_llms_txt()
     audit_support_deep_links()
     audit_faq_mesh_links()
+    audit_speakable_selectors()
+    audit_support_backlinks()
     audit_date_modified()
     print()
     if warnings:

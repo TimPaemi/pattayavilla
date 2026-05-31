@@ -153,29 +153,8 @@ if ($LASTEXITCODE -ne 0) {
 }
 Remove-Item -Recurse -Force $STAGE
 Write-Host ""
-Write-Host "Post-deploy: IndexNow ping..." -ForegroundColor Yellow
-$indexKey = "psindex2026pattayastreamkey"
-$urlList = @()
-if (Test-Path "sitemap.xml") {
-    $sm = Get-Content "sitemap.xml" -Raw
-    foreach ($m in [regex]::Matches($sm, '<loc>(https://pattayastream.com[^<]+)</loc>')) {
-        $urlList += $m.Groups[1].Value
-    }
-}
-if ($urlList.Count -gt 0) {
-    $body = @{
-        host = "pattayastream.com"
-        key = $indexKey
-        keyLocation = "https://pattayastream.com/$indexKey.txt"
-        urlList = $urlList
-    } | ConvertTo-Json -Depth 3
-    try {
-        $null = Invoke-RestMethod -Uri "https://api.indexnow.org/indexnow" -Method Post -Body $body -ContentType "application/json" -TimeoutSec 30
-        Write-Host "  OK: IndexNow pinged $($urlList.Count) URLs" -ForegroundColor Green
-    } catch {
-        Write-Host "  WARN: IndexNow ping failed - $($_.Exception.Message)" -ForegroundColor Yellow
-    }
-}
+Write-Host "Post-deploy: IndexNow ping (global + Bing)..." -ForegroundColor Yellow
+python scripts/indexnow_ping.py
 Write-Host ""
 Write-Host "Post-deploy: GSC sitemap submit (optional)..." -ForegroundColor Yellow
 python scripts/gsc_submit.py
