@@ -103,7 +103,7 @@ jobs:
                      '#why-community-heading','#mods-community-heading','#every-viewer-heading',
                      '#tier-mods','#tier-heroes','#tier-regulars',
                      '#scale-heading','#explore-heading','#contact','#become-a-regular',
-                     '#become-heading','#typical-night','#the-crew','#chat-is-the-room','#the-vibe','#first-night','#story','#show','#network','#principles'}
+                     '#become-heading','#typical-night','#the-crew','#chat-is-the-room','#the-vibe','#first-night','#story','#show','#network','#principles','#this-site','#new-here'}
           broken = []
           for f in glob.glob('**/*.html', recursive=True):
               if '_pattayavilla-scaffold' in f: continue
