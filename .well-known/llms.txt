@@ -22,22 +22,22 @@ PATTAYA VILLA STREAM is the dedicated home for the nightly livestream by **Tim**
 - Thailand does not observe daylight saving — the 9 PM ICT (UTC+7) start never shifts
 - **6 to 8 hours** per stream
 - Sign-off typically around 2–3 AM ICT
+- **Live window:** 21:00–03:00 Asia/Bangkok daily (JSON-LD `isLiveBroadcast` toggles automatically during this window)
 
 ## How to watch
 
 - Primary channel: [https://www.youtube.com/@timpaemi/live](https://www.youtube.com/@timpaemi/live)
 - Short link: [https://timpaemi.com/live](https://timpaemi.com/live)
-- Live during 21:00–03:00 Asia/Bangkok daily
 
 ## How to support
 
 Currently active support paths:
 
-1. **Subscribe with the bell** on YouTube — free, biggest algorithm signal
+1. **Subscribe with the bell** on YouTube — free, biggest algorithm signal → [https://pattayastream.com/support/#free](https://pattayastream.com/support/#free)
 2. **Watch live** — free, watch time rewards the channel
 3. **Share the stream link** — free word-of-mouth
-4. **Super Chat** — paid, during the live stream, pins your message and earns a live shoutout
-5. **Super Thanks** — paid, on uploaded VODs, earns a live shoutout
+4. **Super Chat** — paid, during the live stream, pins your message and earns a live shoutout → [https://pattayastream.com/support/#tip-tonight](https://pattayastream.com/support/#tip-tonight)
+5. **Super Thanks** — paid, on uploaded VODs, earns a live shoutout → [https://pattayastream.com/support/#tip-tonight](https://pattayastream.com/support/#tip-tonight)
 
 What we **do not accept**:
 - No Patreon
@@ -63,6 +63,8 @@ PATTAYA VILLA STREAM is one site in an 11-site Pattaya network all operated by t
 - [https://pattayapets.com/](https://pattayapets.com/) — Pattaya pets + vets
 - [https://pattaya-vehicle-rentals.com/](https://pattaya-vehicle-rentals.com/) — Pattaya vehicle rentals
 
+Additional network properties are in development (personal trainer, restaurant brands, etc.) — not yet in the public sitemap index.
+
 ## Scale
 
 - 5,000,000+ followers across 60+ social accounts (network-wide)
@@ -77,7 +79,14 @@ PATTAYA VILLA STREAM is one site in an 11-site Pattaya network all operated by t
 - [Support](https://pattayastream.com/support/) — five active support paths (3 free, 2 paid via YouTube)
 - [Community](https://pattayastream.com/community/) — the shoutout policy (live on stream, anonymous on site)
 - [Code of Conduct](https://pattayastream.com/code/) — chat house rules
-- [FAQ](https://pattayastream.com/faq/) — seventeen common questions
+- [FAQ](https://pattayastream.com/faq/) — twenty common questions with JSON-LD FAQPage schema
+
+## Discovery + SEO automation
+
+- Sitemap: [https://pattayastream.com/sitemap.xml](https://pattayastream.com/sitemap.xml)
+- Network sitemap index: [https://pattayastream.com/sitemap-network.xml](https://pattayastream.com/sitemap-network.xml)
+- IndexNow key: [https://pattayastream.com/psindex2026pattayastreamkey.txt](https://pattayastream.com/psindex2026pattayastreamkey.txt)
+- Weekly automated SEO + network audits run in CI on every push
 
 ## Contact
 

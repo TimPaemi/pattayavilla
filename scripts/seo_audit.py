@@ -177,6 +177,45 @@ def audit_sitemap_og_images() -> None:
     ok('sitemap OG images match dedicated assets')
 
 
+def audit_og_file_sizes() -> None:
+    max_bytes = 80_000
+    og_dir = ROOT / 'assets' / 'og'
+    for f in og_dir.glob('*.jpg'):
+        size = f.stat().st_size
+        if size > max_bytes:
+            warn(f'{f.name} is {size:,} bytes — target under {max_bytes:,}')
+    ok('OG image size check complete')
+
+
+def audit_llms_txt() -> None:
+    path = ROOT / '.well-known' / 'llms.txt'
+    if not path.exists():
+        fail('llms.txt missing')
+        return
+    text = path.read_text(encoding='utf-8')
+    html = (ROOT / 'faq/index.html').read_text(encoding='utf-8')
+    faq_count = len(re.findall(r'<details name="faq"', html))
+    if f'{faq_count} common questions' not in text and f'twenty common questions' not in text.lower():
+        # accept spelled-out twenty for 20
+        num_words = {17: 'seventeen', 18: 'eighteen', 19: 'nineteen', 20: 'twenty'}
+        expected = num_words.get(faq_count, str(faq_count))
+        if expected not in text.lower():
+            fail(f'llms.txt FAQ count stale — expected ~{faq_count} ({expected})')
+    if 'pattayastream.com/support/#free' not in text:
+        fail('llms.txt missing support/#free deep link')
+    ok('llms.txt current')
+
+
+def audit_support_deep_links() -> None:
+    faq = (ROOT / 'faq/index.html').read_text(encoding='utf-8')
+    if faq.count('/support/#free') < 2:
+        warn('FAQ has fewer than 2 links to /support/#free')
+    if faq.count('/support/#tip-tonight') < 4:
+        warn('FAQ has fewer than 4 links to /support/#tip-tonight')
+    else:
+        ok('FAQ support deep links wired')
+
+
 def main() -> int:
     print('=== PATTAYA VILLA STREAM SEO AUDIT ===\n')
     audit_sitemap()
@@ -187,6 +226,9 @@ def main() -> int:
     audit_faq_schema()
     audit_dedicated_og()
     audit_sitemap_og_images()
+    audit_og_file_sizes()
+    audit_llms_txt()
+    audit_support_deep_links()
     audit_date_modified()
     print()
     if warnings:

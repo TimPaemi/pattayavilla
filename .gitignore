@@ -26,5 +26,6 @@ backups/
 *.tmp
 # Local workspace docs (not deployed)
 AGENTS.md
+.inbound-audit.json
 *.dll
 *.exe

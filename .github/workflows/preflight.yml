@@ -142,6 +142,9 @@ jobs:
       - name: Network audit
         run: python3 scripts/network_audit.py
 
+      - name: Inbound audit
+        run: python3 scripts/inbound_audit.py
+
       - name: Summary
         run: |
           echo '## Pre-flight: ALL CHECKS PASSED' >> $GITHUB_STEP_SUMMARY

@@ -11,13 +11,20 @@ $ErrorActionPreference = "Stop"
 $valFailed = $false
 
 Write-Host ""
-Write-Host "[1/6] SEO audit..." -ForegroundColor Yellow
+Write-Host "[1/6] SEO + network audit..." -ForegroundColor Yellow
 python scripts/seo_audit.py
 if ($LASTEXITCODE -ne 0) {
     Write-Host "  FAIL: SEO audit failed" -ForegroundColor Red
     $valFailed = $true
 } else {
     Write-Host "  OK: SEO audit passed" -ForegroundColor Green
+}
+python scripts/network_audit.py
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "  FAIL: Network audit failed" -ForegroundColor Red
+    $valFailed = $true
+} else {
+    Write-Host "  OK: Network audit passed" -ForegroundColor Green
 }
 
 Write-Host ""
@@ -176,6 +183,9 @@ if ($urlList.Count -gt 0) {
 Write-Host ""
 Write-Host "Post-deploy: GSC sitemap submit (optional)..." -ForegroundColor Yellow
 python scripts/gsc_submit.py
+Write-Host ""
+Write-Host "Post-deploy: Inbound link audit (sister sites)..." -ForegroundColor Yellow
+python scripts/inbound_audit.py
 Write-Host ""
 Write-Host "===========================================" -ForegroundColor Green
 Write-Host "  LIVE: https://pattayastream.com/" -ForegroundColor Green
