@@ -275,6 +275,61 @@ def audit_network_strap() -> None:
     ok(f'network strap shows {count} properties')
 
 
+def _selector_in_html(html: str, sel: str) -> bool:
+    if sel.startswith('#'):
+        return f'id="{sel[1:]}"' in html
+    if sel.startswith('.'):
+        cls = sel[1:]
+        return (
+            f'class="{cls}"' in html
+            or f'class="{cls} ' in html
+            or f' {cls}"' in html
+            or f' {cls} ' in html
+        )
+    return sel in html
+
+
+def audit_speakable_dom() -> None:
+    checks = {
+        'code/index.html': ['#why-code-heading', '#welcome-heading', '#banned-heading'],
+        'community/index.html': ['#become-heading', '#why-heading', '.tier-name'],
+        'support/index.html': ['#free', '#tip-tonight', '#how-support-heading', '.support-card-name', '.equal-paths-a'],
+        'format/index.html': ['#typical-night', '#chat-is-the-room', '#the-vibe', '#first-night'],
+    }
+    bad = []
+    for rel, selectors in checks.items():
+        html = (ROOT / rel).read_text(encoding='utf-8')
+        for sel in selectors:
+            if not _selector_in_html(html, sel):
+                bad.append(f'{rel} missing speakable target {sel}')
+    if bad:
+        fail(f'speakable CSS targets missing in DOM: {bad[:6]}')
+    ok('subpage speakable selectors present in DOM')
+
+
+def audit_end_cta_support() -> None:
+    pages = (
+        'about/index.html',
+        'format/index.html',
+        'faq/index.html',
+        'community/index.html',
+        'code/index.html',
+    )
+    bad = []
+    for rel in pages:
+        text = (ROOT / rel).read_text(encoding='utf-8')
+        block = text.split('class="end-cta"', 1)
+        if len(block) < 2:
+            bad.append(f'{rel} missing end-cta')
+            continue
+        tail = block[1][:900]
+        if 'btn-yellow' in tail and '/support/#free' not in tail:
+            bad.append(rel)
+    if bad:
+        fail(f'end-cta support buttons must use /support/#free: {bad}')
+    ok('subpage end-cta support buttons use #free')
+
+
 DEDICATED_OG = {
     'about/index.html': 'og-about.jpg',
     'faq/index.html': 'og-faq.jpg',
@@ -368,6 +423,8 @@ def main() -> int:
     audit_support_speakable()
     audit_network_bar_sync()
     audit_network_strap()
+    audit_speakable_dom()
+    audit_end_cta_support()
     audit_date_modified()
     print()
     if warnings:
