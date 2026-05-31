@@ -7,7 +7,7 @@
 
 [![Site](https://img.shields.io/badge/site-pattayastream.com-ff2f8e?style=for-the-badge)](https://pattayastream.com)
 [![Brand](https://img.shields.io/badge/brand-timpaemi.com-00e5ff?style=for-the-badge)](https://timpaemi.com)
-[![Network](https://img.shields.io/badge/network-Pattaya--Authority-ffe156?style=for-the-badge&labelColor=08080c)](https://pattaya-authority.com)
+[![Network](https://img.shields.io/badge/network-Pattaya--Authority-ffe156?style=for-the-badge&labelColor=08080c)](https://pattaya-authority.com/work/pattaya-stream/)
 [![License](https://img.shields.io/badge/license-Proprietary-e60030?style=for-the-badge)](LICENSE)
 
 [![YouTube](https://img.shields.io/badge/YouTube-@timpaemi-FF0000?logo=youtube&logoColor=white)](https://www.youtube.com/@timpaemi)
@@ -32,7 +32,7 @@ Deployed on **Cloudflare Pages**. Production: **<https://pattayastream.com>**
 
 ### Seven indexed pages (+ 1 noindex)
 - `/` — Homepage · scale signals + hero + quick-links
-- `/about/` — Tim & Paemi story · villa · 11-site network
+- `/about/` — Tim & Paemi story · villa · 14-site network
 - `/support/` — YouTube-only support · 3 free paths + 2 live-stream paths (Super Chat / Super Thanks)
 - `/community/` — Mods, heroes, regulars · **noindex** (anonymous by design)
 - `/format/` — How the show works · 4-section breakdown

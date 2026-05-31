@@ -11,7 +11,17 @@ $ErrorActionPreference = "Stop"
 $valFailed = $false
 
 Write-Host ""
-Write-Host "[1/6] Metadata sync (dateModified + sitemap lastmod)..." -ForegroundColor Yellow
+Write-Host "[1/7] Network bar sync (manifest -> bars, footers, sitemap-network)..." -ForegroundColor Yellow
+python scripts/sync_network_bar.py --fix
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "  FAIL: network bar sync failed" -ForegroundColor Red
+    $valFailed = $true
+} else {
+    Write-Host "  OK: network chrome synced" -ForegroundColor Green
+}
+
+Write-Host ""
+Write-Host "[2/7] Metadata sync (dateModified + sitemap lastmod)..." -ForegroundColor Yellow
 python scripts/bump_metadata.py
 if ($LASTEXITCODE -ne 0) {
     Write-Host "  FAIL: metadata sync failed" -ForegroundColor Red
@@ -21,7 +31,7 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 Write-Host ""
-Write-Host "[2/6] SEO + network audit..." -ForegroundColor Yellow
+Write-Host "[3/7] SEO + network audit..." -ForegroundColor Yellow
 python scripts/seo_audit.py
 if ($LASTEXITCODE -ne 0) {
     Write-Host "  FAIL: SEO audit failed" -ForegroundColor Red
@@ -38,7 +48,7 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 Write-Host ""
-Write-Host "[3/6] HTML integrity check..." -ForegroundColor Yellow
+Write-Host "[4/7] HTML integrity check..." -ForegroundColor Yellow
 $htmlFiles = Get-ChildItem -Recurse -Filter "*.html" -File | Where-Object { $_.FullName -notmatch '\.deploy-stage|_pattayavilla-scaffold|\.git' }
 foreach ($f in $htmlFiles) {
     $content = Get-Content $f.FullName -Raw
@@ -54,7 +64,7 @@ foreach ($f in $htmlFiles) {
 }
 
 Write-Host ""
-Write-Host "[4/6] JSON parse check..." -ForegroundColor Yellow
+Write-Host "[5/7] JSON parse check..." -ForegroundColor Yellow
 $jsonFiles = @('manifest.json')
 foreach ($f in $jsonFiles) {
     if (Test-Path $f) {
@@ -69,7 +79,7 @@ foreach ($f in $jsonFiles) {
 }
 
 Write-Host ""
-Write-Host "[5/6] TODO / PLACEHOLDER leak check (HTML only)..." -ForegroundColor Yellow
+Write-Host "[6/7] TODO / PLACEHOLDER leak check (HTML only)..." -ForegroundColor Yellow
 $leakHits = 0
 foreach ($f in $htmlFiles) {
     $content = Get-Content $f.FullName -Raw
@@ -86,7 +96,7 @@ if ($leakHits -eq 0) {
 }
 
 Write-Host ""
-Write-Host "[6/6] Asset existence check..." -ForegroundColor Yellow
+Write-Host "[7/7] Asset existence check..." -ForegroundColor Yellow
 $assetFail = $false
 $refs = @()
 foreach ($f in $htmlFiles) {

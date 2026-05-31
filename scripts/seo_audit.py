@@ -243,6 +243,38 @@ def audit_support_speakable() -> None:
     ok('support page speakable schema wired')
 
 
+def audit_network_bar_sync() -> None:
+    import subprocess
+    r = subprocess.run(
+        [sys.executable, str(ROOT / 'scripts' / 'sync_network_bar.py'), '--check'],
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+    )
+    if r.returncode != 0:
+        fail('network bar/footer drift — run scripts/sync_network_bar.py --fix')
+        return
+    ok('network bar + footer synced to manifest')
+
+
+def audit_network_strap() -> None:
+    import json
+    manifest = json.loads((ROOT / 'scripts' / 'network_manifest.json').read_text(encoding='utf-8'))
+    count = len(manifest['live'])
+    bad = []
+    for f in ROOT.glob('**/*.html'):
+        if any(p in f.parts for p in ('.git', '.deploy-stage', '_pattayavilla-scaffold')):
+            continue
+        text = f.read_text(encoding='utf-8')
+        if 'network-strap-sub' in text and f'· {count} PROPERTIES' not in text:
+            bad.append(str(f.relative_to(ROOT)))
+        if ' an 14-site' in text:
+            bad.append(f'{f.relative_to(ROOT)} (grammar: an 14-site)')
+    if bad:
+        fail(f'network property count stale: {bad[:5]}')
+    ok(f'network strap shows {count} properties')
+
+
 DEDICATED_OG = {
     'about/index.html': 'og-about.jpg',
     'faq/index.html': 'og-faq.jpg',
@@ -334,6 +366,8 @@ def main() -> int:
     audit_error_page_schema()
     audit_sticky_support_cta()
     audit_support_speakable()
+    audit_network_bar_sync()
+    audit_network_strap()
     audit_date_modified()
     print()
     if warnings:
