@@ -182,6 +182,7 @@ def audit_speakable_selectors() -> None:
 def audit_support_backlinks() -> None:
     support = (ROOT / 'support/index.html').read_text(encoding='utf-8')
     format_html = (ROOT / 'format/index.html').read_text(encoding='utf-8')
+    home = (ROOT / 'index.html').read_text(encoding='utf-8')
     if '/faq/' not in support:
         warn('support page missing /faq/ link')
     if '/code/' not in support:
@@ -190,8 +191,33 @@ def audit_support_backlinks() -> None:
         warn('format page missing /faq/ link')
     if '/support/#tip-tonight' not in format_html:
         warn('format page missing /support/#tip-tonight deep link')
+    if '/support/#free' not in home:
+        warn('homepage missing /support/#free deep link')
     else:
         ok('support + format cross-links wired')
+
+
+def audit_video_graph() -> None:
+    html = (ROOT / 'index.html').read_text(encoding='utf-8')
+    if '"isPartOf":{"@id":"https://pattayastream.com/#nightly-show"}' not in html:
+        fail('VideoObject missing isPartOf link to nightly Event')
+    if '"workFeatured":{"@id":"https://pattayastream.com/#livestream"}' not in html:
+        fail('Event missing workFeatured link to VideoObject')
+    if 'WatchAction' not in html:
+        fail('VideoObject missing WatchAction')
+    ok('VideoObject + Event graph linked')
+
+
+def audit_error_page_schema() -> None:
+    for rel, selectors in (
+        ('404.html', ['SpeakableSpecification', 'h1']),
+        ('offline.html', ['SpeakableSpecification', 'offline-sub']),
+    ):
+        text = (ROOT / rel).read_text(encoding='utf-8')
+        for needle in selectors:
+            if needle not in text:
+                fail(f'{rel} schema/speakable missing {needle}')
+    ok('404 + offline speakable schema present')
 
 
 DEDICATED_OG = {
@@ -281,6 +307,8 @@ def main() -> int:
     audit_faq_mesh_links()
     audit_speakable_selectors()
     audit_support_backlinks()
+    audit_video_graph()
+    audit_error_page_schema()
     audit_date_modified()
     print()
     if warnings:

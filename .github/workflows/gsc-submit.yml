@@ -1,5 +1,5 @@
-# Auto-submit sitemap to Google Search Console when GSC_KEY secret is configured
-name: GSC sitemap submit
+# Auto-submit sitemap to Google Search Console + Bing Webmaster when secrets are set
+name: Search engine sitemap submit
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  gsc-submit:
+  search-submit:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -24,13 +24,23 @@ jobs:
           GSC_KEY: ${{ secrets.GSC_KEY }}
         run: python3 scripts/gsc_submit.py
 
+      - name: Submit sitemap to Bing Webmaster
+        env:
+          BING_WEBMASTER_API_KEY: ${{ secrets.BING_WEBMASTER_API_KEY }}
+        run: python3 scripts/bing_submit.py
+
       - name: Summary
         env:
           GSC_KEY: ${{ secrets.GSC_KEY }}
+          BING_WEBMASTER_API_KEY: ${{ secrets.BING_WEBMASTER_API_KEY }}
         run: |
           if [ -z "$GSC_KEY" ]; then
-            echo '## GSC: skipped (GSC_KEY secret not set)' >> $GITHUB_STEP_SUMMARY
+            echo '## GSC: skipped (GSC_KEY not set)' >> $GITHUB_STEP_SUMMARY
           else
             echo '## GSC: sitemap submit attempted' >> $GITHUB_STEP_SUMMARY
-            echo 'Check job log for OK or error from scripts/gsc_submit.py' >> $GITHUB_STEP_SUMMARY
+          fi
+          if [ -z "$BING_WEBMASTER_API_KEY" ]; then
+            echo '## Bing: skipped (BING_WEBMASTER_API_KEY not set)' >> $GITHUB_STEP_SUMMARY
+          else
+            echo '## Bing: sitemap submit attempted' >> $GITHUB_STEP_SUMMARY
           fi

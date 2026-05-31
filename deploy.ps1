@@ -159,6 +159,9 @@ Write-Host ""
 Write-Host "Post-deploy: GSC sitemap submit (optional)..." -ForegroundColor Yellow
 python scripts/gsc_submit.py
 Write-Host ""
+Write-Host "Post-deploy: Bing Webmaster sitemap submit (optional)..." -ForegroundColor Yellow
+python scripts/bing_submit.py
+Write-Host ""
 Write-Host "Post-deploy: Inbound link audit (sister sites)..." -ForegroundColor Yellow
 python scripts/inbound_audit.py
 Write-Host ""
