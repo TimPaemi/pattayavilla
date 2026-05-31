@@ -213,6 +213,12 @@ def audit_local_repo() -> None:
             missing_footer.append(rel)
         if rel == 'index.html' and 'class="marquee"' not in t:
             missing_marquee.append(rel)
+        if rel == 'community/index.html':
+            wc = word_count(t)
+            if wc >= 700:
+                ok(f'local /community/ main content: {wc} words')
+            else:
+                warn(f'local /community/ thin: {wc} words (target 700+)')
         if rel == 'code/index.html':
             wc = word_count(t)
             if wc >= 550:

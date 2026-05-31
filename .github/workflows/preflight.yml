@@ -100,6 +100,8 @@ jobs:
           anchors = {'#main','#top','#hero','#when-heading','#tip-tonight','#free','#payment-methods',
                      '#why-heading','#why-code-heading','#welcome-heading','#banned-heading',
                      '#how-enforcement-heading','#in-room-heading','#mods-heading','#first-night-heading',
+                     '#why-community-heading','#mods-community-heading','#every-viewer-heading',
+                     '#tier-mods','#tier-heroes','#tier-regulars',
                      '#scale-heading','#explore-heading','#contact','#become-a-regular',
                      '#become-heading','#typical-night','#the-crew','#chat-is-the-room','#the-vibe','#first-night','#story','#show','#network','#principles'}
           broken = []
