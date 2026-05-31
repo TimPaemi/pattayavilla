@@ -23,7 +23,7 @@ PAGES = [
     ('/faq/', 'FAQ'),
     ('/code/', 'Code of Conduct'),
     ('/community/', 'Community (noindex)'),
-    ('/offline', 'Offline fallback'),
+    ('/offline/', 'Offline fallback'),
     ('/404-test-path-audit', '404 probe'),
 ]
 
@@ -105,18 +105,11 @@ def audit_live_pages() -> None:
             else:
                 warn(f'404 probe returned HTTP {status} (expected 404)')
             continue
-        if path == '/offline':
-            if status == 200:
-                ok(f'Offline (/offline) HTTP 200')
-            elif status == 308:
-                # Cloudflare Pages _redirects serves /offline.html with 200; bare probes may 308
-                st2, body2, _ = fetch(BASE + '/offline.html')
-                if st2 == 200 and 'NO' in body2 and 'SIGNAL' in body2:
-                    ok(f'Offline fallback via /offline.html HTTP 200')
-                else:
-                    warn(f'Offline (/offline) HTTP 308 — verify _redirects on deploy')
+        if path == '/offline/':
+            if status == 200 and 'NO' in html and 'SIGNAL' in html:
+                ok(f'Offline (/offline/) HTTP 200')
             else:
-                fail(f'Offline (/offline) HTTP {status}')
+                fail(f'Offline (/offline/) HTTP {status}')
             continue
         if status != 200:
             fail(f'{label} ({path}) HTTP {status}')
@@ -150,7 +143,7 @@ def audit_live_pages() -> None:
                 fail(f'  {path} · MISSING {name}')
 
         wc = word_count(html)
-        if wc < 300 and path not in ('/offline',):
+        if wc < 300 and path not in ('/offline/',):
             warn(f'  {path} · thin content ({wc} words in main)')
         elif wc < 550 and path == '/code/':
             warn(f'  {path} · thin content ({wc} words in main — target 550+)')
@@ -170,8 +163,8 @@ def audit_live_pages() -> None:
 
     print('\n=== INTERNAL LINK CHECK ===\n')
     for href in sorted(internal_hrefs):
-        if href in ('/offline',):
-            test = BASE + '/offline'
+        if href in ('/offline', '/offline/'):
+            test = BASE + '/offline/'
         else:
             test = BASE + (href if href.endswith('/') else href + '/')
         st, _, _ = fetch(test)
@@ -225,8 +218,8 @@ def audit_local_repo() -> None:
                 ok(f'local /code/ main content: {wc} words')
             else:
                 warn(f'local /code/ thin: {wc} words (target 550+)')
-        if rel == 'offline.html' and 'pattayavisahelp.com' in t:
-            fail('offline.html contains stray external visa link')
+        if rel == 'offline/index.html' and 'pattayavisahelp.com' in t:
+            fail('offline/index.html contains stray external visa link')
     if missing_marquee:
         fail(f'local index missing marquee: {missing_marquee}')
     else:

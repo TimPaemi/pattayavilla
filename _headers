@@ -47,9 +47,9 @@
   Cache-Control: public, max-age=300, s-maxage=86400, stale-while-revalidate=604800
 /faq/
   Cache-Control: public, max-age=300, s-maxage=86400, stale-while-revalidate=604800
-/404.html
+/offline/
   Cache-Control: public, max-age=300, s-maxage=86400, stale-while-revalidate=604800
-/offline.html
+/404.html
   Cache-Control: public, max-age=300, s-maxage=86400, stale-while-revalidate=604800
 /*
   Strict-Transport-Security: max-age=63072000; includeSubDomains; preload

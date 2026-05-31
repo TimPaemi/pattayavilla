@@ -24,7 +24,7 @@ PAGES = [
     '/faq/',
     '/code/',
     '/community/',
-    '/offline',
+    '/offline/',
 ]
 ASSETS = [
     '/assets/css/pv-core.css',
@@ -99,13 +99,13 @@ def audit_pattayastream_pages() -> None:
         ]
         if path == '/community/':
             checks.append(('noindex', r'noindex'))
-        if path != '/offline':
+        if path != '/offline/':
             checks.append(('sticky support #tip-tonight', r'/support/#tip-tonight'))
         if path == '/support/':
             checks.append(('DonateAction', r'DonateAction'))
             checks.append(('#payment-methods DOM', r'id="payment-methods"'))
             checks.append(('#payment-methods schema', r'support/#payment-methods'))
-        if path == '/offline':
+        if path == '/offline/':
             checks.append(('watch live CTA', r'youtube\.com/@timpaemi/live'))
 
         for name, pat in checks:

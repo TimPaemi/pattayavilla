@@ -15,7 +15,7 @@ INDEXED = {'/', '/about/', '/support/', '/format/', '/faq/', '/code/'}
 NOINDEX_OK = {'/community/'}
 HTML_PAGES = [
     'index.html', 'about/index.html', 'support/index.html', 'format/index.html',
-    'code/index.html', 'faq/index.html', 'community/index.html', '404.html', 'offline.html',
+    'code/index.html', 'faq/index.html', 'community/index.html', '404.html', 'offline/index.html',
 ]
 
 failures: list[str] = []
@@ -81,7 +81,7 @@ def audit_indexnow() -> None:
 
 def audit_canonicals() -> None:
     for rel in HTML_PAGES:
-        if rel in ('404.html', 'offline.html'):
+        if rel in ('404.html', 'offline/index.html'):
             continue
         html = (ROOT / rel).read_text(encoding='utf-8')
         if 'rel="canonical"' not in html:
@@ -94,7 +94,7 @@ def audit_canonicals() -> None:
 
 def audit_internal_links() -> None:
     inbound: dict[str, set[str]] = {p: set() for p in INDEXED}
-    scan = [r for r in HTML_PAGES if r != 'offline.html']
+    scan = [r for r in HTML_PAGES if r != 'offline/index.html']
     for rel in scan:
         html = (ROOT / rel).read_text(encoding='utf-8')
         for m in re.finditer(r'href="(/[^"#?][^"]*)"', html):
@@ -255,7 +255,7 @@ def audit_video_graph() -> None:
 def audit_error_page_schema() -> None:
     for rel, selectors in (
         ('404.html', ['SpeakableSpecification', 'h1']),
-        ('offline.html', ['SpeakableSpecification', 'offline-sub']),
+        ('offline/index.html', ['SpeakableSpecification', 'offline-sub']),
     ):
         text = (ROOT / rel).read_text(encoding='utf-8')
         for needle in selectors:

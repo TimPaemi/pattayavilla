@@ -8,7 +8,7 @@ from datetime import date
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-SKIP = {'404.html', 'offline.html'}
+SKIP = {'404.html', 'offline/index.html'}
 ISO = re.compile(r'\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\+\d{2}:\d{2}')
 SHORT = re.compile(r'\d{4}-\d{2}-\d{2}')
 
