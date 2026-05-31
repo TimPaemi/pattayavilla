@@ -516,6 +516,30 @@
     }, 12000);
   }
 
+  /* ---------- live JSON-LD signal (homepage VideoObject broadcast) ---------- */
+  function updateLiveSchema(){
+    var path = location.pathname;
+    if (path !== '/' && path !== '') return;
+    document.querySelectorAll('script[type="application/ld+json"]').forEach(function(s){
+      try {
+        var data = JSON.parse(s.textContent);
+        var graph = data['@graph'] || (data['@type'] ? [data] : []);
+        var live = isLiveICT();
+        var changed = false;
+        graph.forEach(function(node){
+          if (node['@type'] === 'VideoObject' && node.publication){
+            if (node.publication.isLiveBroadcast !== live){ node.publication.isLiveBroadcast = live; changed = true; }
+          }
+          if (node['@type'] === 'BroadcastService'){
+            node.isBroadcasting = live;
+            changed = true;
+          }
+        });
+        if (changed) s.textContent = JSON.stringify(data);
+      } catch (_) {}
+    });
+  }
+
   /* ---------- init ---------- */
   function init(){
     injectStyles();
@@ -528,6 +552,8 @@
     if (bar){ buildLive(bar); buildShare(bar); }
     toggleLiveBanner();
     setInterval(toggleLiveBanner, 60000);
+    updateLiveSchema();
+    setInterval(updateLiveSchema, 60000);
     buildCounters();
     buildProgressBar();
     buildSmartSticky();

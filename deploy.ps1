@@ -11,7 +11,17 @@ $ErrorActionPreference = "Stop"
 $valFailed = $false
 
 Write-Host ""
-Write-Host "[1/5] HTML integrity check..." -ForegroundColor Yellow
+Write-Host "[1/6] SEO audit..." -ForegroundColor Yellow
+python scripts/seo_audit.py
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "  FAIL: SEO audit failed" -ForegroundColor Red
+    $valFailed = $true
+} else {
+    Write-Host "  OK: SEO audit passed" -ForegroundColor Green
+}
+
+Write-Host ""
+Write-Host "[2/6] HTML integrity check..." -ForegroundColor Yellow
 $htmlFiles = Get-ChildItem -Recurse -Filter "*.html" -File | Where-Object { $_.FullName -notmatch '\.deploy-stage|_pattayavilla-scaffold|\.git' }
 foreach ($f in $htmlFiles) {
     $content = Get-Content $f.FullName -Raw
@@ -27,7 +37,7 @@ foreach ($f in $htmlFiles) {
 }
 
 Write-Host ""
-Write-Host "[2/5] JSON parse check..." -ForegroundColor Yellow
+Write-Host "[3/6] JSON parse check..." -ForegroundColor Yellow
 $jsonFiles = @('manifest.json')
 foreach ($f in $jsonFiles) {
     if (Test-Path $f) {
@@ -42,7 +52,7 @@ foreach ($f in $jsonFiles) {
 }
 
 Write-Host ""
-Write-Host "[3/5] TODO / PLACEHOLDER leak check (HTML only)..." -ForegroundColor Yellow
+Write-Host "[4/6] TODO / PLACEHOLDER leak check (HTML only)..." -ForegroundColor Yellow
 $leakHits = 0
 foreach ($f in $htmlFiles) {
     $content = Get-Content $f.FullName -Raw
@@ -59,7 +69,7 @@ if ($leakHits -eq 0) {
 }
 
 Write-Host ""
-Write-Host "[4/5] Auto-update sitemap.xml lastmod..." -ForegroundColor Yellow
+Write-Host "[5/6] Auto-update sitemap.xml lastmod..." -ForegroundColor Yellow
 if (Test-Path "sitemap.xml") {
     $today = (Get-Date).ToString("yyyy-MM-dd")
     $sitemap = Get-Content "sitemap.xml" -Raw
@@ -73,7 +83,7 @@ if (Test-Path "sitemap.xml") {
 }
 
 Write-Host ""
-Write-Host "[5/5] Asset existence check..." -ForegroundColor Yellow
+Write-Host "[6/6] Asset existence check..." -ForegroundColor Yellow
 $assetFail = $false
 $refs = @()
 foreach ($f in $htmlFiles) {
@@ -119,7 +129,7 @@ Get-ChildItem -Path $SRC -Force | Where-Object { $_.Name -ne $STAGE } | ForEach-
 $disallow = @(
     'AUDIT*.md','NUKLEAR*.md','*.bak','.DS_Store','Thumbs.db','__pycache__',
     '.deploy-stage','.git','.github','.wrangler','deploy.ps1','README.md','CLAUDE.md','AGENTS.md',
-    '_pattayavilla-scaffold','index.lock'
+    '_pattayavilla-scaffold','index.lock','scripts'
 )
 foreach ($p in $disallow) {
     Get-ChildItem -Path $STAGE -Recurse -Force -Include $p -ErrorAction SilentlyContinue | ForEach-Object {
@@ -139,6 +149,33 @@ if ($LASTEXITCODE -ne 0) {
     exit 1
 }
 Remove-Item -Recurse -Force $STAGE
+Write-Host ""
+Write-Host "Post-deploy: IndexNow ping..." -ForegroundColor Yellow
+$indexKey = "psindex2026pattayastreamkey"
+$urlList = @()
+if (Test-Path "sitemap.xml") {
+    $sm = Get-Content "sitemap.xml" -Raw
+    foreach ($m in [regex]::Matches($sm, '<loc>(https://pattayastream.com[^<]+)</loc>')) {
+        $urlList += $m.Groups[1].Value
+    }
+}
+if ($urlList.Count -gt 0) {
+    $body = @{
+        host = "pattayastream.com"
+        key = $indexKey
+        keyLocation = "https://pattayastream.com/$indexKey.txt"
+        urlList = $urlList
+    } | ConvertTo-Json -Depth 3
+    try {
+        $null = Invoke-RestMethod -Uri "https://api.indexnow.org/indexnow" -Method Post -Body $body -ContentType "application/json" -TimeoutSec 30
+        Write-Host "  OK: IndexNow pinged $($urlList.Count) URLs" -ForegroundColor Green
+    } catch {
+        Write-Host "  WARN: IndexNow ping failed - $($_.Exception.Message)" -ForegroundColor Yellow
+    }
+}
+Write-Host ""
+Write-Host "Post-deploy: GSC sitemap submit (optional)..." -ForegroundColor Yellow
+python scripts/gsc_submit.py
 Write-Host ""
 Write-Host "===========================================" -ForegroundColor Green
 Write-Host "  LIVE: https://pattayastream.com/" -ForegroundColor Green

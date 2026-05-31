@@ -1,0 +1,26 @@
+# Weekly + every push SEO audit — sitemap, links, FAQ schema, IndexNow key
+name: SEO audit
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+    branches: [master, main]
+  schedule:
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+
+jobs:
+  seo-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run SEO audit
+        run: python3 scripts/seo_audit.py
+
+      - name: Summary
+        if: success()
+        run: |
+          echo '## SEO audit: PASSED' >> $GITHUB_STEP_SUMMARY
+          echo 'Sitemap, robots, IndexNow key, canonicals, internal links, FAQ schema.' >> $GITHUB_STEP_SUMMARY
