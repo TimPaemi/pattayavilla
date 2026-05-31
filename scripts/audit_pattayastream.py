@@ -224,6 +224,12 @@ def audit_local_repo() -> None:
                 ok(f'local /about/ main content: {wc} words')
             else:
                 warn(f'local /about/ thin: {wc} words (target 850+)')
+        if rel == 'support/index.html':
+            wc = word_count(t)
+            if wc >= 850:
+                ok(f'local /support/ main content: {wc} words')
+            else:
+                warn(f'local /support/ thin: {wc} words (target 850+)')
         if rel == 'offline/index.html' and 'pattayavisahelp.com' in t:
             fail('offline/index.html contains stray external visa link')
     if missing_marquee:
