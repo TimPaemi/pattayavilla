@@ -183,18 +183,48 @@ def audit_support_backlinks() -> None:
     support = (ROOT / 'support/index.html').read_text(encoding='utf-8')
     format_html = (ROOT / 'format/index.html').read_text(encoding='utf-8')
     home = (ROOT / 'index.html').read_text(encoding='utf-8')
-    if '/faq/' not in support:
-        warn('support page missing /faq/ link')
-    if '/code/' not in support:
-        warn('support page missing /code/ link')
+    required_support = ('/faq/', '/code/', '/format/', '/community/', '/about/')
+    missing_support = [p for p in required_support if p not in support]
+    if missing_support:
+        fail(f'support page missing internal mesh links: {missing_support}')
     if '/faq/' not in format_html:
-        warn('format page missing /faq/ link')
+        fail('format page missing /faq/ link')
     if '/support/#tip-tonight' not in format_html:
-        warn('format page missing /support/#tip-tonight deep link')
+        fail('format page missing /support/#tip-tonight deep link')
     if '/support/#free' not in home:
-        warn('homepage missing /support/#free deep link')
-    else:
-        ok('support + format cross-links wired')
+        fail('homepage missing /support/#free deep link')
+    ok('support + format cross-links wired')
+
+
+def audit_donate_action() -> None:
+    text = (ROOT / 'support/index.html').read_text(encoding='utf-8')
+    for needle in (
+        'DonateAction',
+        'support/#free',
+        'support/#tip-tonight',
+        'EntryPoint',
+        'pattayastream.com/#org',
+    ):
+        if needle not in text:
+            fail(f'support DonateAction schema missing {needle}')
+    ok('support DonateAction schema wired to #free + #tip-tonight')
+
+
+def audit_dns_prefetch() -> None:
+    bad = []
+    for f in ROOT.glob('**/*.html'):
+        if any(p in f.parts for p in ('.git', '.deploy-stage', '_pattayavilla-scaffold')):
+            continue
+        text = f.read_text(encoding='utf-8')
+        if 'dns-prefetch' not in text:
+            continue
+        hrefs = re.findall(r'<link rel="dns-prefetch" href="([^"]+)">', text)
+        dupes = [h for h in set(hrefs) if hrefs.count(h) > 1]
+        if dupes:
+            bad.append(f'{f.relative_to(ROOT)}: {dupes}')
+    if bad:
+        fail(f'duplicate dns-prefetch hrefs: {bad[:5]}')
+    ok('dns-prefetch blocks deduplicated')
 
 
 def audit_video_graph() -> None:
@@ -323,7 +353,7 @@ def audit_end_cta_support() -> None:
             bad.append(f'{rel} missing end-cta')
             continue
         tail = block[1][:900]
-        if 'btn-yellow' in tail and '/support/#free' not in tail:
+        if 'btn-yellow' in tail and '/support/#free' not in tail and 'href="#free"' not in tail:
             bad.append(rel)
     if bad:
         fail(f'end-cta support buttons must use /support/#free: {bad}')
@@ -414,9 +444,11 @@ def main() -> int:
     audit_og_file_sizes()
     audit_llms_txt()
     audit_support_deep_links()
+    audit_support_backlinks()
+    audit_donate_action()
+    audit_dns_prefetch()
     audit_faq_mesh_links()
     audit_speakable_selectors()
-    audit_support_backlinks()
     audit_video_graph()
     audit_error_page_schema()
     audit_sticky_support_cta()

@@ -157,8 +157,13 @@ def build_footer_grid() -> str:
 
 
 def build_dns_prefetch() -> str:
-    lines = []
+    lines = [
+        '<link rel="dns-prefetch" href="https://pattaya-authority.com">',
+        '<link rel="dns-prefetch" href="https://timpaemi.com">',
+    ]
     for domain in BAR_ORDER:
+        if domain in ('pattaya-authority.com', 'timpaemi.com'):
+            continue
         lines.append(f'<link rel="dns-prefetch" href="https://{domain}">')
     return '\n'.join(lines) + '\n'
 
@@ -205,7 +210,6 @@ def patch_html(text: str, site_count: int) -> tuple[str, bool]:
     changed = False
     utility = build_utility_scroll()
     footer = build_footer_grid()
-    dns = build_dns_prefetch()
 
     new, n = re.subn(
         r'(<div class="utility-scroll">\n)(.*?)(\s*</div>\n</div>)',
@@ -239,13 +243,19 @@ def patch_html(text: str, site_count: int) -> tuple[str, bool]:
         text = new
         changed = True
 
-    new, n = re.subn(
-        r'(<link rel="dns-prefetch" href="https://pattaya-authority.com">\n)(.*?)(\n<script)',
-        rf'\1{dns}\3',
+    text = re.sub(
+        r'<link rel="dns-prefetch" href="https://pattaya-authority\.com/work/pattaya-stream/">\n',
+        '',
         text,
-        count=1,
-        flags=re.DOTALL,
     )
+    dns = build_dns_prefetch()
+    network_block = (
+        r'(?:<link rel="dns-prefetch" href="https://pattaya-authority\.com">\n'
+        r'|<link rel="dns-prefetch" href="https://timpaemi\.com">\n)+'
+        r'(?:<link rel="dns-prefetch" href="https://[^"]+">\n)*?'
+        r'<link rel="dns-prefetch" href="https://mrweoutside\.com">\n'
+    )
+    new, n = re.subn(network_block, dns, text, count=1)
     if n:
         text = new
         changed = True
