@@ -335,7 +335,7 @@ def _selector_in_html(html: str, sel: str) -> bool:
 
 def audit_speakable_dom() -> None:
     checks = {
-        'code/index.html': ['#why-code-heading', '#welcome-heading', '#banned-heading'],
+        'code/index.html': ['#why-code-heading', '#welcome-heading', '#banned-heading', '#how-enforcement-heading', '#mods-heading'],
         'community/index.html': ['#become-heading', '#why-heading', '.tier-name'],
         'support/index.html': ['#free', '#tip-tonight', '#how-support-heading', '.support-card-name', '.equal-paths-a'],
         'format/index.html': ['#typical-night', '#chat-is-the-room', '#the-vibe', '#first-night'],

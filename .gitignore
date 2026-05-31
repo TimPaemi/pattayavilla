@@ -28,5 +28,6 @@ backups/
 AGENTS.md
 .inbound-audit.json
 .full-live-audit.json
+.pattayastream-audit.json
 *.dll
 *.exe
