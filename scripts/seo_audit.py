@@ -104,8 +104,8 @@ def audit_internal_links() -> None:
                 base += '/'
             if base in INDEXED:
                 inbound[base].add(rel)
-    if len(inbound['/about/']) < 3:
-        warn(f'/about/ weak inbound ({len(inbound["/about/"])} pages) — target 4+')
+    if len(inbound['/about/']) < 6:
+        fail(f'/about/ weak inbound ({len(inbound["/about/"])} pages) — target 6+')
     else:
         ok(f'/about/ inbound from {len(inbound["/about/"])} pages')
     for p in INDEXED:
@@ -204,6 +204,7 @@ def audit_donate_action() -> None:
         'support/#tip-tonight',
         'EntryPoint',
         'pattayastream.com/#org',
+        'support/#payment-methods',
     ):
         if needle not in text:
             fail(f'support DonateAction schema missing {needle}')
