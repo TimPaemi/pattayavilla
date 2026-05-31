@@ -39,12 +39,7 @@ jobs:
           if [ -z "$missing" ]; then
             echo "All sister sites link back — no issue needed."
             echo "## Inbound report: all clear" >> $GITHUB_STEP_SUMMARY
-            python3 - <<'PY' >> $GITHUB_STEP_SUMMARY
-import json
-from pathlib import Path
-d = json.loads(Path('.inbound-audit.json').read_text())
-print(f'{d["linked"]}/{d["checked"]} sister homepages link to pattayastream.com')
-PY
+            python3 -c "import json; from pathlib import Path; d=json.loads(Path('.inbound-audit.json').read_text()); print(f'{d[\"linked\"]}/{d[\"checked\"]} sister homepages link to pattayastream.com')" >> $GITHUB_STEP_SUMMARY
             exit 0
           fi
           title="Inbound link gap: sister sites missing pattayastream.com ($(date +%Y-%m-%d))"
