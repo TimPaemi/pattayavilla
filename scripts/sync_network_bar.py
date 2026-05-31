@@ -253,14 +253,26 @@ def patch_html(text: str, site_count: int) -> tuple[str, bool]:
     return text, changed
 
 
+def sitemap_locs(text: str) -> set[str]:
+    return set(re.findall(r'<loc>(https://[^<]+/sitemap\.xml)</loc>', text))
+
+
 def sync_sitemap_network(manifest: dict, fix: bool) -> bool:
     path = ROOT / 'sitemap-network.xml'
-    expected = build_sitemap_network(manifest)
+    expected_locs = {f'https://{s["domain"]}/sitemap.xml' for s in manifest['live']}
     current = path.read_text(encoding='utf-8')
-    ok = current == expected
+    found_locs = sitemap_locs(current)
+    ok = found_locs == expected_locs
     if not ok and fix:
-        path.write_text(expected, encoding='utf-8')
+        path.write_text(build_sitemap_network(manifest), encoding='utf-8')
         print(f'  OK: sitemap-network.xml synced ({len(manifest["live"])} sites)')
+    elif not ok and not fix:
+        missing = expected_locs - found_locs
+        extra = found_locs - expected_locs
+        if missing:
+            print(f'  DRIFT: sitemap-network.xml missing {sorted(missing)}')
+        if extra:
+            print(f'  DRIFT: sitemap-network.xml unexpected {sorted(extra)}')
     return ok or fix
 
 
