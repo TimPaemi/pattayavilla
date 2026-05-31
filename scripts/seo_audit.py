@@ -94,9 +94,8 @@ def audit_canonicals() -> None:
 
 def audit_internal_links() -> None:
     inbound: dict[str, set[str]] = {p: set() for p in INDEXED}
-    for rel in HTML_PAGES:
-        if rel in ('404.html', 'offline.html'):
-            continue
+    scan = [r for r in HTML_PAGES if r != 'offline.html']
+    for rel in scan:
         html = (ROOT / rel).read_text(encoding='utf-8')
         for m in re.finditer(r'href="(/[^"#?][^"]*)"', html):
             base = m.group(1)
@@ -162,11 +161,25 @@ def audit_date_modified() -> None:
 def audit_faq_mesh_links() -> None:
     faq = (ROOT / 'faq/index.html').read_text(encoding='utf-8')
     if faq.count('href="/format/"') < 3:
-        warn('FAQ has fewer than 3 links to /format/')
+        fail('FAQ has fewer than 3 links to /format/')
     if faq.count('href="/code/"') < 3:
-        warn('FAQ has fewer than 3 links to /code/')
-    else:
-        ok('FAQ format + code mesh links wired')
+        fail('FAQ has fewer than 3 links to /code/')
+    ok('FAQ format + code mesh links wired')
+
+
+def audit_indexed_support_paths() -> None:
+    indexed = [
+        'index.html', 'about/index.html', 'support/index.html', 'format/index.html',
+        'code/index.html', 'faq/index.html',
+    ]
+    bad = []
+    for rel in indexed:
+        text = (ROOT / rel).read_text(encoding='utf-8')
+        if '/support/#free' not in text and '/support/#tip-tonight' not in text:
+            bad.append(rel)
+    if bad:
+        fail(f'indexed pages missing support deep links: {bad}')
+    ok('all indexed pages link to support paths')
 
 
 def audit_speakable_selectors() -> None:
@@ -419,17 +432,22 @@ def audit_llms_txt() -> None:
             fail(f'llms.txt FAQ count stale — expected ~{faq_count} ({expected})')
     if 'pattayastream.com/support/#free' not in text:
         fail('llms.txt missing support/#free deep link')
+    manifest = json.loads((ROOT / 'scripts' / 'network_manifest.json').read_text(encoding='utf-8'))
+    for site in manifest['live']:
+        if site['domain'] == 'pattayastream.com':
+            continue
+        if site['domain'] not in text:
+            fail(f'llms.txt missing network domain {site["domain"]}')
     ok('llms.txt current')
 
 
 def audit_support_deep_links() -> None:
     faq = (ROOT / 'faq/index.html').read_text(encoding='utf-8')
     if faq.count('/support/#free') < 2:
-        warn('FAQ has fewer than 2 links to /support/#free')
+        fail('FAQ has fewer than 2 links to /support/#free')
     if faq.count('/support/#tip-tonight') < 4:
-        warn('FAQ has fewer than 4 links to /support/#tip-tonight')
-    else:
-        ok('FAQ support deep links wired')
+        fail('FAQ has fewer than 4 links to /support/#tip-tonight')
+    ok('FAQ support deep links wired')
 
 
 def main() -> int:
@@ -449,6 +467,7 @@ def main() -> int:
     audit_donate_action()
     audit_dns_prefetch()
     audit_faq_mesh_links()
+    audit_indexed_support_paths()
     audit_speakable_selectors()
     audit_video_graph()
     audit_error_page_schema()
