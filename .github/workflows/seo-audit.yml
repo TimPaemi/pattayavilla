@@ -19,6 +19,9 @@ jobs:
       - name: Run SEO audit
         run: python3 scripts/seo_audit.py
 
+      - name: Run network audit
+        run: python3 scripts/network_audit.py
+
       - name: Summary
         if: success()
         run: |

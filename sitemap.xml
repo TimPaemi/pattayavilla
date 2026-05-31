@@ -56,7 +56,7 @@
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
     <image:image>
-      <image:loc>https://pattayastream.com/assets/og/og-home.jpg</image:loc>
+      <image:loc>https://pattayastream.com/assets/og/og-about.jpg</image:loc>
       <image:title>About — Tim &amp; Paemi · PATTAYA VILLA STREAM</image:title>
       <image:caption>Tim &amp; Paemi · TIMPAEMI Co., Ltd. · Pattaya-Authority network</image:caption>
     </image:image>
@@ -70,7 +70,7 @@
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://pattayastream.com/assets/og/og-home.jpg</image:loc>
+      <image:loc>https://pattayastream.com/assets/og/og-faq.jpg</image:loc>
       <image:title>FAQ — Common Questions · PATTAYA VILLA STREAM</image:title>
       <image:caption>Schedule, timezones, how to watch, support, and contact</image:caption>
     </image:image>
@@ -84,7 +84,7 @@
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
-      <image:loc>https://pattayastream.com/assets/og/og-home.jpg</image:loc>
+      <image:loc>https://pattayastream.com/assets/og/og-code.jpg</image:loc>
       <image:title>Code of Conduct — PATTAYA VILLA STREAM Chat Rules</image:title>
       <image:caption>House rules for the villa stream chat · one warning, then ban</image:caption>
     </image:image>

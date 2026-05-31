@@ -136,6 +136,12 @@ jobs:
           print(f'Asset existence: PASS ({len(refs)} refs)')
           "
 
+      - name: SEO audit
+        run: python3 scripts/seo_audit.py
+
+      - name: Network audit
+        run: python3 scripts/network_audit.py
+
       - name: Summary
         run: |
           echo '## Pre-flight: ALL CHECKS PASSED' >> $GITHUB_STEP_SUMMARY

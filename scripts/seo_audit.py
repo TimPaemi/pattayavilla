@@ -145,6 +145,38 @@ def audit_date_modified() -> None:
             warn(f'{rel} still references {stale}')
 
 
+DEDICATED_OG = {
+    'about/index.html': 'og-about.jpg',
+    'faq/index.html': 'og-faq.jpg',
+    'code/index.html': 'og-code.jpg',
+}
+
+
+def audit_dedicated_og() -> None:
+    for rel, og in DEDICATED_OG.items():
+        html = (ROOT / rel).read_text(encoding='utf-8')
+        m = re.search(r'property="og:image" content="https://pattayastream.com/assets/og/([^"]+)"', html)
+        if not m or m.group(1) != og:
+            fail(f'{rel}: og:image must be {og}')
+        if not (ROOT / 'assets' / 'og' / og).is_file():
+            fail(f'missing asset assets/og/{og}')
+    ok('dedicated OG images on about, faq, code')
+
+
+def audit_sitemap_og_images() -> None:
+    text = (ROOT / 'sitemap.xml').read_text(encoding='utf-8')
+    pairs = {
+        '/about/': 'og-about.jpg',
+        '/faq/': 'og-faq.jpg',
+        '/code/': 'og-code.jpg',
+    }
+    for path, og in pairs.items():
+        block = re.search(rf'<loc>https://pattayastream.com{re.escape(path)}</loc>.*?</url>', text, re.DOTALL)
+        if not block or og not in block.group(0):
+            fail(f'sitemap {path} missing image {og}')
+    ok('sitemap OG images match dedicated assets')
+
+
 def main() -> int:
     print('=== PATTAYA VILLA STREAM SEO AUDIT ===\n')
     audit_sitemap()
@@ -153,6 +185,8 @@ def main() -> int:
     audit_canonicals()
     audit_internal_links()
     audit_faq_schema()
+    audit_dedicated_og()
+    audit_sitemap_og_images()
     audit_date_modified()
     print()
     if warnings:

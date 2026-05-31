@@ -4,7 +4,7 @@
  * - Navigation preload for faster nav
  * - Aggressive precache of money + content pages
  * - Strict same-origin only; never intercepts cross-origin */
-const VERSION = 'pattayastream-v31-2026-05-29-automation';
+const VERSION = 'pattayastream-v32-2026-05-31-og-network';
 const OFFLINE_URL = '/offline';
 
 const PRECACHE = [
@@ -23,6 +23,9 @@ const PRECACHE = [
   '/assets/js/pv-live.js?v=25',
   '/assets/og/og-home.jpg',
   '/assets/og/og-support.jpg',
+  '/assets/og/og-about.jpg',
+  '/assets/og/og-faq.jpg',
+  '/assets/og/og-code.jpg',
   '/assets/og/og-community.jpg',
   '/assets/og/og-format.jpg',
   '/assets/icons/icon-192.png',
