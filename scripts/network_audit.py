@@ -56,18 +56,22 @@ def audit_sitemap_network_index() -> None:
 
 def audit_utility_bar_links() -> None:
     manifest = load_manifest()
-    required = {f'https://{s["domain"]}/' for s in manifest['live'] if s['domain'] != 'pattayastream.com'}
+    required_domains = {s['domain'] for s in manifest['live'] if s['domain'] != 'pattayastream.com'}
     html = (ROOT / 'index.html').read_text(encoding='utf-8')
     bar = re.search(r'utility-scroll">(.*?)</div>', html, re.DOTALL)
     if not bar:
         fail('utility-scroll block not found on homepage')
         return
-    linked = set(re.findall(r'href="(https://[^"]+)"', bar.group(1)))
-    missing = required - linked
+    linked_domains = set()
+    for href in re.findall(r'href="(https://[^"]+)"', bar.group(1)):
+        m = re.match(r'https://([^/"\'>]+)', href)
+        if m:
+            linked_domains.add(m.group(1).lower())
+    missing = {d for d in required_domains if d.lower() not in linked_domains}
     if missing:
-        fail(f'utility bar missing network links: {sorted(missing)}')
+        fail(f'utility bar missing network domains: {sorted(missing)}')
     else:
-        ok(f'utility bar links all {len(required)} sister sites')
+        ok(f'utility bar links all {len(required_domains)} sister sites')
 
 
 def audit_youtube_links() -> None:

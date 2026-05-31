@@ -11,7 +11,17 @@ $ErrorActionPreference = "Stop"
 $valFailed = $false
 
 Write-Host ""
-Write-Host "[1/6] SEO + network audit..." -ForegroundColor Yellow
+Write-Host "[1/6] Metadata sync (dateModified + sitemap lastmod)..." -ForegroundColor Yellow
+python scripts/bump_metadata.py
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "  FAIL: metadata sync failed" -ForegroundColor Red
+    $valFailed = $true
+} else {
+    Write-Host "  OK: metadata synced" -ForegroundColor Green
+}
+
+Write-Host ""
+Write-Host "[2/6] SEO + network audit..." -ForegroundColor Yellow
 python scripts/seo_audit.py
 if ($LASTEXITCODE -ne 0) {
     Write-Host "  FAIL: SEO audit failed" -ForegroundColor Red
@@ -28,7 +38,7 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 Write-Host ""
-Write-Host "[2/6] HTML integrity check..." -ForegroundColor Yellow
+Write-Host "[3/6] HTML integrity check..." -ForegroundColor Yellow
 $htmlFiles = Get-ChildItem -Recurse -Filter "*.html" -File | Where-Object { $_.FullName -notmatch '\.deploy-stage|_pattayavilla-scaffold|\.git' }
 foreach ($f in $htmlFiles) {
     $content = Get-Content $f.FullName -Raw
@@ -44,7 +54,7 @@ foreach ($f in $htmlFiles) {
 }
 
 Write-Host ""
-Write-Host "[3/6] JSON parse check..." -ForegroundColor Yellow
+Write-Host "[4/6] JSON parse check..." -ForegroundColor Yellow
 $jsonFiles = @('manifest.json')
 foreach ($f in $jsonFiles) {
     if (Test-Path $f) {
@@ -59,7 +69,7 @@ foreach ($f in $jsonFiles) {
 }
 
 Write-Host ""
-Write-Host "[4/6] TODO / PLACEHOLDER leak check (HTML only)..." -ForegroundColor Yellow
+Write-Host "[5/6] TODO / PLACEHOLDER leak check (HTML only)..." -ForegroundColor Yellow
 $leakHits = 0
 foreach ($f in $htmlFiles) {
     $content = Get-Content $f.FullName -Raw
@@ -73,20 +83,6 @@ if ($leakHits -eq 0) {
     Write-Host "  OK: no `[TODO`] leaks" -ForegroundColor Green
 } else {
     Write-Host "  $leakHits TODO markers found - review before deploy" -ForegroundColor Yellow
-}
-
-Write-Host ""
-Write-Host "[5/6] Auto-update sitemap.xml lastmod..." -ForegroundColor Yellow
-if (Test-Path "sitemap.xml") {
-    $today = (Get-Date).ToString("yyyy-MM-dd")
-    $sitemap = Get-Content "sitemap.xml" -Raw
-    $updated = [System.Text.RegularExpressions.Regex]::Replace($sitemap, '<lastmod>\d{4}-\d{2}-\d{2}</lastmod>', "<lastmod>$today</lastmod>")
-    if ($updated -ne $sitemap) {
-        Set-Content "sitemap.xml" -Value $updated -NoNewline
-        Write-Host "  OK: sitemap.xml lastmod updated to $today" -ForegroundColor Green
-    } else {
-        Write-Host "  OK: sitemap.xml lastmod already current" -ForegroundColor Green
-    }
 }
 
 Write-Host ""

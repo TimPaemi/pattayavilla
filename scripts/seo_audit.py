@@ -136,13 +136,37 @@ def audit_faq_schema() -> None:
 
 
 def audit_date_modified() -> None:
-    stale = '2026-05-27'
-    for rel in HTML_PAGES:
-        if rel in ('404.html', 'offline.html'):
-            continue
+    sitemap = (ROOT / 'sitemap.xml').read_text(encoding='utf-8')
+    m = re.search(r'<lastmod>(\d{4}-\d{2}-\d{2})</lastmod>', sitemap)
+    if not m:
+        warn('sitemap.xml lastmod not found')
+        return
+    expected = m.group(1)
+    expected_iso = f'{expected}T00:00:00+07:00'
+    indexed = [
+        'index.html', 'about/index.html', 'support/index.html', 'format/index.html',
+        'code/index.html', 'faq/index.html',
+    ]
+    stale = []
+    for rel in indexed:
         text = (ROOT / rel).read_text(encoding='utf-8')
-        if stale in text:
-            warn(f'{rel} still references {stale}')
+        if expected_iso in text or f'"dateModified":"{expected}"' in text:
+            continue
+        stale.append(rel)
+    if stale:
+        fail(f'dateModified not synced to sitemap lastmod ({expected}): {stale}')
+    else:
+        ok(f'dateModified synced to {expected} on indexed pages')
+
+
+def audit_faq_mesh_links() -> None:
+    faq = (ROOT / 'faq/index.html').read_text(encoding='utf-8')
+    if faq.count('href="/format/"') < 3:
+        warn('FAQ has fewer than 3 links to /format/')
+    if faq.count('href="/code/"') < 3:
+        warn('FAQ has fewer than 3 links to /code/')
+    else:
+        ok('FAQ format + code mesh links wired')
 
 
 DEDICATED_OG = {
@@ -229,6 +253,7 @@ def main() -> int:
     audit_og_file_sizes()
     audit_llms_txt()
     audit_support_deep_links()
+    audit_faq_mesh_links()
     audit_date_modified()
     print()
     if warnings:

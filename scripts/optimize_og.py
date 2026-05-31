@@ -12,18 +12,24 @@ except ImportError:
     sys.exit(0)
 
 ROOT = Path(__file__).resolve().parent.parent / 'assets' / 'og'
-TARGET = 55_000
-FILES = ['og-about.jpg', 'og-faq.jpg', 'og-code.jpg', 'og-home.jpg', 'og-support.jpg', 'og-format.jpg']
+TARGETS = {
+    'og-about.jpg': 55_000,
+    'og-faq.jpg': 55_000,
+    'og-code.jpg': 55_000,
+    'og-home.jpg': 55_000,
+    'og-support.jpg': 55_000,
+    'og-format.jpg': 55_000,
+}
 
 
-def compress(path: Path) -> None:
+def compress(path: Path, target: int) -> None:
     img = Image.open(path).convert('RGB')
     if img.size != (1200, 630):
         img = img.resize((1200, 630), Image.LANCZOS)
-    for q in (82, 75, 68, 60, 52):
+    for q in (82, 75, 68, 60, 52, 45, 38):
         img.save(path, 'JPEG', quality=q, optimize=True)
         size = path.stat().st_size
-        if size <= TARGET:
+        if size <= target:
             print(f'  {path.name}: {size:,} bytes @ q={q}')
             return
     print(f'  {path.name}: {path.stat().st_size:,} bytes (min quality)')
@@ -31,10 +37,10 @@ def compress(path: Path) -> None:
 
 def main() -> int:
     print('=== OG image optimize ===')
-    for name in FILES:
+    for name, target in TARGETS.items():
         p = ROOT / name
         if p.is_file():
-            compress(p)
+            compress(p, target)
         else:
             print(f'  skip {name} (missing)')
     return 0

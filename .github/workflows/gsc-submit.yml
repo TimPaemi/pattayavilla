@@ -1,0 +1,36 @@
+# Auto-submit sitemap to Google Search Console when GSC_KEY secret is configured
+name: GSC sitemap submit
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+jobs:
+  gsc-submit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install GSC dependencies
+        run: pip install -r scripts/requirements-gsc.txt
+
+      - name: Submit sitemap to Google Search Console
+        env:
+          GSC_KEY: ${{ secrets.GSC_KEY }}
+        run: python3 scripts/gsc_submit.py
+
+      - name: Summary
+        env:
+          GSC_KEY: ${{ secrets.GSC_KEY }}
+        run: |
+          if [ -z "$GSC_KEY" ]; then
+            echo '## GSC: skipped (GSC_KEY secret not set)' >> $GITHUB_STEP_SUMMARY
+          else
+            echo '## GSC: sitemap submit attempted' >> $GITHUB_STEP_SUMMARY
+            echo 'Check job log for OK or error from scripts/gsc_submit.py' >> $GITHUB_STEP_SUMMARY
+          fi

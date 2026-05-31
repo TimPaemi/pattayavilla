@@ -21,15 +21,19 @@ def main() -> int:
         from google.oauth2 import service_account
         from googleapiclient.discovery import build
     except ImportError:
-        print('SKIP: google-api-python-client not installed')
-        return 0
-    info = json.loads(key_json)
+        print('FAIL: pip install -r scripts/requirements-gsc.txt')
+        return 1
+    try:
+        info = json.loads(key_json)
+    except json.JSONDecodeError as e:
+        print(f'FAIL: GSC_KEY is not valid JSON — {e}')
+        return 1
     creds = service_account.Credentials.from_service_account_info(
         info, scopes=['https://www.googleapis.com/auth/webmasters']
     )
     svc = build('searchconsole', 'v1', credentials=creds, cache_discovery=False)
     svc.sitemaps().submit(siteUrl=SITE_URL, feedpath=SITEMAP).execute()
-    print(f'OK: submitted {SITEMAP} to GSC')
+    print(f'OK: submitted {SITEMAP} to GSC for {SITE_URL}')
     return 0
 
 
