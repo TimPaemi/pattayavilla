@@ -10,11 +10,10 @@
     {"domain": "pattaya-school-guide.com", "repo": "pattayaschoolguide", "label": "Schools"},
     {"domain": "pattaya-medical.com", "repo": "pattayamedical", "label": "Medical"},
     {"domain": "pattayapets.com", "repo": "pattayapets", "label": "Pets"},
-    {"domain": "pattaya-vehicle-rentals.com", "repo": "pattaya-vehicle-rentals", "label": "Rentals"}
+    {"domain": "pattaya-vehicle-rentals.com", "repo": "pattaya-vehicle-rentals", "label": "Rentals"},
+    {"domain": "pattayapersonaltrainer.com", "repo": "pattayapersonaltrainer", "label": "Personal Trainer"},
+    {"domain": "pattayaolympian.com", "repo": "olympiangreeksouvlaki", "label": "Olympian"},
+    {"domain": "mrweoutside.com", "repo": "mrweoutside", "label": "Mr. We Outside"}
   ],
-  "pending": [
-    {"repo": "pattayapersonaltrainer", "note": "Production domain not yet in network index"},
-    {"repo": "olympiangreeksouvlaki", "note": "Production domain not yet in network index"},
-    {"repo": "mrweoutside", "note": "Production domain not yet in network index"}
-  ]
+  "pending": []
 }

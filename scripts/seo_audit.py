@@ -220,6 +220,29 @@ def audit_error_page_schema() -> None:
     ok('404 + offline speakable schema present')
 
 
+def audit_sticky_support_cta() -> None:
+    bad = []
+    for f in ROOT.glob('**/*.html'):
+        if any(p in f.parts for p in ('.git', '.deploy-stage', '_pattayavilla-scaffold')):
+            continue
+        text = f.read_text(encoding='utf-8')
+        if 'class="cta-support"' not in text:
+            continue
+        if 'href="/support/#tip-tonight" class="cta-support"' not in text:
+            bad.append(str(f.relative_to(ROOT)))
+    if bad:
+        fail(f'sticky support CTA must use /support/#tip-tonight: {bad}')
+    ok('sticky support CTAs use #tip-tonight')
+
+
+def audit_support_speakable() -> None:
+    text = (ROOT / 'support/index.html').read_text(encoding='utf-8')
+    for sel in ('#free', '#tip-tonight', 'SpeakableSpecification'):
+        if sel not in text:
+            fail(f'support page missing speakable target {sel}')
+    ok('support page speakable schema wired')
+
+
 DEDICATED_OG = {
     'about/index.html': 'og-about.jpg',
     'faq/index.html': 'og-faq.jpg',
@@ -309,6 +332,8 @@ def main() -> int:
     audit_support_backlinks()
     audit_video_graph()
     audit_error_page_schema()
+    audit_sticky_support_cta()
+    audit_support_speakable()
     audit_date_modified()
     print()
     if warnings:
