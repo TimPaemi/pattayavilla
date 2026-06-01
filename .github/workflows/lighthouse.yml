@@ -1,6 +1,5 @@
 # PATTAYA VILLA · Lighthouse CI
-# Runs Lighthouse against the Cloudflare Pages preview URL after each deploy.
-# Posts scores to the workflow summary and as a check comment.
+# Full-site desktop Lighthouse on every push (indexed + noindex utility pages).
 name: Lighthouse CI
 
 on:
@@ -17,14 +16,13 @@ jobs:
       - name: Wait for deploy to be reachable
         run: sleep 10
 
-      - name: Run Lighthouse
+      - name: Run Lighthouse (indexed pages)
         uses: treosh/lighthouse-ci-action@v11
         with:
           urls: |
             ${{ github.event.deployment_status.environment_url }}
-            ${{ github.event.deployment_status.environment_url }}/support/
-            ${{ github.event.deployment_status.environment_url }}/community/
             ${{ github.event.deployment_status.environment_url }}/about/
+            ${{ github.event.deployment_status.environment_url }}/support/
             ${{ github.event.deployment_status.environment_url }}/format/
             ${{ github.event.deployment_status.environment_url }}/code/
             ${{ github.event.deployment_status.environment_url }}/faq/
@@ -32,18 +30,30 @@ jobs:
           temporaryPublicStorage: true
           configPath: '.github/workflows/lighthouserc.json'
 
+      - name: Run Lighthouse (noindex utility pages)
+        uses: treosh/lighthouse-ci-action@v11
+        with:
+          urls: |
+            ${{ github.event.deployment_status.environment_url }}/community/
+            ${{ github.event.deployment_status.environment_url }}/offline/
+            ${{ github.event.deployment_status.environment_url }}/404/
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+          configPath: '.github/workflows/lighthouserc-noindex.json'
+
       - name: Summary
         if: always()
         run: |
           echo '## Lighthouse scores' >> $GITHUB_STEP_SUMMARY
-          echo 'See the uploaded artifacts for per-page Performance, Accessibility, Best Practices, and SEO scores.' >> $GITHUB_STEP_SUMMARY
+          echo 'Indexed pages: perf ≥90 · a11y ≥96 · SEO ≥95. Utility pages (noindex): perf ≥90 · a11y ≥96.' >> $GITHUB_STEP_SUMMARY
 
   lighthouse-production:
     if: github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Run Lighthouse on production
+
+      - name: Run Lighthouse on production (indexed)
         uses: treosh/lighthouse-ci-action@v11
         with:
           urls: |
@@ -56,3 +66,14 @@ jobs:
           uploadArtifacts: true
           temporaryPublicStorage: true
           configPath: '.github/workflows/lighthouserc.json'
+
+      - name: Run Lighthouse on production (noindex utility)
+        uses: treosh/lighthouse-ci-action@v11
+        with:
+          urls: |
+            https://pattayastream.com/community/
+            https://pattayastream.com/offline/
+            https://pattayastream.com/404/
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+          configPath: '.github/workflows/lighthouserc-noindex.json'

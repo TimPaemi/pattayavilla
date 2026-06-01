@@ -43,6 +43,12 @@ body::after{
 :focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:2px}
 a{color:var(--cyan);text-decoration:none;transition:color .15s}
 a:hover{color:#fff}
+/* Prose links — distinguishable beyond color (WCAG / Lighthouse link-in-text-block) */
+:is(main, section.hero) :is(p, li, dd, blockquote, .intro, .body-section, .hero-sub, .lead, .meta) a:not(.btn):not(.quick-link),
+.site-footer :is(p, li) a:not(.btn),
+.offline-brand a{
+  text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.2em;font-weight:600
+}
 ::selection{background:var(--pink);color:#08080c}
 
 .skip-link{position:absolute;left:-9999px;top:0;background:var(--pink);color:#08080c;padding:.75rem 1.2rem;font-family:var(--mono);font-size:.7rem;letter-spacing:1.4px;text-transform:uppercase;font-weight:800;z-index:9999;border-radius:0 0 6px 0;text-decoration:none}

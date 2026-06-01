@@ -29,5 +29,7 @@ AGENTS.md
 .inbound-audit.json
 .full-live-audit.json
 .pattayastream-audit.json
+.lighthouse*.json
+.lighthouse-summary.json
 *.dll
 *.exe
