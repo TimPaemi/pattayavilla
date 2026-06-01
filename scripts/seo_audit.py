@@ -267,6 +267,30 @@ def audit_error_page_schema() -> None:
     ok('404 + offline speakable schema present')
 
 
+def audit_404_route_parity() -> None:
+    redirects = (ROOT / '_redirects').read_text(encoding='utf-8')
+    if not re.search(r'^/404\s+/404/\s+301', redirects, re.M):
+        fail('_redirects missing /404 -> /404/ 301')
+    if not re.search(r'^/404\.html\s+/404/\s+301', redirects, re.M):
+        fail('_redirects missing /404.html -> /404/ 301')
+    headers = (ROOT / '_headers').read_text(encoding='utf-8')
+    if not re.search(r'^/404/\s*$', headers, re.M):
+        fail('_headers missing /404/ cache block')
+    root = (ROOT / '404.html').read_text(encoding='utf-8')
+    page = (ROOT / '404/index.html').read_text(encoding='utf-8')
+
+    def norm(s: str) -> str:
+        return re.sub(r'https://pattayastream.com/404/?(?:html)?', 'CANON', s)
+
+    if norm(root) != norm(page):
+        fail('404.html and 404/index.html content drift')
+    for rel in ('404.html', '404/index.html'):
+        text = (ROOT / rel).read_text(encoding='utf-8')
+        if 'https://pattayastream.com/404/"' not in text:
+            fail(f'{rel} canonical must point to /404/')
+    ok('404 route parity locked')
+
+
 def audit_sticky_support_cta() -> None:
     bad = []
     for f in ROOT.glob('**/*.html'):
@@ -439,6 +463,7 @@ def audit_llms_txt() -> None:
         'format/#locked-format',
         'support/#superchat-vs-thanks',
         'pattayastream.com/offline/',
+        'pattayastream.com/404/',
     ):
         if needle not in text:
             fail(f'llms.txt missing deep link {needle}')
@@ -523,6 +548,7 @@ def main() -> int:
     audit_speakable_selectors()
     audit_video_graph()
     audit_error_page_schema()
+    audit_404_route_parity()
     audit_sticky_support_cta()
     audit_support_speakable()
     audit_network_bar_sync()

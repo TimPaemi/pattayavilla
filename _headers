@@ -49,6 +49,8 @@
   Cache-Control: public, max-age=300, s-maxage=86400, stale-while-revalidate=604800
 /offline/
   Cache-Control: public, max-age=300, s-maxage=86400, stale-while-revalidate=604800
+/404/
+  Cache-Control: public, max-age=300, s-maxage=86400, stale-while-revalidate=604800
 /404.html
   Cache-Control: public, max-age=300, s-maxage=86400, stale-while-revalidate=604800
 /*

@@ -24,6 +24,7 @@ PAGES = [
     ('/code/', 'Code of Conduct'),
     ('/community/', 'Community (noindex)'),
     ('/offline/', 'Offline fallback'),
+    ('/404/', '404 not found'),
     ('/404-test-path-audit', '404 probe'),
 ]
 
@@ -93,6 +94,23 @@ def fetch(url: str, max_bytes: int = 900_000) -> tuple[int | None, str, str]:
         return None, str(e), url
 
 
+def fetch_redirect(url: str) -> tuple[int | None, str | None]:
+    """Return status + Location without following redirects."""
+    class NoRedirect(urllib.request.HTTPRedirectHandler):
+        def redirect_request(self, req, fp, code, msg, headers, newurl):
+            return None
+
+    req = urllib.request.Request(url, method='HEAD', headers={'User-Agent': UA})
+    opener = urllib.request.build_opener(NoRedirect, urllib.request.HTTPSHandler(context=CTX))
+    try:
+        with opener.open(req, timeout=25) as r:
+            return r.status, r.headers.get('Location')
+    except urllib.error.HTTPError as e:
+        return e.code, e.headers.get('Location')
+    except Exception:
+        return None, None
+
+
 def word_count(html: str) -> int:
     m = re.search(r'<main[^>]*>(.*)</main>', html, re.S | re.I)
     chunk = m.group(1) if m else html
@@ -121,6 +139,22 @@ def audit_live_pages() -> None:
                 ok(f'Offline (/offline/) HTTP 200')
             else:
                 fail(f'Offline (/offline/) HTTP {status}')
+            continue
+        if path == '/404/':
+            if status == 200 and 'NOT FOUND' in html.upper() and 'WRONG' in html.upper():
+                ok(f'404 (/404/) HTTP 200')
+            else:
+                fail(f'404 (/404/) HTTP {status}')
+            for name, pat in [
+                ('canonical /404/', r'canonical" href="https://pattayastream\.com/404/"'),
+                ('GA4', r'G-WSGWG7999E'),
+                ('sticky-cta', r'class="sticky-cta"'),
+                ('noindex', r'noindex'),
+            ]:
+                if re.search(pat, html, re.I):
+                    ok(f'  /404/ · {name}')
+                else:
+                    fail(f'  /404/ · MISSING {name}')
             continue
         if status != 200:
             fail(f'{label} ({path}) HTTP {status}')
@@ -199,6 +233,14 @@ def audit_live_pages() -> None:
     else:
         fail(f'/404/ HTTP {st404}')
 
+    print('\n=== 404 REDIRECT CHECK ===\n')
+    for src in ('/404', '/404.html'):
+        code, loc = fetch_redirect(BASE + src)
+        if code in (301, 308) and loc and loc.rstrip('/').endswith('/404'):
+            ok(f'{src} -> {code} Location {loc}')
+        else:
+            fail(f'{src} redirect broken (HTTP {code}, Location {loc})')
+
 
 def audit_assets() -> None:
     print('\n=== LIVE ASSETS ===\n')
@@ -270,6 +312,16 @@ def audit_local_repo() -> None:
                 warn(f'local /faq/ thin: {wc} words (target 850+)')
         if rel == 'offline/index.html' and 'pattayavisahelp.com' in t:
             fail('offline/index.html contains stray external visa link')
+        if rel == '404/index.html':
+            root404 = (ROOT / '404.html').read_text(encoding='utf-8')
+
+            def norm404(s: str) -> str:
+                return re.sub(r'https://pattayastream.com/404/?(?:html)?', 'CANON', s)
+
+            if norm404(t) != norm404(root404):
+                fail('404.html and 404/index.html content drift')
+            else:
+                ok('local 404.html and 404/index.html in sync')
     if missing_marquee:
         fail(f'local index missing marquee: {missing_marquee}')
     else:

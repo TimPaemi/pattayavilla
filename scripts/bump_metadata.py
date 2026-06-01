@@ -8,7 +8,7 @@ from datetime import date
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-SKIP = {'404.html', 'offline/index.html'}
+SKIP_RELS = {'404.html', 'offline/index.html', '404/index.html'}
 ISO = re.compile(r'\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\+\d{2}:\d{2}')
 SHORT = re.compile(r'\d{4}-\d{2}-\d{2}')
 
@@ -21,7 +21,8 @@ def main() -> int:
     for path in sorted(ROOT.glob('**/*.html')):
         if any(p in path.parts for p in ('.git', '.deploy-stage', '_pattayavilla-scaffold')):
             continue
-        if path.name in SKIP and path.parent == ROOT:
+        rel = str(path.relative_to(ROOT)).replace('\\', '/')
+        if rel in SKIP_RELS:
             continue
         text = path.read_text(encoding='utf-8')
         if 'dateModified' not in text and 'article:modified_time' not in text:

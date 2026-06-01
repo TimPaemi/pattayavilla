@@ -84,6 +84,7 @@ PATTAYA VILLA STREAM is one site in a 14-site Pattaya network all operated by th
 - [Code of Conduct](https://pattayastream.com/code/) — chat house rules, enforcement, mod policy
 - [FAQ](https://pattayastream.com/faq/) — twenty common questions with JSON-LD FAQPage schema
 - [Offline fallback](https://pattayastream.com/offline/) — service-worker page when the device has no connection (noindex)
+- [404 not found](https://pattayastream.com/404/) — human-friendly error page with quick links back to every section (noindex; root `404.html` still serves unknown paths with HTTP 404)
 
 ## Discovery + SEO automation
 
