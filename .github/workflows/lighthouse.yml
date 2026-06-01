@@ -29,6 +29,7 @@ jobs:
           uploadArtifacts: true
           temporaryPublicStorage: true
           configPath: '.github/workflows/lighthouserc.json'
+          artifactName: lighthouse-indexed
 
       - name: Run Lighthouse (noindex utility pages)
         uses: treosh/lighthouse-ci-action@v11
@@ -40,6 +41,7 @@ jobs:
           uploadArtifacts: true
           temporaryPublicStorage: true
           configPath: '.github/workflows/lighthouserc-noindex.json'
+          artifactName: lighthouse-noindex
 
       - name: Summary
         if: always()
@@ -69,6 +71,7 @@ jobs:
           uploadArtifacts: true
           temporaryPublicStorage: true
           configPath: '.github/workflows/lighthouserc.json'
+          artifactName: lighthouse-indexed
 
       - name: Run Lighthouse on production (noindex utility)
         uses: treosh/lighthouse-ci-action@v11
@@ -80,3 +83,4 @@ jobs:
           uploadArtifacts: true
           temporaryPublicStorage: true
           configPath: '.github/workflows/lighthouserc-noindex.json'
+          artifactName: lighthouse-noindex
