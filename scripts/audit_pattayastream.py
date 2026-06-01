@@ -27,6 +27,16 @@ PAGES = [
     ('/404-test-path-audit', '404 probe'),
 ]
 
+LIVE_MIN_WORDS = {
+    '/': 850,
+    '/support/': 850,
+    '/format/': 850,
+    '/about/': 850,
+    '/faq/': 850,
+    '/code/': 850,
+    '/community/': 850,
+}
+
 ASSETS = [
     '/assets/css/pv-core.css?v=8',
     '/assets/css/pv-sub.css?v=6',
@@ -143,10 +153,11 @@ def audit_live_pages() -> None:
                 fail(f'  {path} · MISSING {name}')
 
         wc = word_count(html)
-        if wc < 300 and path not in ('/offline/',):
+        min_wc = LIVE_MIN_WORDS.get(path)
+        if min_wc and wc < min_wc:
+            fail(f'  {path} · thin live content ({wc} words — target {min_wc}+)')
+        elif wc < 300 and path not in ('/offline/',):
             warn(f'  {path} · thin content ({wc} words in main)')
-        elif wc < 550 and path == '/code/':
-            warn(f'  {path} · thin content ({wc} words in main — target 550+)')
         else:
             ok(f'  {path} · {wc} words in main')
 
@@ -214,16 +225,16 @@ def audit_local_repo() -> None:
                 warn(f'local homepage thin: {wc} words (target 850+)')
         if rel == 'community/index.html':
             wc = word_count(t)
-            if wc >= 700:
+            if wc >= 850:
                 ok(f'local /community/ main content: {wc} words')
             else:
-                warn(f'local /community/ thin: {wc} words (target 700+)')
+                warn(f'local /community/ thin: {wc} words (target 850+)')
         if rel == 'code/index.html':
             wc = word_count(t)
-            if wc >= 550:
+            if wc >= 850:
                 ok(f'local /code/ main content: {wc} words')
             else:
-                warn(f'local /code/ thin: {wc} words (target 550+)')
+                warn(f'local /code/ thin: {wc} words (target 850+)')
         if rel == 'about/index.html':
             wc = word_count(t)
             if wc >= 850:

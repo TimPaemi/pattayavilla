@@ -460,6 +460,20 @@ def audit_support_deep_links() -> None:
     ok('FAQ support deep links wired')
 
 
+def audit_faq_jsonld_mesh() -> None:
+    faq = (ROOT / 'faq/index.html').read_text(encoding='utf-8')
+    needles = (
+        'live vs recordings on the format page',
+        'locked format rules on the format page',
+        'Super Chat vs Super Thanks on the support page',
+    )
+    missing = [n for n in needles if n not in faq]
+    if missing:
+        fail(f'FAQ JSON-LD answers missing mesh text: {missing[:3]}')
+    else:
+        ok('FAQ JSON-LD mesh answers synced')
+
+
 def main() -> int:
     print('=== PATTAYA VILLA STREAM SEO AUDIT ===\n')
     audit_sitemap()
@@ -473,6 +487,7 @@ def main() -> int:
     audit_og_file_sizes()
     audit_llms_txt()
     audit_support_deep_links()
+    audit_faq_jsonld_mesh()
     audit_support_backlinks()
     audit_donate_action()
     audit_dns_prefetch()
