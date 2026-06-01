@@ -338,7 +338,7 @@ def audit_speakable_dom() -> None:
         'code/index.html': ['#why-code-heading', '#welcome-heading', '#banned-heading', '#how-enforcement-heading', '#mods-heading'],
         'community/index.html': ['#why-community-heading', '#become-heading', '#why-heading', '#mods-community-heading', '.tier-name'],
         'support/index.html': ['#free', '#tip-tonight', '#how-support-heading', '#superchat-vs-thanks-heading', '#recognition-policy-heading', '.support-card-name', '.equal-paths-a'],
-        'format/index.html': ['#typical-night', '#chat-is-the-room', '#the-vibe', '#first-night'],
+        'format/index.html': ['#typical-night', '#chat-is-the-room', '#the-vibe', '#first-night', '#locked-format', '#live-vs-recordings'],
     }
     bad = []
     for rel, selectors in checks.items():
