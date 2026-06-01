@@ -164,7 +164,7 @@ def audit_live_pages() -> None:
         checks = [
             ('canonical', r'<link rel="canonical"'),
             ('GA4', r'G-WSGWG7999E'),
-            ('pv-core.css v10', r'pv-core\.css\?v=9'),
+            ('pv-core.css v10', r'pv-core\.css\?v=10'),
             ('utility-bar-actions', r'utility-bar-actions'),
             ('sticky-cta', r'class="sticky-cta"'),
             ('support #tip-tonight', r'/support/#tip-tonight'),
