@@ -6,10 +6,11 @@
 /faq         /faq/        301
 /about       /about/      301
 /offline     /offline/    301
+/404         /404/        301
 
 # === Service Worker fallbacks (bare paths → HTML files) ===
 /offline.html  /offline/  301
-/404           /404.html  200
+/404.html      /404/      301
 
 # === Support page anchor shortcuts (organic shorthand) ===
 /donate     /support/                301

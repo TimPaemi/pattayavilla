@@ -51,6 +51,7 @@ ASSETS = [
     '/sitemap.xml',
     '/.well-known/llms.txt',
     '/psindex2026pattayastreamkey.txt',
+    '/404/',
     '/assets/og/og-home.jpg',
     '/assets/og/og-support.jpg',
     '/assets/og/og-about.jpg',
@@ -176,6 +177,8 @@ def audit_live_pages() -> None:
     for href in sorted(internal_hrefs):
         if href in ('/offline', '/offline/'):
             test = BASE + '/offline/'
+        elif href in ('/404', '/404/'):
+            test = BASE + '/404/'
         else:
             test = BASE + (href if href.endswith('/') else href + '/')
         st, _, _ = fetch(test)
@@ -189,6 +192,12 @@ def audit_live_pages() -> None:
         fail(f'broken internal link: {b}')
     if not broken_internal:
         ok('all crawled internal paths return 200')
+
+    st404, body404, _ = fetch(BASE + '/404/')
+    if st404 == 200 and 'NOT FOUND' in body404.upper():
+        ok('/404/ HTTP 200')
+    else:
+        fail(f'/404/ HTTP {st404}')
 
 
 def audit_assets() -> None:

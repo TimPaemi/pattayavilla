@@ -15,7 +15,7 @@ INDEXED = {'/', '/about/', '/support/', '/format/', '/faq/', '/code/'}
 NOINDEX_OK = {'/community/'}
 HTML_PAGES = [
     'index.html', 'about/index.html', 'support/index.html', 'format/index.html',
-    'code/index.html', 'faq/index.html', 'community/index.html', '404.html', 'offline/index.html',
+    'code/index.html', 'faq/index.html', 'community/index.html', '404.html', '404/index.html', 'offline/index.html',
 ]
 
 failures: list[str] = []
@@ -81,7 +81,7 @@ def audit_indexnow() -> None:
 
 def audit_canonicals() -> None:
     for rel in HTML_PAGES:
-        if rel in ('404.html', 'offline/index.html'):
+        if rel in ('404.html', '404/index.html', 'offline/index.html'):
             continue
         html = (ROOT / rel).read_text(encoding='utf-8')
         if 'rel="canonical"' not in html:
@@ -257,7 +257,7 @@ def audit_video_graph() -> None:
 
 def audit_error_page_schema() -> None:
     for rel, selectors in (
-        ('404.html', ['SpeakableSpecification', 'h1']),
+        ('404/index.html', ['SpeakableSpecification', 'h1']),
         ('offline/index.html', ['SpeakableSpecification', 'offline-sub']),
     ):
         text = (ROOT / rel).read_text(encoding='utf-8')
@@ -474,6 +474,32 @@ def audit_faq_jsonld_mesh() -> None:
         ok('FAQ JSON-LD mesh answers synced')
 
 
+def _main_word_count(html: str) -> int:
+    m = re.search(r'<main[^>]*>(.*)</main>', html, re.S | re.I)
+    chunk = m.group(1) if m else html
+    text = re.sub(r'<script[^>]*>.*?</script>', ' ', chunk, flags=re.S | re.I)
+    text = re.sub(r'<[^>]+>', ' ', text)
+    return len(text.split())
+
+
+def audit_article_wordcounts() -> None:
+    drift = []
+    for rel in ('format/index.html', 'code/index.html'):
+        text = (ROOT / rel).read_text(encoding='utf-8')
+        m = re.search(r'"wordCount":(\d+)', text)
+        if not m:
+            drift.append(f'{rel} missing wordCount')
+            continue
+        schema_wc = int(m.group(1))
+        actual = _main_word_count(text)
+        if abs(schema_wc - actual) > 120:
+            drift.append(f'{rel} schema={schema_wc} main={actual}')
+    if drift:
+        fail(f'Article wordCount drift: {drift[:3]}')
+    else:
+        ok('Article wordCount schema synced')
+
+
 def main() -> int:
     print('=== PATTAYA VILLA STREAM SEO AUDIT ===\n')
     audit_sitemap()
@@ -482,6 +508,7 @@ def main() -> int:
     audit_canonicals()
     audit_internal_links()
     audit_faq_schema()
+    audit_article_wordcounts()
     audit_dedicated_og()
     audit_sitemap_og_images()
     audit_og_file_sizes()
