@@ -241,6 +241,31 @@ def audit_live_pages() -> None:
         else:
             fail(f'{src} redirect broken (HTTP {code}, Location {loc})')
 
+    print('\n=== OFFLINE REDIRECT CHECK ===\n')
+    for src in ('/offline', '/offline.html'):
+        code, loc = fetch_redirect(BASE + src)
+        if code in (301, 308) and loc and loc.rstrip('/').endswith('/offline'):
+            ok(f'{src} -> {code} Location {loc}')
+        else:
+            fail(f'{src} redirect broken (HTTP {code}, Location {loc})')
+
+    print('\n=== SHORTCUT REDIRECT CHECK ===\n')
+    shortcut_checks = (
+        ('/donate', (301, 308), '/support'),
+        ('/tip', (301, 308), 'tip-tonight'),
+        ('/free', (301, 308), '/support/#free'),
+        ('/live', (302,), 'youtube.com/@timpaemi/live'),
+        ('/subscribe', (302,), 'sub_confirmation=1'),
+        ('/rules', (301, 308), '/code'),
+    )
+    for src, codes, needle in shortcut_checks:
+        code, loc = fetch_redirect(BASE + src)
+        loc_ok = loc and needle.lower() in loc.lower()
+        if code in codes and loc_ok:
+            ok(f'{src} -> {code} Location {loc}')
+        else:
+            fail(f'{src} shortcut broken (HTTP {code}, Location {loc})')
+
 
 def audit_assets() -> None:
     print('\n=== LIVE ASSETS ===\n')

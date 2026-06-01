@@ -267,28 +267,58 @@ def audit_error_page_schema() -> None:
     ok('404 + offline speakable schema present')
 
 
-def audit_404_route_parity() -> None:
+def audit_error_route_parity() -> None:
     redirects = (ROOT / '_redirects').read_text(encoding='utf-8')
+    headers = (ROOT / '_headers').read_text(encoding='utf-8')
+
     if not re.search(r'^/404\s+/404/\s+301', redirects, re.M):
         fail('_redirects missing /404 -> /404/ 301')
     if not re.search(r'^/404\.html\s+/404/\s+301', redirects, re.M):
         fail('_redirects missing /404.html -> /404/ 301')
-    headers = (ROOT / '_headers').read_text(encoding='utf-8')
     if not re.search(r'^/404/\s*$', headers, re.M):
         fail('_headers missing /404/ cache block')
-    root = (ROOT / '404.html').read_text(encoding='utf-8')
-    page = (ROOT / '404/index.html').read_text(encoding='utf-8')
 
-    def norm(s: str) -> str:
+    root404 = (ROOT / '404.html').read_text(encoding='utf-8')
+    page404 = (ROOT / '404/index.html').read_text(encoding='utf-8')
+
+    def norm404(s: str) -> str:
         return re.sub(r'https://pattayastream.com/404/?(?:html)?', 'CANON', s)
 
-    if norm(root) != norm(page):
+    if norm404(root404) != norm404(page404):
         fail('404.html and 404/index.html content drift')
     for rel in ('404.html', '404/index.html'):
         text = (ROOT / rel).read_text(encoding='utf-8')
         if 'https://pattayastream.com/404/"' not in text:
             fail(f'{rel} canonical must point to /404/')
-    ok('404 route parity locked')
+
+    if not re.search(r'^/offline\s+/offline/\s+301', redirects, re.M):
+        fail('_redirects missing /offline -> /offline/ 301')
+    if not re.search(r'^/offline\.html\s+/offline/\s+301', redirects, re.M):
+        fail('_redirects missing /offline.html -> /offline/ 301')
+    if not re.search(r'^/offline/\s*$', headers, re.M):
+        fail('_headers missing /offline/ cache block')
+    offline = (ROOT / 'offline/index.html').read_text(encoding='utf-8')
+    if 'https://pattayastream.com/offline/"' not in offline:
+        fail('offline/index.html canonical must point to /offline/')
+
+    ok('Error route parity locked (404 + offline)')
+
+
+def audit_redirect_shortcuts() -> None:
+    redirects = (ROOT / '_redirects').read_text(encoding='utf-8')
+    rules = (
+        (r'^/donate\s+/support/\s+301', 'donate -> support'),
+        (r'^/tip\s+/support/#tip-tonight\s+301', 'tip -> support/#tip-tonight'),
+        (r'^/free\s+/support/#free\s+301', 'free -> support/#free'),
+        (r'^/live\s+https://www\.youtube\.com/@timpaemi/live', 'live -> YouTube live'),
+        (r'^/subscribe\s+https://www\.youtube\.com/@timpaemi\?sub_confirmation=1', 'subscribe -> YouTube sub'),
+        (r'^/rules\s+/code/\s+301', 'rules -> code'),
+    )
+    missing = [label for pat, label in rules if not re.search(pat, redirects, re.M)]
+    if missing:
+        fail(f'_redirects missing shortcuts: {missing[:4]}')
+    else:
+        ok('Redirect shortcuts wired in _redirects')
 
 
 def audit_sticky_support_cta() -> None:
@@ -548,7 +578,8 @@ def main() -> int:
     audit_speakable_selectors()
     audit_video_graph()
     audit_error_page_schema()
-    audit_404_route_parity()
+    audit_error_route_parity()
+    audit_redirect_shortcuts()
     audit_sticky_support_cta()
     audit_support_speakable()
     audit_network_bar_sync()
