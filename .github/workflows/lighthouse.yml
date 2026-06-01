@@ -53,6 +53,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Wait for Cloudflare Pages deploy
+        run: sleep 45
+
       - name: Run Lighthouse on production (indexed)
         uses: treosh/lighthouse-ci-action@v11
         with:
