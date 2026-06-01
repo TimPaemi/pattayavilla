@@ -13,6 +13,8 @@ PATTAYA VILLA STREAM is the dedicated home for the nightly livestream by **Tim**
 - **Chat drives the conversation** — questions, challenges, jokes, topics — Tim and Paemi respond to whatever lands.
 - A small group of close friends rotates through most nights — it's a family-vibe atmosphere with challenges, eating, games, talking, laughing.
 - **Tim and Paemi are the only publicly named people** on the website. Friends, mods, and supporters remain anonymous on the site.
+- **No sponsors and no brand deals** — the show is funded by viewers through YouTube only.
+- **Live is the main event** — uploaded recordings stay on the YouTube channel after each stream; Super Thanks works on VODs, Super Chat is for live airtime.
 - **Every donation gets a live shoutout on stream** — names are read out loud, never published on the website.
 
 ## Schedule
@@ -74,13 +76,14 @@ PATTAYA VILLA STREAM is one site in a 14-site Pattaya network all operated by th
 
 ## Site sections
 
-- [Homepage](https://pattayastream.com/) — overview, scale, quick links
-- [About](https://pattayastream.com/about/) — the story behind PATTAYA VILLA STREAM, the 14-site network, the locked principles
-- [The Format](https://pattayastream.com/format/) — how the show works, five-part breakdown
-- [Support](https://pattayastream.com/support/) — five active support paths (3 free, 2 paid via YouTube)
-- [Community](https://pattayastream.com/community/) — the shoutout policy (live on stream, anonymous on site)
-- [Code of Conduct](https://pattayastream.com/code/) — chat house rules
+- [Homepage](https://pattayastream.com/) — hero, scale stats, timezone guide, first-night onboarding, quick links to every page
+- [About](https://pattayastream.com/about/) — Tim & Paemi story, what this site is for, the show, 14-site network, locked principles, new-viewer path, contact
+- [The Format](https://pattayastream.com/format/) — seven-section breakdown: typical night, crew, chat-is-the-room, vibe, first night, [locked rules](https://pattayastream.com/format/#locked-format), [live vs recordings](https://pattayastream.com/format/#live-vs-recordings)
+- [Support](https://pattayastream.com/support/) — five active paths (3 free, 2 paid via YouTube); deep dives on [Super Chat vs Super Thanks](https://pattayastream.com/support/#superchat-vs-thanks), [recognition policy](https://pattayastream.com/support/#recognition-policy), and [sponsor-free funding](https://pattayastream.com/support/#no-sponsors)
+- [Community](https://pattayastream.com/community/) — mods, heroes, regulars; shoutouts on stream, anonymous on site (noindex — not in sitemap)
+- [Code of Conduct](https://pattayastream.com/code/) — chat house rules, enforcement, mod policy
 - [FAQ](https://pattayastream.com/faq/) — twenty common questions with JSON-LD FAQPage schema
+- [Offline fallback](https://pattayastream.com/offline/) — service-worker page when the device has no connection (noindex)
 
 ## Discovery + SEO automation
 

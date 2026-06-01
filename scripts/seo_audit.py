@@ -114,6 +114,18 @@ def audit_internal_links() -> None:
             fail(f'{p} has zero inbound internal links')
 
 
+def audit_faq_mesh_links() -> None:
+    faq = (ROOT / 'faq/index.html').read_text(encoding='utf-8')
+    if faq.count('href="/format/"') < 3:
+        fail('FAQ has fewer than 3 links to /format/')
+    if faq.count('href="/code/"') < 3:
+        fail('FAQ has fewer than 3 links to /code/')
+    for needle in ('/format/#locked-format', '/format/#live-vs-recordings', '/support/#superchat-vs-thanks'):
+        if needle not in faq:
+            fail(f'FAQ missing mesh deep link {needle}')
+    ok('FAQ format + code mesh links wired')
+
+
 def audit_faq_schema() -> None:
     html = (ROOT / 'faq/index.html').read_text(encoding='utf-8')
     details_count = len(re.findall(r'<details name="faq"', html))
@@ -156,15 +168,6 @@ def audit_date_modified() -> None:
         fail(f'dateModified not synced to sitemap lastmod ({expected}): {stale}')
     else:
         ok(f'dateModified synced to {expected} on indexed pages')
-
-
-def audit_faq_mesh_links() -> None:
-    faq = (ROOT / 'faq/index.html').read_text(encoding='utf-8')
-    if faq.count('href="/format/"') < 3:
-        fail('FAQ has fewer than 3 links to /format/')
-    if faq.count('href="/code/"') < 3:
-        fail('FAQ has fewer than 3 links to /code/')
-    ok('FAQ format + code mesh links wired')
 
 
 def audit_indexed_support_paths() -> None:
@@ -432,6 +435,13 @@ def audit_llms_txt() -> None:
             fail(f'llms.txt FAQ count stale — expected ~{faq_count} ({expected})')
     if 'pattayastream.com/support/#free' not in text:
         fail('llms.txt missing support/#free deep link')
+    for needle in (
+        'format/#locked-format',
+        'support/#superchat-vs-thanks',
+        'pattayastream.com/offline/',
+    ):
+        if needle not in text:
+            fail(f'llms.txt missing deep link {needle}')
     manifest = json.loads((ROOT / 'scripts' / 'network_manifest.json').read_text(encoding='utf-8'))
     for site in manifest['live']:
         if site['domain'] == 'pattayastream.com':
