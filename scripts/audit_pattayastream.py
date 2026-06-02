@@ -39,10 +39,10 @@ LIVE_MIN_WORDS = {
 }
 
 ASSETS = [
-    '/assets/css/pv-core.css?v=11',
+    '/assets/css/pv-core.css?v=12',
     '/assets/css/pv-sub.css?v=6',
     '/assets/css/pv-home.css?v=6',
-    '/assets/js/pv-live.js?v=27',
+    '/assets/js/pv-live.js?v=28',
     '/assets/js/pv-analytics.js?v=1',
     '/assets/js/web-vitals.iife.js',
     '/manifest.json',
@@ -53,6 +53,7 @@ ASSETS = [
     '/.well-known/llms.txt',
     '/psindex2026pattayastreamkey.txt',
     '/404/',
+    '/LICENSE',
     '/assets/og/og-home.jpg',
     '/assets/og/og-support.jpg',
     '/assets/og/og-about.jpg',
@@ -164,8 +165,9 @@ def audit_live_pages() -> None:
         checks = [
             ('canonical', r'<link rel="canonical"'),
             ('GA4', r'G-WSGWG7999E'),
-            ('pv-core.css v11', r'pv-core\.css\?v=11'),
+            ('pv-core.css v12', r'pv-core\.css\?v=12'),
             ('utility-bar-actions', r'utility-bar-actions'),
+            ('live pill SSR placeholder', r'live-status is-placeholder'),
             ('sticky-cta', r'class="sticky-cta"'),
             ('support #tip-tonight', r'/support/#tip-tonight'),
             ('footer collapsible', r'footer-network-details'),
@@ -289,12 +291,19 @@ def audit_local_repo() -> None:
     html_files = [f for f in html_files if '.git' not in f.parts]
     missing_marquee = []
     missing_actions = []
+    missing_placeholder = []
     missing_footer = []
+    chrome_with_bar = (
+        'index.html', 'about/index.html', 'support/index.html', 'format/index.html',
+        'code/index.html', 'faq/index.html', 'community/index.html', '404.html', '404/index.html',
+    )
     for f in html_files:
         t = f.read_text(encoding='utf-8')
         rel = str(f.relative_to(ROOT)).replace('\\', '/')
         if 'utility-bar' in t and 'utility-bar-actions' not in t:
             missing_actions.append(rel)
+        if rel in chrome_with_bar and 'live-status is-placeholder' not in t:
+            missing_placeholder.append(rel)
         if 'footer-network-heading' in t and 'footer-network-details' not in t:
             missing_footer.append(rel)
         if rel == 'index.html' and 'class="marquee"' not in t:
@@ -361,6 +370,10 @@ def audit_local_repo() -> None:
         fail(f'pages missing utility-bar-actions: {missing_actions}')
     else:
         ok('all utility-bar pages have actions slot')
+    if missing_placeholder:
+        fail(f'pages missing SSR live pill placeholder: {missing_placeholder}')
+    else:
+        ok('SSR live pill placeholder on all chrome pages')
     if missing_footer:
         fail(f'pages missing collapsible footer: {missing_footer}')
     else:

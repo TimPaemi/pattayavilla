@@ -236,8 +236,26 @@
 
   /* ---------- live indicator ---------- */
   function buildLive(bar){
-    if(!bar || bar.querySelector('.live-status')) return;
+    if(!bar) return;
     var actions = utilityActions(bar);
+    var placeholder = bar.querySelector('.live-status.is-placeholder');
+    if (placeholder) {
+      var wrap = document.createElement('a');
+      wrap.className = 'live-status';
+      wrap.href = 'https://www.youtube.com/@timpaemi/live?utm_source=pattayastream&utm_medium=live_pill&utm_campaign=watch';
+      wrap.target = '_blank'; wrap.rel = 'noopener';
+      wrap.setAttribute('data-gtm','live_pill_click');
+      wrap.setAttribute('aria-hidden','false');
+      var dot = document.createElement('span'); dot.className = 'dot';
+      var txt = document.createElement('span'); txt.className = 'txt';
+      wrap.appendChild(dot); wrap.appendChild(txt);
+      placeholder.replaceWith(wrap);
+      tickLive(wrap);
+      setInterval(function(){ tickLive(wrap); }, 60000);
+      try { window.matchMedia('(max-width:760px)').addEventListener('change', function(){ tickLive(wrap); }); } catch (_) {}
+      return;
+    }
+    if(bar.querySelector('.live-status')) return;
     var wrap = document.createElement('a');
     wrap.className = 'live-status';
     wrap.href = 'https://www.youtube.com/@timpaemi/live?utm_source=pattayastream&utm_medium=live_pill&utm_campaign=watch';

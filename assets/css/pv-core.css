@@ -73,6 +73,7 @@ a:hover{color:#fff}
 }
 .utility-bar-actions .pv-share{min-height:44px}
 .utility-bar-actions .live-status{flex-shrink:1;min-width:0;max-width:100%}
+.live-status.is-placeholder{pointer-events:none;opacity:.92}
 .utility-bar-actions .live-status .txt{white-space:nowrap}
 .utility-bar-actions .pv-share{
   flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;

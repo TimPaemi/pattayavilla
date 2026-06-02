@@ -297,6 +297,8 @@ def audit_error_route_parity() -> None:
         fail('_redirects missing /offline.html -> /offline/ 301')
     if not re.search(r'^/offline/\s*$', headers, re.M):
         fail('_headers missing /offline/ cache block')
+    if not re.search(r'^/LICENSE/\s+/LICENSE\s+301', redirects, re.M):
+        fail('_redirects missing /LICENSE/ -> /LICENSE 301')
     offline = (ROOT / 'offline/index.html').read_text(encoding='utf-8')
     if 'https://pattayastream.com/offline/"' not in offline:
         fail('offline/index.html canonical must point to /offline/')
@@ -483,7 +485,7 @@ def audit_llms_txt() -> None:
     faq_count = len(re.findall(r'<details name="faq"', html))
     if f'{faq_count} common questions' not in text and f'twenty common questions' not in text.lower():
         # accept spelled-out twenty for 20
-        num_words = {17: 'seventeen', 18: 'eighteen', 19: 'nineteen', 20: 'twenty'}
+        num_words = {17: 'seventeen', 18: 'eighteen', 19: 'nineteen', 20: 'twenty', 21: 'twenty-one'}
         expected = num_words.get(faq_count, str(faq_count))
         if expected not in text.lower():
             fail(f'llms.txt FAQ count stale — expected ~{faq_count} ({expected})')
@@ -593,6 +595,44 @@ def audit_support_live_banner_slot() -> None:
     ok('support live-banner CLS slot wired')
 
 
+def audit_org_privacy_terms_schema() -> None:
+    html = (ROOT / 'index.html').read_text(encoding='utf-8')
+    blocks = re.findall(r'<script type="application/ld\+json">\s*(.*?)\s*</script>', html, re.DOTALL)
+    for block in blocks:
+        try:
+            data = json.loads(block)
+        except json.JSONDecodeError:
+            continue
+        graph = data.get('@graph', [data])
+        for node in graph:
+            if node.get('@id') == 'https://pattayastream.com/#org':
+                if node.get('privacyPolicy') != 'https://timpaemi.com/privacy/':
+                    fail('Organization schema missing privacyPolicy -> timpaemi.com/privacy/')
+                if node.get('termsOfUse') != 'https://pattayastream.com/LICENSE':
+                    fail('Organization schema missing termsOfUse -> /LICENSE')
+                ok('Organization privacyPolicy + termsOfUse wired')
+                return
+    fail('Organization node not found for privacy/terms schema')
+
+
+def audit_live_pill_placeholder() -> None:
+    pages = (
+        'index.html', 'about/index.html', 'support/index.html', 'format/index.html',
+        'code/index.html', 'faq/index.html', 'community/index.html', '404.html', '404/index.html',
+    )
+    css = (ROOT / 'assets/css/pv-core.css').read_text(encoding='utf-8')
+    bad = []
+    for rel in pages:
+        html = (ROOT / rel).read_text(encoding='utf-8')
+        if 'live-status is-placeholder' not in html:
+            bad.append(f'{rel} missing SSR live pill placeholder')
+    if bad:
+        fail(f'live pill SSR placeholder missing: {bad[:4]}')
+    if '.live-status.is-placeholder' not in css:
+        fail('pv-core.css missing .live-status.is-placeholder rule')
+    ok('SSR live pill placeholder on all chrome pages')
+
+
 def audit_footer_trust_links() -> None:
     pages = (
         'index.html', 'about/index.html', 'support/index.html', 'format/index.html',
@@ -643,7 +683,9 @@ def main() -> int:
     audit_speakable_dom()
     audit_end_cta_support()
     audit_org_sameas_network()
+    audit_org_privacy_terms_schema()
     audit_support_live_banner_slot()
+    audit_live_pill_placeholder()
     audit_footer_trust_links()
     audit_date_modified()
     print()

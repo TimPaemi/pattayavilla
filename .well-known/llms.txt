@@ -82,7 +82,7 @@ PATTAYA VILLA STREAM is one site in a 14-site Pattaya network all operated by th
 - [Support](https://pattayastream.com/support/) — five active paths (3 free, 2 paid via YouTube); deep dives on [Super Chat vs Super Thanks](https://pattayastream.com/support/#superchat-vs-thanks), [recognition policy](https://pattayastream.com/support/#recognition-policy), and [sponsor-free funding](https://pattayastream.com/support/#no-sponsors)
 - [Community](https://pattayastream.com/community/) — mods, heroes, regulars; shoutouts on stream, anonymous on site (noindex — not in sitemap)
 - [Code of Conduct](https://pattayastream.com/code/) — chat house rules, enforcement, mod policy
-- [FAQ](https://pattayastream.com/faq/) — twenty common questions with JSON-LD FAQPage schema
+- [FAQ](https://pattayastream.com/faq/) — twenty-one common questions with JSON-LD FAQPage schema (includes privacy/analytics)
 - [Offline fallback](https://pattayastream.com/offline/) — service-worker page when the device has no connection (noindex)
 - [404 not found](https://pattayastream.com/404/) — human-friendly error page with quick links back to every section (noindex; root `404.html` still serves unknown paths with HTTP 404)
 
@@ -92,6 +92,8 @@ PATTAYA VILLA STREAM is one site in a 14-site Pattaya network all operated by th
 - Network sitemap index: [https://pattayastream.com/sitemap-network.xml](https://pattayastream.com/sitemap-network.xml)
 - IndexNow key: [https://pattayastream.com/psindex2026pattayastreamkey.txt](https://pattayastream.com/psindex2026pattayastreamkey.txt)
 - Weekly automated SEO + network audits run in CI on every push
+- Privacy policy: [https://timpaemi.com/privacy/](https://timpaemi.com/privacy/) (brand site — no separate page on pattayastream.com)
+- Site terms: [https://pattayastream.com/LICENSE](https://pattayastream.com/LICENSE)
 - IndexNow pings run on every deploy (global API + Bing endpoint)
 
 ## Contact
