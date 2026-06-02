@@ -60,7 +60,7 @@
       '.pv-scroll-top:active{transform:scale(.97)}',
       '@media(max-width:760px){.pv-scroll-top{right:.75rem;bottom:calc(68px + env(safe-area-inset-bottom,0px));min-width:48px;padding:.5rem .85rem;font-size:.58rem}}',
       /* === Thai CTA micro-copy === */
-      '.btn.has-thai{flex-direction:column;gap:.12rem;line-height:1.1;padding-top:.85rem;padding-bottom:.85rem}',
+      '.btn.has-thai,.btn-mega.has-thai{flex-direction:column;gap:.12rem;line-height:1.1;padding-top:.85rem;padding-bottom:.85rem}',
       '.btn-thai,.cta-thai{display:block;font-size:.52rem;letter-spacing:.4px;font-weight:600;text-transform:none;opacity:.88;line-height:1.2}',
       '.btn-red .btn-thai{color:rgba(255,255,255,.92)}',
       '.sticky-cta a.has-thai{flex-direction:column;gap:.1rem;line-height:1.05;padding:.75rem .5rem}',
@@ -354,6 +354,42 @@
     setInterval(tick, 30000);
   }
 
+  /* ---------- homepage live pulse — eyebrow + mega CTA when on air ---------- */
+  function buildHeroLivePulse(){
+    var eyebrow = document.querySelector('.hero .hero-eyebrow');
+    var mega = document.querySelector('[data-gtm="hero_watch_live"]');
+    if (!eyebrow && !mega) return;
+    if (eyebrow && !eyebrow.dataset.offText) eyebrow.dataset.offText = eyebrow.textContent.trim();
+    if (mega && !mega.dataset.offLabel){
+      var heroLbl = mega.querySelector('.hero-cta-label');
+      mega.dataset.offLabel = heroLbl ? heroLbl.textContent.trim() : mega.textContent.replace(/\s*ดูสด.*/, '').trim();
+    }
+    function tick(){
+      var live = isLiveICT();
+      if (eyebrow){
+        if (live){
+          eyebrow.classList.add('is-live-now');
+          eyebrow.textContent = '● LIVE NOW · VILLA SHOW ON AIR';
+        } else {
+          eyebrow.classList.remove('is-live-now');
+          eyebrow.textContent = eyebrow.dataset.offText;
+        }
+      }
+      if (mega){
+        var lbl = mega.querySelector('.hero-cta-label');
+        if (live){
+          mega.classList.add('is-live-now');
+          if (lbl) lbl.textContent = '● LIVE NOW ON YOUTUBE';
+        } else {
+          mega.classList.remove('is-live-now');
+          if (lbl) lbl.textContent = mega.dataset.offLabel;
+        }
+      }
+    }
+    tick();
+    setInterval(tick, 60000);
+  }
+
   /* ---------- share tonight (native share or copy live link) ---------- */
   var SHARE_TONIGHT_TEXT = 'PATTAYA VILLA STREAM — live every night 9 PM ICT';
   function shareTonight(btn){
@@ -419,10 +455,16 @@
     var heroWatch = document.querySelector('[data-gtm="hero_watch_live"]');
     if (heroWatch && !heroWatch.querySelector('.btn-thai')){
       heroWatch.classList.add('has-thai');
+      var heroText = heroWatch.textContent.trim();
+      heroWatch.textContent = '';
+      var heroMain = document.createElement('span');
+      heroMain.className = 'hero-cta-label';
+      heroMain.textContent = heroText;
       var heroThai = document.createElement('span');
       heroThai.className = 'btn-thai';
       heroThai.setAttribute('aria-hidden', 'true');
       heroThai.textContent = 'ดูสดคืนนี้ · 21:00 น. ไทย';
+      heroWatch.appendChild(heroMain);
       heroWatch.appendChild(heroThai);
     }
     var thaiByClass = { 'cta-watch': 'ดูสด 21:00 น.', 'cta-support': 'สนับสนุน', 'cta-tip': 'ทิปคืนนี้' };
@@ -875,8 +917,10 @@
     var bar = document.querySelector('.utility-bar');
     if (bar){ buildLive(bar); buildShare(bar); }
     tickLiveBannerSlot();
+    buildThaiCtaHints();
     if (!lite){
       buildHeroShowtime();
+      buildHeroLivePulse();
       buildShareTonightButtons();
       buildInstallPrompt();
       updateLiveSchema();
@@ -889,7 +933,6 @@
       window.addEventListener('hashchange', buildHashLanding);
       pauseMarqueeWhenHidden();
     }
-    buildThaiCtaHints();
     buildStickyLive();
     setInterval(tickLiveBannerSlot, 60000);
     buildSmartSticky();

@@ -87,9 +87,9 @@
 <style id="pv-critical-chrome">:root{ --pink:#ff2f8e;--cyan:#00e5ff;--yellow:#ffe156;--green:#6aff9f; --red:#e60030;--red-text:#ff3b5c;--red-hover:#ff1f4d; --bg:#08080c;--bg-glass:rgba(14,14,20,.72); --border:rgba(255,255,255,.09);--border-strong:rgba(255,255,255,.22); --text:rgba(255,255,255,.94);--muted:rgba(255,255,255,.8);--dim:rgba(255,255,255,.72); --glow-pink:0 0 80px rgba(255,47,142,.35);--glow-red:0 0 100px rgba(230,0,48,.45); --radius-sm:8px;--radius-md:14px;--radius-lg:20px;--radius-pill:9999px;--max:1200px; --mono:'JetBrains Mono','Consolas',monospace; --display:'Bebas Neue',Impact,sans-serif; --body:'Inter',Arial,sans-serif; } *,*::before,*::after{box-sizing:border-box} html{-webkit-text-size-adjust:100%} html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:var(--body);line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:clip;max-width:100vw} body::before{content:'';position:fixed;inset:0;z-index:-3;pointer-events:none;background:radial-gradient(ellipse 80% 50% at 50% -10%,rgba(255,47,142,.14),transparent 55%),radial-gradient(ellipse 60% 40% at 100% 50%,rgba(0,229,255,.08),transparent 50%),var(--bg)} .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0} .skip-link{position:absolute;left:-9999px;top:0;background:var(--pink);color:#08080c;padding:.75rem 1.2rem;font-family:var(--mono);font-size:.7rem;letter-spacing:1.4px;text-transform:uppercase;font-weight:800;z-index:9999;border-radius:0 0 6px 0;text-decoration:none} .utility-bar{position:sticky;top:0;z-index:150;display:flex;align-items:center;flex-wrap:nowrap;gap:.65rem;padding:.45rem 0 .45rem 1rem;border-bottom:1px solid var(--border);background:rgba(8,8,12,.88);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)} .utility-bar-actions{display:flex;align-items:center;gap:.4rem;flex-shrink:0;min-height:44px;min-width:10.5rem} .utility-bar-actions .live-status{flex-shrink:1;min-width:0;max-width:100%} .live-status.is-placeholder,.pv-share.is-placeholder{pointer-events:none;opacity:.92} .utility-bar-actions .pv-share{flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:.52rem;letter-spacing:1.2px;text-transform:uppercase;font-weight:800;color:var(--cyan);padding:.32rem .65rem;border:1px solid rgba(0,229,255,.35);border-radius:var(--radius-pill);background:rgba(0,229,255,.06);min-height:44px;white-space:nowrap;line-height:1} .live-status .txt{font-variant-numeric:tabular-nums;white-space:nowrap} @keyframes pvlive{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(230,0,48,.55)}70%{opacity:.5;box-shadow:0 0 0 8px rgba(230,0,48,0)}} .live-status{display:inline-flex;align-items:center;gap:.4rem;font-family:var(--mono);font-size:.62rem;letter-spacing:1.6px;text-transform:uppercase;font-weight:800;color:#fff;padding:.3rem .7rem;background:rgba(230,0,48,.15);border:1px solid rgba(230,0,48,.4);border-radius:var(--radius-pill);text-decoration:none} .live-status.is-offline{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.12);color:rgba(255,255,255,.7)} .live-status .dot{width:8px;height:8px;border-radius:50%;background:var(--red);flex-shrink:0;animation:pvlive 1.8s ease-out infinite} .live-status.is-offline .dot{background:rgba(255,255,255,.4);animation:none} .utility-bar-label{flex-shrink:0;font-family:var(--mono);font-size:.52rem;letter-spacing:1.8px;text-transform:uppercase;font-weight:800;color:var(--pink);padding:.35rem .65rem;border:1px solid rgba(255,47,142,.35);border-radius:var(--radius-pill);background:rgba(255,47,142,.08)} .utility-scroll{display:flex;align-items:center;gap:.5rem;overflow-x:auto;flex:1;min-width:0;padding-right:1rem;scrollbar-width:none;-webkit-overflow-scrolling:touch;mask-image:linear-gradient(90deg,#000 92%,transparent)} .utility-scroll::-webkit-scrollbar{display:none} .utility-scroll a{flex-shrink:0;font-family:var(--mono);font-size:.52rem;letter-spacing:1.4px;text-transform:uppercase;font-weight:700;color:var(--muted);padding:.35rem .7rem;border:1px solid var(--border);border-radius:var(--radius-pill);background:rgba(255,255,255,.035);text-decoration:none;white-space:nowrap} .utility-scroll a.is-brand{color:var(--yellow);border-color:rgba(255,225,86,.35);background:rgba(255,225,86,.06)} .back-bar{padding:1rem 1.5rem;max-width:var(--max);margin:0 auto} .back-bar a{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--mono);font-size:.66rem;letter-spacing:1.6px;text-transform:uppercase;color:var(--muted);font-weight:800;text-decoration:none} .live-banner-slot{min-height:4.25rem;margin:0 0 1.5rem;position:relative} .live-banner-slot .live-banner,.live-banner-slot .live-countdown{margin:0} .live-countdown{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:.45rem 1rem;padding:1rem 1.2rem;border:2px solid var(--border-strong);border-radius:var(--radius-md);background:linear-gradient(135deg,rgba(0,229,255,.06),rgba(255,47,142,.04));font-family:var(--mono);font-size:.68rem;letter-spacing:1.4px;text-transform:uppercase;font-weight:800;color:var(--muted)} .live-countdown[hidden]{display:none!important} .live-countdown-value{color:var(--yellow);font-variant-numeric:tabular-nums} .live-countdown-cal{color:var(--cyan);text-decoration:none;padding:.35rem .75rem;border:1px solid rgba(0,229,255,.35);border-radius:var(--radius-pill);background:rgba(0,229,255,.06);font-size:.58rem;letter-spacing:1.2px} .live-banner-slot>.live-banner[hidden]{display:block!important;visibility:hidden;opacity:0;pointer-events:none;position:absolute;inset:0;margin:0!important;border-color:transparent;box-shadow:none;background:transparent;overflow:hidden} .page-tag,.hero-eyebrow{display:inline-block;padding:.4rem 1rem;border:1px solid var(--pink);background:var(--pink);color:#08080c;font-family:var(--mono);font-size:.62rem;letter-spacing:2px;text-transform:uppercase;font-weight:800;border-radius:4px;margin-bottom:1.5rem} .page-tag{background:var(--yellow);color:#08080c} .hero:not(.hero--page){text-align:left;padding:1.5rem 1.5rem 3rem;max-width:var(--max);margin:0 auto} .hero:not(.hero--page) h1,.hero--page h1,main>h1{font-family:var(--display);font-size:clamp(4.5rem,14vw,11rem);line-height:.84;letter-spacing:-.015em;font-weight:400;margin:0 0 1.2rem;color:#fff;text-transform:uppercase} .hero:not(.hero--page) h1 .pink,.hero--page h1 .pink,main>h1 .pink{color:var(--pink);text-shadow:var(--glow-pink)} .lead,.hero-sub{font-size:1.15rem;line-height:1.55;color:var(--text);max-width:720px} .lead strong,.hero-sub strong{color:var(--yellow);font-weight:700} .hero-meta{font-family:var(--mono);font-size:.72rem;font-weight:800;letter-spacing:2.4px;text-transform:uppercase;color:var(--muted);margin-bottom:2.4rem} main{max-width:var(--max);margin:0 auto;padding:0 1.5rem 4rem} .disclaimer{font-family:var(--mono);font-size:.7rem;color:var(--muted);letter-spacing:1.2px;text-transform:uppercase;margin:1.5rem 0 3rem;padding:1rem 1.2rem;border-left:3px solid var(--cyan);background:rgba(0,229,255,.04);border-radius:0 var(--radius-sm) var(--radius-sm) 0} .sticky-cta{position:fixed;bottom:0;left:0;right:0;z-index:200;display:flex;background:rgba(8,8,12,.94);backdrop-filter:blur(18px);border-top:2px solid var(--pink);box-shadow:0 -12px 48px rgba(255,47,142,.22)} .sticky-cta a{flex:1;display:inline-flex;align-items:center;justify-content:center;padding:1rem .8rem;font-family:var(--mono);font-size:.74rem;letter-spacing:1.6px;text-transform:uppercase;font-weight:800;color:#fff;text-decoration:none;min-height:56px} .sticky-cta .cta-watch{background:var(--red)} .sticky-cta .cta-support,.sticky-cta .cta-tip{background:var(--yellow);color:#08080c} .sticky-cta .cta-divider{width:0;border-left:2px solid var(--pink)} body.has-sticky-cta{padding-bottom:64px} @media(max-width:760px){ .utility-bar{flex-wrap:wrap;padding:.4rem .65rem .45rem;gap:.35rem .4rem} .utility-bar-actions{order:1;flex:0 0 100%;width:100%} .utility-bar-actions .live-status{font-size:.56rem;padding:.35rem .6rem;min-height:44px} .utility-bar-label{order:2;font-size:.48rem;padding:.28rem .5rem} .utility-scroll{order:2;flex:1 1 0;min-width:0} .hero:not(.hero--page) h1,.hero--page h1,main>h1{font-size:clamp(3.5rem,12vw,7rem)} } @media(prefers-reduced-motion:reduce){.live-status .dot{animation:none!important}}</style>
 <link rel="preload" href="/assets/css/pv-core.css?v=15" as="style">
 <link rel="stylesheet" href="/assets/css/pv-core.css?v=15" media="print" onload="this.media='all'">
-<link rel="preload" href="/assets/css/pv-sub.css?v=13" as="style">
-<link rel="stylesheet" href="/assets/css/pv-sub.css?v=13" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="/assets/css/pv-core.css?v=15"><link rel="stylesheet" href="/assets/css/pv-sub.css?v=13"></noscript>
+<link rel="preload" href="/assets/css/pv-sub.css?v=14" as="style">
+<link rel="stylesheet" href="/assets/css/pv-sub.css?v=14" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="/assets/css/pv-core.css?v=15"><link rel="stylesheet" href="/assets/css/pv-sub.css?v=14"></noscript>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
   {"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"PATTAYA VILLA STREAM","item":"https://pattayastream.com/"},{"@type":"ListItem","position":2,"name":"FAQ","item":"https://pattayastream.com/faq/"}]},
@@ -165,19 +165,17 @@
 
   <nav class="toc faq-jumps" aria-label="Popular questions">
     <span class="toc-label">JUMP TO:</span>
-    <a href="#faq-when" data-gtm="faq_jump" data-gtm-platform="when">01 · When</a>
-    <a href="#faq-watch" data-gtm="faq_jump" data-gtm-platform="watch">02 · Watch</a>
-    <a href="#faq-free" data-gtm="faq_jump" data-gtm-platform="free">03 · Free</a>
-    <a href="#faq-timezone" data-gtm="faq_jump" data-gtm-platform="timezone">04 · Your timezone</a>
-    <a href="#faq-support-free" data-gtm="faq_jump" data-gtm-platform="support-free">05 · Free support</a>
-    <a href="#faq-superchat-vs-thanks" data-gtm="faq_jump" data-gtm-platform="superchat-vs-thanks">06 · Super Chat vs Thanks</a>
-    <a href="#faq-mods" data-gtm="faq_jump" data-gtm-platform="mods">07 · Mods</a>
-    <a href="#contact" data-gtm="faq_jump" data-gtm-platform="contact">08 · Contact</a>
+    <a href="#faq-schedule" data-gtm="faq_jump" data-gtm-platform="schedule">Schedule</a>
+    <a href="#faq-show" data-gtm="faq_jump" data-gtm-platform="show">The show</a>
+    <a href="#faq-support" data-gtm="faq_jump" data-gtm-platform="support">Support</a>
+    <a href="#faq-site" data-gtm="faq_jump" data-gtm-platform="site">Contact</a>
     <span class="faq-expand-actions">
       <button type="button" class="faq-expand-btn" data-faq-expand="all" data-gtm="faq_expand_all">Expand all</button>
       <button type="button" class="faq-expand-btn" data-faq-expand="none" data-gtm="faq_collapse_all">Collapse all</button>
     </span>
   </nav>
+
+  <h2 class="faq-category" id="faq-schedule"><span class="section-tag cyan">// SCHEDULE &amp; WATCH</span></h2>
 
   <details name="faq" id="faq-when">
     <summary>When do you stream?</summary>
@@ -193,6 +191,8 @@
     <summary>Is it free to watch the stream?</summary>
     <p><strong>Yes — completely free.</strong> PATTAYA VILLA STREAM is a public live broadcast on YouTube. There is no paywall, no subscription fee, and no membership. Optional paid support via <a href="/support/#tip-tonight" data-gtm="faq_free_to_paid">Super Chat and Super Thanks</a> — or see the <a href="/support/#free" data-gtm="faq_free_to_support">free support paths</a>. Neither is required to watch.</p>
   </details>
+
+  <h2 class="faq-category" id="faq-show"><span class="section-tag pink">// THE SHOW</span></h2>
 
   <details name="faq">
     <summary>Who are Tim and Paemi?</summary>
@@ -234,6 +234,8 @@
     <p>We don&#39;t take music requests — <strong>the music is copyright-free and queued before the stream starts</strong> (see <a href="/format/#locked-format" data-gtm="faq_requests_format">locked format rules</a>). But we read every <a href="/support/#tip-tonight" data-gtm="faq_requests_super_chat">Super Chat</a>, and <strong>chat questions drive the conversation</strong>. Drop one to surface your question to the top.</p>
   </details>
 
+  <h2 class="faq-category" id="faq-support"><span class="section-tag yellow">// SUPPORT &amp; COMMUNITY</span></h2>
+
   <details name="faq" id="faq-mods">
     <summary>Can I become a moderator?</summary>
     <p>Mods are invited, never applied for. Be active in chat for 30+ nights, respectful, and known to the regulars. We approach you — don&#39;t DM about it. Expectations are in the <a href="/code/" data-gtm="faq_mods_code">chat code</a> and on the <a href="/community/" data-gtm="faq_mods_community">community page</a>.</p>
@@ -273,6 +275,8 @@
     <summary>What gets you banned from chat?</summary>
     <p>Politics, religion, hate speech, spam, begging, and repeated rule-breaking. One warning on the first offense for most stuff — then a ban. The full list lives on the <a href="/code/" data-gtm="faq_to_code_ban">code of conduct page</a>.</p>
   </details>
+
+  <h2 class="faq-category" id="faq-site"><span class="section-tag green">// CONTACT &amp; SITE</span></h2>
 
   <details name="faq" id="contact">
     <summary>How do I contact you?</summary>
@@ -357,6 +361,6 @@
   <a href="/support/#tip-tonight" class="cta-support" data-gtm="sticky_support">★ SUPPORT</a>
 </nav>
 
-<script src="/assets/js/pv-live.js?v=36" defer></script>
+<script src="/assets/js/pv-live.js?v=37" defer></script>
 </body>
 </html>

@@ -12,6 +12,10 @@
   pointer-events:none;z-index:-1;
 }
 .hero-eyebrow{animation:pv-eyebrow-glow 3s ease-in-out infinite}
+.hero-eyebrow.is-live-now{background:var(--red)!important;border-color:var(--red)!important;color:#fff!important;animation:pv-eyebrow-live 2s ease-in-out infinite}
+@keyframes pv-eyebrow-live{0%,100%{box-shadow:0 0 0 0 rgba(230,0,48,.45)}70%{box-shadow:0 0 0 10px rgba(230,0,48,0)}}
+.btn-mega.is-live-now{animation:pv-megapulse 1.4s ease-in-out infinite}
+@media(prefers-reduced-motion:reduce){.hero-eyebrow.is-live-now{animation:none!important}}
 @keyframes pv-eyebrow-glow{0%,100%{box-shadow:0 0 0 rgba(255,47,142,.2)}50%{box-shadow:0 0 20px rgba(255,47,142,.45)}}
 @media(prefers-reduced-motion:reduce){.hero-eyebrow{animation:none}}
 
