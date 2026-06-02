@@ -210,12 +210,15 @@ def audit_live_pages() -> None:
                     continue
                 internal_hrefs.add(href.rstrip('/') or '/')
 
+    NO_TRAILING_SLASH = {'/LICENSE'}
     print('\n=== INTERNAL LINK CHECK ===\n')
     for href in sorted(internal_hrefs):
         if href in ('/offline', '/offline/'):
             test = BASE + '/offline/'
         elif href in ('/404', '/404/'):
             test = BASE + '/404/'
+        elif href in NO_TRAILING_SLASH:
+            test = BASE + href
         else:
             test = BASE + (href if href.endswith('/') else href + '/')
         st, _, _ = fetch(test)
