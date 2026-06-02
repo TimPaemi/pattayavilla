@@ -22,7 +22,7 @@ CHROME_PAGES = (
 )
 
 CORE_V = '13'
-SUB_V = '7'
+SUB_V = '8'
 HOME_V = '7'
 
 

@@ -40,9 +40,9 @@ LIVE_MIN_WORDS = {
 
 ASSETS = [
     '/assets/css/pv-core.css?v=13',
-    '/assets/css/pv-sub.css?v=7',
+    '/assets/css/pv-sub.css?v=8',
     '/assets/css/pv-home.css?v=7',
-    '/assets/js/pv-live.js?v=30',
+    '/assets/js/pv-live.js?v=31',
     '/assets/calendar/pattaya-villa-stream.ics',
     '/assets/js/pv-analytics.js?v=1',
     '/assets/js/web-vitals.iife.js',

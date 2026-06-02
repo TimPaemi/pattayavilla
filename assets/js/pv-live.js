@@ -1,4 +1,4 @@
-/* PATTAYA VILLA STREAM · pv-live.js — v11 (2026-05-27 UX pass)
+/* PATTAYA VILLA STREAM · pv-live.js — v12 (2026-05-27 share + UX)
  * Mobile-first usability layer + 2026 platform features:
  *  - Live pill (focal mobile header element)
  *  - Smart sticky CTA (hide on scroll-down, show on scroll-up)
@@ -81,6 +81,8 @@
       'dialog.pv-share-dialog h4{font-family:"Bebas Neue",sans-serif;font-size:1.5rem;color:#fff;margin:0 0 .8rem;letter-spacing:.01em;text-transform:uppercase}',
       'dialog.pv-share-dialog h4 .accent{color:#ff2f8e}',
       '.pv-share-row{display:flex;flex-wrap:wrap;gap:.5rem}',
+      '.pv-share-hint{flex:0 0 100%;margin:.35rem 0 0;font-family:"JetBrains Mono",monospace;font-size:.52rem;letter-spacing:1.4px;text-transform:uppercase;color:rgba(255,255,255,.55);font-weight:800}',
+      '.pv-share-hint:first-of-type{margin-top:0}',
       '.pv-share-btn{flex:1;min-width:90px;display:inline-flex;align-items:center;justify-content:center;gap:.4rem;padding:.75rem .8rem;border-radius:8px;background:rgba(255,255,255,.06);color:#fff;text-decoration:none;font-family:"JetBrains Mono",monospace;font-size:.62rem;letter-spacing:1.4px;text-transform:uppercase;font-weight:800;border:1px solid rgba(255,255,255,.1);transition:all .15s;cursor:pointer;min-height:44px}',
       '.pv-share-btn:hover,.pv-share-btn:focus-visible{background:rgba(255,47,142,.18);border-color:#ff2f8e;color:#fff;transform:translateY(-1px);outline:none}',
       '.pv-share-btn:focus-visible{box-shadow:0 0 0 3px rgba(255,47,142,.35)}',
@@ -216,6 +218,22 @@
     return {h: Math.floor(ms / 3600000), m: Math.floor((ms % 3600000) / 60000)};
   }
 
+  var LIVE_WATCH_URL = 'https://www.youtube.com/@timpaemi/live?utm_source=pattayastream&utm_medium=share&utm_campaign=live';
+
+  function wireShareCopy(btn, text){
+    btn.addEventListener('click', function(){
+      var b = btn;
+      try {
+        navigator.clipboard.writeText(text).then(function(){
+          b.classList.add('copy-state-done');
+          var prev = b.textContent;
+          b.textContent = 'Copied!';
+          setTimeout(function(){ b.classList.remove('copy-state-done'); b.textContent = prev; }, 1800);
+        });
+      } catch (_) {}
+    });
+  }
+
   /* ---------- utility bar action slot (live + share) ---------- */
   function utilityActions(bar){
     var el = bar.querySelector('.utility-bar-actions');
@@ -340,18 +358,24 @@
     dlg.setAttribute('aria-label','Share this page');
     var url = location.origin + location.pathname;
     var shareText = 'PATTAYA VILLA STREAM — live every night 9 PM ICT';
+    var liveShareText = shareText + ' → ' + LIVE_WATCH_URL;
     var enc = encodeURIComponent;
     dlg.innerHTML =
       '<div class="pv-share-inner">' +
       '  <button type="button" class="pv-share-close" aria-label="Close share menu" autofocus>&times;</button>' +
       '  <h4>Share <span class="accent">the show.</span></h4>' +
       '  <div class="pv-share-row">' +
+      '    <span class="pv-share-hint">This page</span>' +
       '    <a class="pv-share-btn" href="https://twitter.com/intent/tweet?text=' + enc(shareText + ' ' + url) + '" target="_blank" rel="noopener" data-gtm="share_x">X</a>' +
       '    <a class="pv-share-btn" href="https://api.whatsapp.com/send/?text=' + enc(shareText + ' ' + url) + '" target="_blank" rel="noopener" data-gtm="share_whatsapp">WhatsApp</a>' +
       '    <a class="pv-share-btn" href="https://t.me/share/url?url=' + enc(url) + '&text=' + enc(shareText) + '" target="_blank" rel="noopener" data-gtm="share_telegram">Telegram</a>' +
       '    <a class="pv-share-btn" href="https://www.facebook.com/sharer/sharer.php?u=' + enc(url) + '" target="_blank" rel="noopener" data-gtm="share_facebook">Facebook</a>' +
       '    <button type="button" class="pv-share-btn pv-share-copy" data-gtm="share_copy">Copy link</button>' +
       '    <button type="button" class="pv-share-btn pv-share-native" data-gtm="share_native">Native</button>' +
+      '    <span class="pv-share-hint">YouTube live</span>' +
+      '    <a class="pv-share-btn" href="' + LIVE_WATCH_URL + '" target="_blank" rel="noopener" data-gtm="share_open_live">Open live</a>' +
+      '    <button type="button" class="pv-share-btn pv-share-copy-live" data-gtm="share_copy_live">Copy live link</button>' +
+      '    <a class="pv-share-btn" href="https://api.whatsapp.com/send/?text=' + enc(liveShareText) + '" target="_blank" rel="noopener" data-gtm="share_whatsapp_live">WhatsApp live</a>' +
       '  </div>' +
       '</div>';
     document.body.appendChild(dlg);
@@ -359,18 +383,13 @@
     dlg.addEventListener('click', function(e){ if (e.target === dlg) dlg.close(); });
     dlg.addEventListener('close', function(){ btn.setAttribute('aria-expanded','false'); });
     dlg.querySelector('.pv-share-close').addEventListener('click', function(){ dlg.close(); });
-    dlg.querySelector('.pv-share-copy').addEventListener('click', function(e){
-      var b = e.currentTarget;
-      try {
-        navigator.clipboard.writeText(url).then(function(){
-          b.classList.add('copy-state-done');
-          var prev = b.textContent; b.textContent = 'Copied!';
-          setTimeout(function(){ b.classList.remove('copy-state-done'); b.textContent = prev; }, 1800);
-        });
-      } catch(_) {}
-    });
+    wireShareCopy(dlg.querySelector('.pv-share-copy'), url);
+    wireShareCopy(dlg.querySelector('.pv-share-copy-live'), LIVE_WATCH_URL);
     dlg.querySelector('.pv-share-native').addEventListener('click', function(){
-      if (navigator.share) navigator.share({ title:document.title, text:shareText, url:url }).catch(function(){});
+      var payload = isLiveICT()
+        ? { title: 'PATTAYA VILLA STREAM — LIVE NOW', text: shareText, url: LIVE_WATCH_URL }
+        : { title: document.title, text: shareText, url: url };
+      if (navigator.share) navigator.share(payload).catch(function(){});
     });
   }
 
