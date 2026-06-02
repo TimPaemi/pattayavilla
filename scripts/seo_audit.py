@@ -592,6 +592,8 @@ def audit_support_live_banner_slot() -> None:
         fail('support/index.html missing live-banner-slot wrapper')
     if 'data-live-banner' not in html:
         fail('support/index.html missing data-live-banner')
+    if 'data-live-countdown' not in html:
+        fail('support/index.html missing data-live-countdown offline strip')
     if '.live-banner-slot' not in css or 'min-height' not in css.split('.live-banner-slot')[1][:200]:
         fail('pv-core.css missing live-banner-slot min-height reserve')
     ok('support live-banner CLS slot wired')
@@ -715,7 +717,7 @@ def audit_subpage_critical_css() -> None:
         m = re.search(r'<style id="pv-critical-chrome">(.*?)</style>', html, re.S)
         if not m or _normalize_css(m.group(1)) != css_min:
             bad.append(f'{rel} critical CSS drift')
-        if 'pv-sub.css?v=12" media="print" onload' not in html:
+        if 'pv-sub.css?v=13" media="print" onload' not in html:
             bad.append(f'{rel} missing async pv-sub.css')
     if bad:
         fail(f'subpage critical CSS: {bad[:3]} — run python scripts/sync_critical_css.py --chrome')
