@@ -633,6 +633,42 @@ def audit_live_pill_placeholder() -> None:
     ok('SSR live pill placeholder on all chrome pages')
 
 
+def _normalize_css(text: str) -> str:
+    text = re.sub(r'/\*.*?\*/', '', text, flags=re.S)
+    return re.sub(r'\s+', ' ', text).strip()
+
+
+def audit_homepage_critical_css() -> None:
+    css_path = ROOT / 'assets/css/pv-critical-home.css'
+    html = (ROOT / 'index.html').read_text(encoding='utf-8')
+    if not css_path.exists():
+        fail('assets/css/pv-critical-home.css missing')
+        return
+    if 'id="pv-critical-home"' not in html:
+        fail('index.html missing inline #pv-critical-home critical CSS block')
+        return
+    if 'media="print" onload="this.media=\'all\'"' not in html:
+        fail('index.html missing async stylesheet loading for pv-core/pv-home')
+    css_min = _normalize_css(css_path.read_text(encoding='utf-8'))
+    match = re.search(r'<style id="pv-critical-home">(.*?)</style>', html, re.S)
+    if not match:
+        fail('index.html critical CSS block not parseable')
+        return
+    inline = _normalize_css(match.group(1))
+    if css_min != inline:
+        fail('index.html critical CSS drift — run python scripts/_sync_critical_home.py')
+    ok(f'homepage critical CSS inlined ({len(inline)} bytes, async full stylesheets)')
+
+
+def audit_live_status_core_css() -> None:
+    css = (ROOT / 'assets/css/pv-core.css').read_text(encoding='utf-8')
+    if '.live-status{display:inline-flex' not in css.replace(' ', ''):
+        fail('pv-core.css missing base .live-status styles (should not rely on JS injection)')
+    if '@keyframes pvlive' not in css:
+        fail('pv-core.css missing @keyframes pvlive for live pill dot')
+    ok('live pill base styles in pv-core.css (SSR paint without JS)')
+
+
 def audit_footer_trust_links() -> None:
     pages = (
         'index.html', 'about/index.html', 'support/index.html', 'format/index.html',
@@ -686,6 +722,8 @@ def main() -> int:
     audit_org_privacy_terms_schema()
     audit_support_live_banner_slot()
     audit_live_pill_placeholder()
+    audit_live_status_core_css()
+    audit_homepage_critical_css()
     audit_footer_trust_links()
     audit_date_modified()
     print()

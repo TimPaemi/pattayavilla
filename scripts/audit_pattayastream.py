@@ -39,10 +39,10 @@ LIVE_MIN_WORDS = {
 }
 
 ASSETS = [
-    '/assets/css/pv-core.css?v=12',
+    '/assets/css/pv-core.css?v=13',
     '/assets/css/pv-sub.css?v=6',
     '/assets/css/pv-home.css?v=6',
-    '/assets/js/pv-live.js?v=28',
+    '/assets/js/pv-live.js?v=29',
     '/assets/js/pv-analytics.js?v=1',
     '/assets/js/web-vitals.iife.js',
     '/manifest.json',
@@ -165,7 +165,7 @@ def audit_live_pages() -> None:
         checks = [
             ('canonical', r'<link rel="canonical"'),
             ('GA4', r'G-WSGWG7999E'),
-            ('pv-core.css v12', r'pv-core\.css\?v=12'),
+            ('pv-core.css v13', r'pv-core\.css\?v=13'),
             ('utility-bar-actions', r'utility-bar-actions'),
             ('live pill SSR placeholder', r'live-status is-placeholder'),
             ('sticky-cta', r'class="sticky-cta"'),
@@ -175,6 +175,11 @@ def audit_live_pages() -> None:
         ]
         if path == '/':
             checks.append(('marquee ticker', r'class="marquee"'))
+            checks.extend([
+                ('homepage critical CSS', r'id="pv-critical-home"'),
+                ('homepage async pv-core', r'pv-core\.css\?v=13" media="print" onload'),
+                ('homepage async pv-home', r'pv-home\.css\?v=6" media="print" onload'),
+            ])
         if path == '/community/':
             checks.append(('noindex', r'noindex'))
         if path == '/support/':
@@ -256,6 +261,13 @@ def audit_live_pages() -> None:
             ok(f'{src} -> {code} Location {loc}')
         else:
             fail(f'{src} redirect broken (HTTP {code}, Location {loc})')
+
+    print('\n=== LICENSE REDIRECT CHECK ===\n')
+    code, loc = fetch_redirect(BASE + '/LICENSE/')
+    if code in (301, 308) and loc and loc.rstrip('/').endswith('/LICENSE'):
+        ok('/LICENSE/ -> 301 Location /LICENSE')
+    else:
+        fail(f'/LICENSE/ redirect broken (HTTP {code}, Location {loc})')
 
     print('\n=== SHORTCUT REDIRECT CHECK ===\n')
     shortcut_checks = (
