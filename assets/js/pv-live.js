@@ -320,27 +320,37 @@
     setInterval(tick, 30000);
   }
 
-  /* ---------- homepage share tonight (native share or copy live link) ---------- */
-  function buildHeroShare(){
-    var btn = document.getElementById('hero-share-tonight');
-    if (!btn) return;
-    var shareText = 'PATTAYA VILLA STREAM — live every night 9 PM ICT';
-    btn.addEventListener('click', function(){
-      var live = isLiveICT();
-      var url = live ? LIVE_WATCH_URL : (location.origin + '/');
-      var clip = live ? (shareText + ' → ' + LIVE_WATCH_URL) : (shareText + ' ' + location.origin + '/');
-      if (navigator.share){
-        navigator.share({ title: document.title, text: shareText, url: url }).catch(function(){});
-        return;
-      }
-      try {
-        navigator.clipboard.writeText(clip).then(function(){
-          btn.classList.add('copied');
-          var prev = btn.textContent;
-          btn.textContent = '✓ LINK COPIED';
-          setTimeout(function(){ btn.classList.remove('copied'); btn.textContent = prev; }, 2000);
-        });
-      } catch (_) {}
+  /* ---------- share tonight (native share or copy live link) ---------- */
+  var SHARE_TONIGHT_TEXT = 'PATTAYA VILLA STREAM — live every night 9 PM ICT';
+  function shareTonight(btn){
+    var live = isLiveICT();
+    var url = live ? LIVE_WATCH_URL : (location.origin + '/');
+    var clip = live ? (SHARE_TONIGHT_TEXT + ' → ' + LIVE_WATCH_URL) : (SHARE_TONIGHT_TEXT + ' ' + location.origin + '/');
+    function showCopied(){
+      btn.classList.add('copied');
+      var cta = btn.querySelector('.support-card-cta');
+      var prev = cta ? cta.textContent : btn.textContent;
+      if (cta) cta.textContent = '✓ LINK COPIED';
+      else btn.textContent = '✓ LINK COPIED';
+      setTimeout(function(){
+        btn.classList.remove('copied');
+        if (cta) cta.textContent = prev;
+        else btn.textContent = prev;
+      }, 2000);
+    }
+    if (navigator.share){
+      navigator.share({ title: document.title, text: SHARE_TONIGHT_TEXT, url: url }).catch(function(){});
+      return;
+    }
+    try {
+      navigator.clipboard.writeText(clip).then(showCopied);
+    } catch (_) {}
+  }
+  function buildShareTonightButtons(){
+    document.querySelectorAll('[data-share-tonight]').forEach(function(btn){
+      if (btn.dataset.shareWired) return;
+      btn.dataset.shareWired = '1';
+      btn.addEventListener('click', function(){ shareTonight(btn); });
     });
   }
 
@@ -693,7 +703,7 @@
     if (bar){ buildLive(bar); buildShare(bar); }
     toggleLiveBanner();
     buildHeroShowtime();
-    buildHeroShare();
+    buildShareTonightButtons();
     buildStickyLive();
     buildInstallPrompt();
     setInterval(toggleLiveBanner, 60000);

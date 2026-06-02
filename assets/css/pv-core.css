@@ -163,6 +163,7 @@ a:hover{color:#fff}
 @keyframes pv-megapulse{0%,100%{opacity:.45;transform:scale(1)}50%{opacity:.95;transform:scale(1.06)}}
 @media(prefers-reduced-motion:reduce){.btn-mega::after{animation:none}}
 .btn-row,.hero-actions,.cta-row{display:flex;flex-wrap:wrap;gap:.75rem;justify-content:center}
+[data-share-tonight].copied{background:rgba(106,255,159,.15)!important;border-color:var(--green)!important;color:var(--green)!important}
 
 /* Sticky CTA */
 .sticky-cta{
