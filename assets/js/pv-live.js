@@ -59,6 +59,13 @@
       '.pv-scroll-top:hover,.pv-scroll-top:focus-visible{color:#fff;border-color:var(--cyan);outline:none;transform:translateY(-2px)}',
       '.pv-scroll-top:active{transform:scale(.97)}',
       '@media(max-width:760px){.pv-scroll-top{right:.75rem;bottom:calc(68px + env(safe-area-inset-bottom,0px));min-width:48px;padding:.5rem .85rem;font-size:.58rem}}',
+      /* === Thai CTA micro-copy === */
+      '.btn.has-thai{flex-direction:column;gap:.12rem;line-height:1.1;padding-top:.85rem;padding-bottom:.85rem}',
+      '.btn-thai,.cta-thai{display:block;font-size:.52rem;letter-spacing:.4px;font-weight:600;text-transform:none;opacity:.88;line-height:1.2}',
+      '.btn-red .btn-thai{color:rgba(255,255,255,.92)}',
+      '.sticky-cta a.has-thai{flex-direction:column;gap:.1rem;line-height:1.05;padding:.75rem .5rem}',
+      '.sticky-cta .cta-thai{font-size:.48rem;letter-spacing:.3px;opacity:.82}',
+      '.sticky-cta .cta-watch.is-live-now .cta-thai{color:#ffe156;opacity:1}',
       /* === Selection / scrollbar === */
       '::selection{background:#ff2f8e;color:#fff}',
       '::-moz-selection{background:#ff2f8e;color:#fff}',
@@ -364,18 +371,73 @@
   function buildStickyLive(){
     var watch = document.querySelector('.sticky-cta .cta-watch');
     if (!watch) return;
-    if (!watch.dataset.offLabel) watch.dataset.offLabel = watch.textContent.trim();
+    var labelEl = watch.querySelector('.cta-label');
+    var thaiEl = watch.querySelector('.cta-thai');
+    if (!watch.dataset.offLabel){
+      watch.dataset.offLabel = labelEl ? labelEl.textContent.trim() : watch.textContent.trim();
+    }
     function tick(){
       if (isLiveICT()){
         watch.classList.add('is-live-now');
-        watch.textContent = '● LIVE NOW';
+        if (labelEl) labelEl.textContent = '● LIVE NOW';
+        else watch.textContent = '● LIVE NOW';
+        if (thaiEl) thaiEl.textContent = 'กำลัง LIVE';
       } else {
         watch.classList.remove('is-live-now');
-        watch.textContent = watch.dataset.offLabel;
+        if (labelEl) labelEl.textContent = watch.dataset.offLabel;
+        else watch.textContent = watch.dataset.offLabel;
+        if (thaiEl) thaiEl.textContent = 'ดูสด 21:00 น.';
       }
     }
     tick();
     setInterval(tick, 60000);
+  }
+
+  /* ---------- Thai micro-copy on hero + sticky CTAs (Paemi audience) ---------- */
+  function buildThaiCtaHints(){
+    var heroWatch = document.querySelector('[data-gtm="hero_watch_live"]');
+    if (heroWatch && !heroWatch.querySelector('.btn-thai')){
+      heroWatch.classList.add('has-thai');
+      var heroThai = document.createElement('span');
+      heroThai.className = 'btn-thai';
+      heroThai.setAttribute('aria-hidden', 'true');
+      heroThai.textContent = 'ดูสดคืนนี้ · 21:00 น. ไทย';
+      heroWatch.appendChild(heroThai);
+    }
+    var thaiByClass = { 'cta-watch': 'ดูสด 21:00 น.', 'cta-support': 'สนับสนุน', 'cta-tip': 'ทิปคืนนี้' };
+    document.querySelectorAll('.sticky-cta a').forEach(function(a){
+      if (a.querySelector('.cta-label')) return;
+      var key = a.classList.contains('cta-watch') ? 'cta-watch' : (a.classList.contains('cta-tip') ? 'cta-tip' : 'cta-support');
+      var label = a.textContent.trim();
+      a.textContent = '';
+      a.classList.add('has-thai');
+      var main = document.createElement('span');
+      main.className = 'cta-label';
+      main.textContent = label;
+      var thai = document.createElement('span');
+      thai.className = 'cta-thai';
+      thai.setAttribute('aria-hidden', 'true');
+      thai.textContent = thaiByClass[key] || '';
+      a.appendChild(main);
+      if (thai.textContent) a.appendChild(thai);
+      if (key === 'cta-watch') a.dataset.offLabel = label;
+    });
+  }
+
+  /* ---------- FAQ jump nav — open target accordion on tap ---------- */
+  function bindFaqJumpOpen(){
+    var p = location.pathname;
+    if (p !== '/' && p.length > 1 && p.charAt(p.length - 1) !== '/') p += '/';
+    if (p !== '/faq/') return;
+    var toc = document.querySelector('.faq-jumps');
+    if (!toc) return;
+    toc.querySelectorAll('a[href^="#"]').forEach(function(a){
+      a.addEventListener('click', function(){
+        var id = (a.getAttribute('href') || '').slice(1);
+        var el = id && document.getElementById(id);
+        if (el && el.tagName === 'DETAILS') el.open = true;
+      });
+    });
   }
 
   /* ---------- share dialog ---------- */
@@ -772,6 +834,7 @@
     buildSkipLink();
     markActiveNav();
     bindFaqA11y();
+    bindFaqJumpOpen();
     handleSharedLanding();
     bindSwUpdate();
     var bar = document.querySelector('.utility-bar');
@@ -779,6 +842,7 @@
     toggleLiveBanner();
     buildHeroShowtime();
     buildShareTonightButtons();
+    buildThaiCtaHints();
     buildStickyLive();
     buildInstallPrompt();
     setInterval(toggleLiveBanner, 60000);
