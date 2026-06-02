@@ -555,6 +555,62 @@ def audit_article_wordcounts() -> None:
         ok('Article wordCount schema synced')
 
 
+def _org_sameas_urls() -> list[str]:
+    html = (ROOT / 'index.html').read_text(encoding='utf-8')
+    blocks = re.findall(r'<script type="application/ld\+json">\s*(.*?)\s*</script>', html, re.DOTALL)
+    for block in blocks:
+        try:
+            data = json.loads(block)
+        except json.JSONDecodeError:
+            continue
+        graph = data.get('@graph', [data])
+        for node in graph:
+            if node.get('@id') == 'https://pattayastream.com/#org':
+                return list(node.get('sameAs', []))
+    return []
+
+
+def audit_org_sameas_network() -> None:
+    manifest = json.loads((ROOT / 'scripts' / 'network_manifest.json').read_text(encoding='utf-8'))
+    expected = {f'https://{s["domain"]}/' for s in manifest['live'] if s['domain'] != 'pattayastream.com'}
+    same_as = set(_org_sameas_urls())
+    missing = sorted(u for u in expected if u not in same_as and u.rstrip('/') not in {x.rstrip('/') for x in same_as})
+    if missing:
+        fail(f'homepage Organization sameAs missing network URLs: {missing}')
+    else:
+        ok(f'Organization sameAs lists all {len(expected)} sister domains')
+
+
+def audit_support_live_banner_slot() -> None:
+    html = (ROOT / 'support/index.html').read_text(encoding='utf-8')
+    css = (ROOT / 'assets/css/pv-core.css').read_text(encoding='utf-8')
+    if 'live-banner-slot' not in html:
+        fail('support/index.html missing live-banner-slot wrapper')
+    if 'data-live-banner' not in html:
+        fail('support/index.html missing data-live-banner')
+    if '.live-banner-slot' not in css or 'min-height' not in css.split('.live-banner-slot')[1][:200]:
+        fail('pv-core.css missing live-banner-slot min-height reserve')
+    ok('support live-banner CLS slot wired')
+
+
+def audit_footer_trust_links() -> None:
+    pages = (
+        'index.html', 'about/index.html', 'support/index.html', 'format/index.html',
+        'code/index.html', 'faq/index.html', 'community/index.html', '404.html', '404/index.html',
+    )
+    bad = []
+    for rel in pages:
+        html = (ROOT / rel).read_text(encoding='utf-8')
+        if 'timpaemi.com/privacy/' not in html:
+            bad.append(f'{rel} missing privacy link')
+        if 'href="/LICENSE"' not in html:
+            bad.append(f'{rel} missing terms link')
+    if bad:
+        fail(f'footer trust links missing: {bad[:4]}')
+    else:
+        ok('footer privacy + terms links on all chrome pages')
+
+
 def main() -> int:
     print('=== PATTAYA VILLA STREAM SEO AUDIT ===\n')
     audit_sitemap()
@@ -586,6 +642,9 @@ def main() -> int:
     audit_network_strap()
     audit_speakable_dom()
     audit_end_cta_support()
+    audit_org_sameas_network()
+    audit_support_live_banner_slot()
+    audit_footer_trust_links()
     audit_date_modified()
     print()
     if warnings:

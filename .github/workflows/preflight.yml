@@ -96,7 +96,7 @@ jobs:
           import re, glob, sys
           known = {'/','/about/','/support/','/community/','/format/','/code/','/faq/','/404','/404/','/offline','/offline/',
                    '/manifest.json','/favicon.svg','/favicon.ico','/apple-touch-icon.png',
-                   '/sw.js','/sitemap.xml','/robots.txt','/404.html'}
+                   '/sw.js','/sitemap.xml','/robots.txt','/404.html','/LICENSE'}
           anchors = {'#main','#top','#hero','#when-heading','#tip-tonight','#free','#payment-methods',
                      '#why-heading','#why-code-heading','#welcome-heading','#banned-heading',
                      '#how-enforcement-heading','#in-room-heading','#mods-heading','#first-night-heading',

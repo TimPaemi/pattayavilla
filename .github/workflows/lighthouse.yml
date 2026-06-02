@@ -17,7 +17,7 @@ jobs:
         run: sleep 10
 
       - name: Run Lighthouse (indexed pages)
-        uses: treosh/lighthouse-ci-action@v11
+        uses: treosh/lighthouse-ci-action@v12
         with:
           urls: |
             ${{ github.event.deployment_status.environment_url }}
@@ -32,7 +32,7 @@ jobs:
           artifactName: lighthouse-indexed
 
       - name: Run Lighthouse (noindex utility pages)
-        uses: treosh/lighthouse-ci-action@v11
+        uses: treosh/lighthouse-ci-action@v12
         with:
           urls: |
             ${{ github.event.deployment_status.environment_url }}/community/
@@ -47,7 +47,7 @@ jobs:
         if: always()
         run: |
           echo '## Lighthouse scores' >> $GITHUB_STEP_SUMMARY
-          echo 'Indexed pages: perf ≥90 · a11y ≥96 · SEO ≥95. Utility pages (noindex): perf ≥90 · a11y ≥96.' >> $GITHUB_STEP_SUMMARY
+          echo 'Indexed pages: perf ≥90 · a11y ≥98 · CLS ≤0.1 · SEO ≥95. Utility pages (noindex): perf ≥90 · a11y ≥96.' >> $GITHUB_STEP_SUMMARY
 
   lighthouse-production:
     if: github.event_name == 'push'
@@ -59,7 +59,7 @@ jobs:
         run: sleep 45
 
       - name: Run Lighthouse on production (indexed)
-        uses: treosh/lighthouse-ci-action@v11
+        uses: treosh/lighthouse-ci-action@v12
         with:
           urls: |
             https://pattayastream.com/
@@ -74,7 +74,7 @@ jobs:
           artifactName: lighthouse-indexed
 
       - name: Run Lighthouse on production (noindex utility)
-        uses: treosh/lighthouse-ci-action@v11
+        uses: treosh/lighthouse-ci-action@v12
         with:
           urls: |
             https://pattayastream.com/community/

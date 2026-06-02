@@ -179,7 +179,10 @@ def audit_live_pages() -> None:
             checks.extend([
                 ('#payment-methods DOM', r'id="payment-methods"'),
                 ('DonateAction', r'DonateAction'),
+                ('live-banner slot', r'live-banner-slot'),
             ])
+        if path in ('/', '/about/', '/support/', '/format/', '/code/', '/faq/', '/community/', '/404/'):
+            checks.append(('footer privacy link', r'timpaemi\.com/privacy/'))
 
         for name, pat in checks:
             if re.search(pat, html, re.I):
