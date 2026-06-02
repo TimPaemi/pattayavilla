@@ -88,25 +88,34 @@ def audit_pattayastream_pages() -> None:
             continue
         ok(f'{url} HTTP 200' + (f' (via {final})' if final != url else ''))
 
-        checks = [
-            ('canonical', r'<link rel="canonical"'),
-            ('GA4 G-WSGWG7999E', r'G-WSGWG7999E'),
-            ('pv-core.css', r'pv-core\.css'),
-            ('sticky-cta', r'class="sticky-cta"'),
-            ('utility-bar', r'utility-bar'),
-            ('14 PROPERTIES strap', r'14 PROPERTIES'),
-            ('valid html close', r'</html>'),
-        ]
-        if path == '/community/':
-            checks.append(('noindex', r'noindex'))
-        if path != '/offline/':
-            checks.append(('sticky support #tip-tonight', r'/support/#tip-tonight'))
-        if path == '/support/':
-            checks.append(('DonateAction', r'DonateAction'))
-            checks.append(('#payment-methods DOM', r'id="payment-methods"'))
-            checks.append(('#payment-methods schema', r'support/#payment-methods'))
         if path == '/offline/':
-            checks.append(('watch live CTA', r'youtube\.com/@timpaemi/live'))
+            checks = [
+                ('canonical', r'<link rel="canonical"'),
+                ('pv-core.css', r'pv-core\.css'),
+                ('main landmark', r'id="main"'),
+                ('skip link', r'skip-link'),
+                ('noindex', r'noindex'),
+                ('watch live CTA', r'youtube\.com/@timpaemi/live'),
+                ('valid html close', r'</html>'),
+            ]
+        else:
+            checks = [
+                ('canonical', r'<link rel="canonical"'),
+                ('GA4 G-WSGWG7999E', r'G-WSGWG7999E'),
+                ('pv-core.css', r'pv-core\.css'),
+                ('sticky-cta', r'class="sticky-cta"'),
+                ('utility-bar', r'utility-bar'),
+                ('14 PROPERTIES strap', r'14 PROPERTIES'),
+                ('valid html close', r'</html>'),
+            ]
+            if path == '/community/':
+                checks.append(('noindex', r'noindex'))
+            checks.append(('sticky support #tip-tonight', r'/support/#tip-tonight'))
+            if path == '/support/':
+                checks.append(('DonateAction', r'DonateAction'))
+                checks.append(('#payment-methods DOM', r'id="payment-methods"'))
+                checks.append(('#payment-methods schema', r'support/#payment-methods'))
+                checks.append(('live-banner slot', r'live-banner-slot'))
 
         for name, pat in checks:
             if re.search(pat, html, re.I):

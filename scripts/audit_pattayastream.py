@@ -39,10 +39,10 @@ LIVE_MIN_WORDS = {
 }
 
 ASSETS = [
-    '/assets/css/pv-core.css?v=10',
+    '/assets/css/pv-core.css?v=11',
     '/assets/css/pv-sub.css?v=6',
     '/assets/css/pv-home.css?v=6',
-    '/assets/js/pv-live.js?v=26',
+    '/assets/js/pv-live.js?v=27',
     '/assets/js/pv-analytics.js?v=1',
     '/assets/js/web-vitals.iife.js',
     '/manifest.json',
@@ -164,7 +164,7 @@ def audit_live_pages() -> None:
         checks = [
             ('canonical', r'<link rel="canonical"'),
             ('GA4', r'G-WSGWG7999E'),
-            ('pv-core.css v10', r'pv-core\.css\?v=10'),
+            ('pv-core.css v11', r'pv-core\.css\?v=11'),
             ('utility-bar-actions', r'utility-bar-actions'),
             ('sticky-cta', r'class="sticky-cta"'),
             ('support #tip-tonight', r'/support/#tip-tonight'),

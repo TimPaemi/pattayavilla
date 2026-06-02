@@ -184,7 +184,7 @@
       '}',
       '@media(max-width:440px){',
       '  .utility-bar{padding:.5rem .75rem;min-height:40px}',
-      '  .utility-bar .live-status{font-size:.6rem;letter-spacing:1.5px;padding:.4rem .85rem;min-height:34px}',
+      '  .utility-bar .live-status{font-size:.6rem;letter-spacing:1.5px;padding:.4rem .85rem;min-height:44px}',
       '  .marquee-track{font-size:.62rem;letter-spacing:1.4px;animation-duration:36s}',
       '  .hero h1{font-size:clamp(2.5rem,12vw,4.4rem)!important;line-height:.92;letter-spacing:-.018em;word-break:break-word;overflow-wrap:anywhere}',
       '  .hero-eyebrow{font-size:.54rem;letter-spacing:1.4px;padding:.28rem .65rem;margin-bottom:.75rem}',
