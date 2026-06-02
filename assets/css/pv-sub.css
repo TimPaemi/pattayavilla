@@ -35,6 +35,10 @@ main>h1 .pink{color:var(--pink);text-shadow:var(--glow-pink)}
 .toc-label{font-family:var(--mono);font-size:.62rem;letter-spacing:1.8px;text-transform:uppercase;color:var(--cyan);font-weight:800}
 .toc a{font-family:var(--mono);font-size:.68rem;letter-spacing:1.2px;text-transform:uppercase;color:var(--text);font-weight:700;padding:.35rem .65rem;border-radius:6px;border:1px solid transparent}
 .toc a:hover,.toc a:focus-visible{color:#fff;background:rgba(255,47,142,.12);border-color:rgba(255,47,142,.25)}
+.toc a.is-active,.toc a[aria-current="true"]{color:#fff;background:rgba(255,47,142,.18);border-color:rgba(255,47,142,.45);box-shadow:0 0 20px rgba(255,47,142,.12)}
+.body-section.is-landing-target,.details.is-landing-target{animation:pv-landflash 2.5s ease-out}
+@keyframes pv-landflash{0%,12%{box-shadow:0 0 0 3px rgba(106,255,159,.55),0 0 32px rgba(106,255,159,.2)}100%{box-shadow:none}}
+@media(prefers-reduced-motion:reduce){.body-section.is-landing-target,.details.is-landing-target{animation:none;box-shadow:0 0 0 2px rgba(106,255,159,.45)}}
 
 /* Support page */
 .support-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;margin-top:1.5rem}

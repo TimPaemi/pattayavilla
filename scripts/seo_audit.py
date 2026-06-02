@@ -715,7 +715,7 @@ def audit_subpage_critical_css() -> None:
         m = re.search(r'<style id="pv-critical-chrome">(.*?)</style>', html, re.S)
         if not m or _normalize_css(m.group(1)) != css_min:
             bad.append(f'{rel} critical CSS drift')
-        if 'pv-sub.css?v=10" media="print" onload' not in html:
+        if 'pv-sub.css?v=11" media="print" onload' not in html:
             bad.append(f'{rel} missing async pv-sub.css')
     if bad:
         fail(f'subpage critical CSS: {bad[:3]} — run python scripts/sync_critical_css.py --chrome')

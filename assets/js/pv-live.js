@@ -53,6 +53,12 @@
       /* === Reading progress bar (Article pages only — .has-progress on <body>) === */
       '.pv-progress{position:fixed;top:0;left:0;right:0;height:3px;background:rgba(255,255,255,.06);z-index:200;pointer-events:none}',
       '.pv-progress-bar{height:100%;background:linear-gradient(90deg,#ff2f8e,#ffe156);width:0;transform-origin:left center;transition:width .12s linear}',
+      /* === Scroll to top (long-form pages with sticky CTA) === */
+      '.pv-scroll-top{position:fixed;right:max(1rem,env(safe-area-inset-right,0px));bottom:calc(72px + env(safe-area-inset-bottom,0px));z-index:190;display:none;align-items:center;justify-content:center;min-width:52px;min-height:44px;padding:.55rem 1rem;border-radius:var(--radius-pill);border:2px solid rgba(0,229,255,.45);background:rgba(8,8,12,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:var(--cyan);font-family:var(--mono);font-size:.62rem;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;cursor:pointer;box-shadow:0 8px 28px rgba(0,0,0,.45);transition:transform .18s,opacity .18s,border-color .18s;-webkit-tap-highlight-color:transparent;touch-action:manipulation}',
+      '.pv-scroll-top:not([hidden]){display:inline-flex}',
+      '.pv-scroll-top:hover,.pv-scroll-top:focus-visible{color:#fff;border-color:var(--cyan);outline:none;transform:translateY(-2px)}',
+      '.pv-scroll-top:active{transform:scale(.97)}',
+      '@media(max-width:760px){.pv-scroll-top{right:.75rem;bottom:calc(68px + env(safe-area-inset-bottom,0px));min-width:48px;padding:.5rem .85rem;font-size:.58rem}}',
       /* === Selection / scrollbar === */
       '::selection{background:#ff2f8e;color:#fff}',
       '::-moz-selection{background:#ff2f8e;color:#fff}',
@@ -488,11 +494,16 @@
     document.body.insertBefore(skip, document.body.firstChild);
   }
 
-  /* ---------- reading progress bar (Article pages: /format/, /code/) ---------- */
+  /* ---------- long-form subpages (progress bar, scroll-top, TOC spy) ---------- */
+  function isLongformPage(){
+    var p = location.pathname;
+    if (p !== '/' && p.length > 1 && p.charAt(p.length - 1) !== '/') p += '/';
+    return ['/about/', '/format/', '/code/', '/faq/', '/support/', '/community/'].indexOf(p) >= 0;
+  }
+
+  /* ---------- reading progress bar (long-form subpages) ---------- */
   function buildProgressBar(){
-    var path = location.pathname;
-    var isArticle = path.indexOf('/format/') === 0 || path.indexOf('/code/') === 0;
-    if (!isArticle) return;
+    if (!isLongformPage()) return;
     document.body.classList.add('has-progress');
     var wrap = document.createElement('div');
     wrap.className = 'pv-progress'; wrap.setAttribute('aria-hidden','true');
@@ -509,6 +520,70 @@
     }
     window.addEventListener('scroll', function(){ if (!ticking){ requestAnimationFrame(update); ticking = true; } }, {passive:true});
     update();
+  }
+
+  /* ---------- scroll to top — appears after deep scroll on long pages ---------- */
+  function buildScrollTop(){
+    if (!document.querySelector('.sticky-cta')) return;
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'pv-scroll-top';
+    btn.setAttribute('aria-label', 'Back to top');
+    btn.textContent = '↑ TOP';
+    btn.hidden = true;
+    document.body.appendChild(btn);
+    btn.addEventListener('click', function(){
+      var reduce = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+      window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
+    });
+    var showAt = 480;
+    var ticking = false;
+    function update(){
+      btn.hidden = window.scrollY < showAt;
+      ticking = false;
+    }
+    window.addEventListener('scroll', function(){ if (!ticking){ requestAnimationFrame(update); ticking = true; } }, {passive:true});
+    update();
+  }
+
+  /* ---------- TOC scroll-spy — highlight active section in jump nav ---------- */
+  function buildTocSpy(){
+    var toc = document.querySelector('.toc');
+    if (!toc || !('IntersectionObserver' in window)) return;
+    var links = toc.querySelectorAll('a[href^="#"]');
+    if (!links.length) return;
+    var map = {};
+    var sections = [];
+    links.forEach(function(a){
+      var id = (a.getAttribute('href') || '').slice(1);
+      var el = id && document.getElementById(id);
+      if (el){ map[id] = a; sections.push(el); }
+    });
+    if (!sections.length) return;
+    function setActive(id){
+      if (!map[id]) return;
+      links.forEach(function(a){ a.classList.remove('is-active'); a.removeAttribute('aria-current'); });
+      map[id].classList.add('is-active');
+      map[id].setAttribute('aria-current', 'true');
+    }
+    var io = new IntersectionObserver(function(entries){
+      var visible = entries.filter(function(e){ return e.isIntersecting; });
+      if (!visible.length) return;
+      visible.sort(function(a, b){ return a.boundingClientRect.top - b.boundingClientRect.top; });
+      setActive(visible[0].target.id);
+    }, { rootMargin: '-15% 0px -55% 0px', threshold: [0, 0.1, 0.25] });
+    sections.forEach(function(s){ io.observe(s); });
+  }
+
+  /* ---------- hash landing flash — howto + TOC deep links ---------- */
+  function buildHashLanding(){
+    var hash = location.hash;
+    if (!hash || hash.length < 2) return;
+    var el = document.querySelector(hash);
+    if (!el) return;
+    if (el.tagName === 'DETAILS' && !el.open) el.open = true;
+    el.classList.add('is-landing-target');
+    window.setTimeout(function(){ el.classList.remove('is-landing-target'); }, 2800);
   }
 
   /* ---------- smart sticky CTA — hide on scroll-down, show on scroll-up ---------- */
@@ -711,6 +786,9 @@
     setInterval(updateLiveSchema, 60000);
     buildCounters();
     buildProgressBar();
+    buildScrollTop();
+    buildTocSpy();
+    buildHashLanding();
     buildSmartSticky();
     pauseMarqueeWhenHidden();
     wireVibration();

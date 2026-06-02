@@ -40,9 +40,9 @@ LIVE_MIN_WORDS = {
 
 ASSETS = [
     '/assets/css/pv-core.css?v=14',
-    '/assets/css/pv-sub.css?v=10',
+    '/assets/css/pv-sub.css?v=11',
     '/assets/css/pv-home.css?v=8',
-    '/assets/js/pv-live.js?v=33',
+    '/assets/js/pv-live.js?v=34',
     '/assets/calendar/pattaya-villa-stream.ics',
     '/assets/js/pv-analytics.js?v=1',
     '/assets/js/web-vitals.iife.js',
@@ -193,12 +193,12 @@ def audit_live_pages() -> None:
                 ('DonateAction', r'DonateAction'),
                 ('live-banner slot', r'live-banner-slot'),
                 ('subpage critical CSS', r'id="pv-critical-chrome"'),
-                ('async pv-sub.css', r'pv-sub\.css\?v=10" media="print" onload'),
+                ('async pv-sub.css', r'pv-sub\.css\?v=11" media="print" onload'),
             ])
         elif path in ('/about/', '/format/', '/code/', '/faq/', '/community/'):
             checks.extend([
                 ('subpage critical CSS', r'id="pv-critical-chrome"'),
-                ('async pv-sub.css', r'pv-sub\.css\?v=10" media="print" onload'),
+                ('async pv-sub.css', r'pv-sub\.css\?v=11" media="print" onload'),
             ])
         if path in ('/', '/about/', '/support/', '/format/', '/code/', '/faq/', '/community/', '/404/'):
             checks.append(('footer privacy link', r'timpaemi\.com/privacy/'))
