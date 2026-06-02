@@ -1,4 +1,4 @@
-/* PATTAYA VILLA STREAM · pv-live.js — v12 (2026-05-27 share + UX)
+/* PATTAYA VILLA STREAM · pv-live.js — v13 (2026-05-27 share + howto)
  * Mobile-first usability layer + 2026 platform features:
  *  - Live pill (focal mobile header element)
  *  - Smart sticky CTA (hide on scroll-down, show on scroll-up)
@@ -318,6 +318,30 @@
     }
     tick();
     setInterval(tick, 30000);
+  }
+
+  /* ---------- homepage share tonight (native share or copy live link) ---------- */
+  function buildHeroShare(){
+    var btn = document.getElementById('hero-share-tonight');
+    if (!btn) return;
+    var shareText = 'PATTAYA VILLA STREAM — live every night 9 PM ICT';
+    btn.addEventListener('click', function(){
+      var live = isLiveICT();
+      var url = live ? LIVE_WATCH_URL : (location.origin + '/');
+      var clip = live ? (shareText + ' → ' + LIVE_WATCH_URL) : (shareText + ' ' + location.origin + '/');
+      if (navigator.share){
+        navigator.share({ title: document.title, text: shareText, url: url }).catch(function(){});
+        return;
+      }
+      try {
+        navigator.clipboard.writeText(clip).then(function(){
+          btn.classList.add('copied');
+          var prev = btn.textContent;
+          btn.textContent = '✓ LINK COPIED';
+          setTimeout(function(){ btn.classList.remove('copied'); btn.textContent = prev; }, 2000);
+        });
+      } catch (_) {}
+    });
   }
 
   /* ---------- sticky CTA live pulse ---------- */
@@ -669,6 +693,7 @@
     if (bar){ buildLive(bar); buildShare(bar); }
     toggleLiveBanner();
     buildHeroShowtime();
+    buildHeroShare();
     buildStickyLive();
     buildInstallPrompt();
     setInterval(toggleLiveBanner, 60000);

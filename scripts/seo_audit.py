@@ -396,7 +396,7 @@ def audit_speakable_dom() -> None:
     checks = {
         'code/index.html': ['#why-code-heading', '#welcome-heading', '#banned-heading', '#how-enforcement-heading', '#mods-heading'],
         'community/index.html': ['#why-community-heading', '#become-heading', '#why-heading', '#mods-community-heading', '.tier-name'],
-        'support/index.html': ['#free', '#tip-tonight', '#superchat-howto-heading', '#how-support-heading', '#superchat-vs-thanks-heading', '#recognition-policy-heading', '.support-card-name', '.equal-paths-a'],
+        'support/index.html': ['#free', '#tip-tonight', '#superchat-howto-heading', '#superthanks-howto-heading', '#how-support-heading', '#superchat-vs-thanks-heading', '#recognition-policy-heading', '.support-card-name', '.equal-paths-a'],
         'format/index.html': ['#typical-night', '#chat-is-the-room', '#the-vibe', '#first-night', '#locked-format', '#live-vs-recordings'],
     }
     bad = []
@@ -715,7 +715,7 @@ def audit_subpage_critical_css() -> None:
         m = re.search(r'<style id="pv-critical-chrome">(.*?)</style>', html, re.S)
         if not m or _normalize_css(m.group(1)) != css_min:
             bad.append(f'{rel} critical CSS drift')
-        if 'pv-sub.css?v=8" media="print" onload' not in html:
+        if 'pv-sub.css?v=9" media="print" onload' not in html:
             bad.append(f'{rel} missing async pv-sub.css')
     if bad:
         fail(f'subpage critical CSS: {bad[:3]} — run python scripts/sync_critical_css.py --chrome')

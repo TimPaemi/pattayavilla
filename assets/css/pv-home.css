@@ -52,6 +52,7 @@
   color:var(--cyan);text-decoration:none;background:rgba(0,229,255,.06);transition:transform .18s,border-color .18s,background .18s;
 }
 .hero-showtime-cal:hover{color:#fff;border-color:var(--cyan);background:rgba(0,229,255,.12);transform:translateY(-2px)}
+#hero-share-tonight.copied{background:rgba(106,255,159,.15);border-color:var(--green);color:var(--green)}
 
 .stats-strip{padding:0 1.5rem 3rem;max-width:var(--max);margin:0 auto}
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin:0;padding:0;list-style:none}

@@ -22,8 +22,8 @@ CHROME_PAGES = (
 )
 
 CORE_V = '13'
-SUB_V = '8'
-HOME_V = '7'
+SUB_V = '9'
+HOME_V = '8'
 
 
 def normalize_css(text: str) -> str:
