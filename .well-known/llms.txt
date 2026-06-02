@@ -76,7 +76,7 @@ PATTAYA VILLA STREAM is one site in a 14-site Pattaya network all operated by th
 
 ## Site sections
 
-- [Homepage](https://pattayastream.com/) — hero, scale stats, timezone guide, first-night onboarding, quick links to every page
+- [Homepage](https://pattayastream.com/) — hero, scale stats, timezone guide, first-night onboarding, quick links; **inlined critical CSS** for faster first paint
 - [About](https://pattayastream.com/about/) — Tim & Paemi story, what this site is for, the show, 14-site network, locked principles, new-viewer path, contact
 - [The Format](https://pattayastream.com/format/) — seven-section breakdown: typical night, crew, chat-is-the-room, vibe, first night, [locked rules](https://pattayastream.com/format/#locked-format), [live vs recordings](https://pattayastream.com/format/#live-vs-recordings)
 - [Support](https://pattayastream.com/support/) — five active paths (3 free, 2 paid via YouTube); deep dives on [Super Chat vs Super Thanks](https://pattayastream.com/support/#superchat-vs-thanks), [recognition policy](https://pattayastream.com/support/#recognition-policy), and [sponsor-free funding](https://pattayastream.com/support/#no-sponsors)
@@ -92,6 +92,7 @@ PATTAYA VILLA STREAM is one site in a 14-site Pattaya network all operated by th
 - Network sitemap index: [https://pattayastream.com/sitemap-network.xml](https://pattayastream.com/sitemap-network.xml)
 - IndexNow key: [https://pattayastream.com/psindex2026pattayastreamkey.txt](https://pattayastream.com/psindex2026pattayastreamkey.txt)
 - Weekly automated SEO + network audits run in CI on every push
+- Network inbound: all **13/13** sister homepages link back to pattayastream.com (verified weekly)
 - Privacy policy: [https://timpaemi.com/privacy/](https://timpaemi.com/privacy/) (brand site — no separate page on pattayastream.com)
 - Site terms: [https://pattayastream.com/LICENSE](https://pattayastream.com/LICENSE)
 - IndexNow pings run on every deploy (global API + Bing endpoint)

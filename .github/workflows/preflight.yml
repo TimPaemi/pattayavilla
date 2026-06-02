@@ -105,7 +105,7 @@ jobs:
                      '#scale-heading','#explore-heading','#contact','#become-a-regular',
                      '#become-heading','#typical-night','#the-crew','#chat-is-the-room','#the-vibe','#first-night','#story','#show','#network','#principles','#this-site','#new-here',
                      '#how-support-heading','#superchat-vs-thanks','#recognition-policy','#no-sponsors','#first-night-heading',
-                     '#locked-format','#live-vs-recordings'}
+                     '#locked-format','#live-vs-recordings','#privacy-analytics'}
           broken = []
           for f in glob.glob('**/*.html', recursive=True):
               if '_pattayavilla-scaffold' in f: continue
@@ -136,7 +136,7 @@ jobs:
               html = open(f).read()
               for m in re.findall(r'(?:href|src)=\"(/assets/[^\"?]+)', html):
                   refs.add(m.split('?')[0])
-          refs.update(['/assets/css/pv-core.css','/assets/js/pv-analytics.js','/assets/js/pv-live.js','/assets/js/web-vitals.iife.js'])
+          refs.update(['/assets/css/pv-core.css','/assets/css/pv-critical-home.css','/assets/css/pv-critical-chrome.css','/assets/css/pv-sub.css','/assets/js/pv-analytics.js','/assets/js/pv-live.js','/assets/js/web-vitals.iife.js'])
           missing = [r for r in sorted(refs) if not os.path.isfile('.' + r)]
           if missing:
               for m in missing:
@@ -147,6 +147,9 @@ jobs:
 
       - name: SEO audit
         run: python3 scripts/seo_audit.py
+
+      - name: Critical CSS parity
+        run: python3 scripts/sync_critical_css.py --check
 
       - name: Network audit
         run: python3 scripts/network_audit.py

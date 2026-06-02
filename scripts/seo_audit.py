@@ -523,6 +523,8 @@ def audit_faq_jsonld_mesh() -> None:
         'live vs recordings on the format page',
         'locked format rules on the format page',
         'Super Chat vs Super Thanks on the support page',
+        'timpaemi.com/privacy',
+        'pattayastream.com/LICENSE',
     )
     missing = [n for n in needles if n not in faq]
     if missing:
@@ -656,8 +658,35 @@ def audit_homepage_critical_css() -> None:
         return
     inline = _normalize_css(match.group(1))
     if css_min != inline:
-        fail('index.html critical CSS drift — run python scripts/_sync_critical_home.py')
+        fail('index.html critical CSS drift — run python scripts/sync_critical_css.py --home')
     ok(f'homepage critical CSS inlined ({len(inline)} bytes, async full stylesheets)')
+
+
+def audit_subpage_critical_css() -> None:
+    css_path = ROOT / 'assets/css/pv-critical-chrome.css'
+    if not css_path.exists():
+        fail('assets/css/pv-critical-chrome.css missing')
+        return
+    css_min = _normalize_css(css_path.read_text(encoding='utf-8'))
+    pages = (
+        'about/index.html', 'support/index.html', 'format/index.html',
+        'code/index.html', 'faq/index.html', 'community/index.html',
+        '404.html', '404/index.html',
+    )
+    bad = []
+    for rel in pages:
+        html = (ROOT / rel).read_text(encoding='utf-8')
+        if 'id="pv-critical-chrome"' not in html:
+            bad.append(f'{rel} missing inline critical CSS')
+            continue
+        m = re.search(r'<style id="pv-critical-chrome">(.*?)</style>', html, re.S)
+        if not m or _normalize_css(m.group(1)) != css_min:
+            bad.append(f'{rel} critical CSS drift')
+        if 'pv-sub.css?v=7" media="print" onload' not in html:
+            bad.append(f'{rel} missing async pv-sub.css')
+    if bad:
+        fail(f'subpage critical CSS: {bad[:3]} — run python scripts/sync_critical_css.py --chrome')
+    ok(f'subpage critical CSS inlined on {len(pages)} chrome pages (async pv-core + pv-sub)')
 
 
 def audit_live_status_core_css() -> None:
@@ -724,6 +753,7 @@ def main() -> int:
     audit_live_pill_placeholder()
     audit_live_status_core_css()
     audit_homepage_critical_css()
+    audit_subpage_critical_css()
     audit_footer_trust_links()
     audit_date_modified()
     print()

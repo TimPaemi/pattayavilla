@@ -40,7 +40,7 @@ LIVE_MIN_WORDS = {
 
 ASSETS = [
     '/assets/css/pv-core.css?v=13',
-    '/assets/css/pv-sub.css?v=6',
+    '/assets/css/pv-sub.css?v=7',
     '/assets/css/pv-home.css?v=6',
     '/assets/js/pv-live.js?v=29',
     '/assets/js/pv-analytics.js?v=1',
@@ -187,6 +187,13 @@ def audit_live_pages() -> None:
                 ('#payment-methods DOM', r'id="payment-methods"'),
                 ('DonateAction', r'DonateAction'),
                 ('live-banner slot', r'live-banner-slot'),
+                ('subpage critical CSS', r'id="pv-critical-chrome"'),
+                ('async pv-sub.css', r'pv-sub\.css\?v=7" media="print" onload'),
+            ])
+        elif path in ('/about/', '/format/', '/code/', '/faq/', '/community/'):
+            checks.extend([
+                ('subpage critical CSS', r'id="pv-critical-chrome"'),
+                ('async pv-sub.css', r'pv-sub\.css\?v=7" media="print" onload'),
             ])
         if path in ('/', '/about/', '/support/', '/format/', '/code/', '/faq/', '/community/', '/404/'):
             checks.append(('footer privacy link', r'timpaemi\.com/privacy/'))

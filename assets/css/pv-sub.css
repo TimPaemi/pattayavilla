@@ -12,6 +12,8 @@ main.page-main{max-width:var(--max);margin:0 auto;padding:0 1.5rem 4rem}
 .hero:not(.hero--page) h1 .pink{color:var(--pink);text-shadow:var(--glow-pink)}
 .hero:not(.hero--page) .hero-sub{max-width:760px;margin:0 0 1.2rem}
 main{max-width:var(--max);margin:0 auto;padding:0 1.5rem 4rem}
+main>h1{font-family:var(--display);font-size:clamp(4.5rem,14vw,11rem);line-height:.84;letter-spacing:-.015em;font-weight:400;margin:0 0 1.2rem;color:#fff;text-transform:uppercase}
+main>h1 .pink{color:var(--pink);text-shadow:var(--glow-pink)}
 
 .section-tag.cyan{background:var(--cyan);color:#08080c}
 .section-tag.green{background:var(--green);color:#08080c}
