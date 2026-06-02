@@ -41,8 +41,9 @@ LIVE_MIN_WORDS = {
 ASSETS = [
     '/assets/css/pv-core.css?v=13',
     '/assets/css/pv-sub.css?v=7',
-    '/assets/css/pv-home.css?v=6',
-    '/assets/js/pv-live.js?v=29',
+    '/assets/css/pv-home.css?v=7',
+    '/assets/js/pv-live.js?v=30',
+    '/assets/calendar/pattaya-villa-stream.ics',
     '/assets/js/pv-analytics.js?v=1',
     '/assets/js/web-vitals.iife.js',
     '/manifest.json',
@@ -138,6 +139,10 @@ def audit_live_pages() -> None:
         if path == '/offline/':
             if status == 200 and 'NO' in html and 'SIGNAL' in html:
                 ok(f'Offline (/offline/) HTTP 200')
+                if 'id="pv-critical-offline"' in html:
+                    ok('  /offline/ · offline critical CSS')
+                else:
+                    fail('  /offline/ · missing offline critical CSS')
             else:
                 fail(f'Offline (/offline/) HTTP {status}')
             continue
@@ -178,7 +183,7 @@ def audit_live_pages() -> None:
             checks.extend([
                 ('homepage critical CSS', r'id="pv-critical-home"'),
                 ('homepage async pv-core', r'pv-core\.css\?v=13" media="print" onload'),
-                ('homepage async pv-home', r'pv-home\.css\?v=6" media="print" onload'),
+                ('homepage async pv-home', r'pv-home\.css\?v=7" media="print" onload'),
             ])
         if path == '/community/':
             checks.append(('noindex', r'noindex'))
@@ -311,6 +316,7 @@ def audit_local_repo() -> None:
     missing_marquee = []
     missing_actions = []
     missing_placeholder = []
+    missing_share = []
     missing_footer = []
     chrome_with_bar = (
         'index.html', 'about/index.html', 'support/index.html', 'format/index.html',
@@ -323,6 +329,8 @@ def audit_local_repo() -> None:
             missing_actions.append(rel)
         if rel in chrome_with_bar and 'live-status is-placeholder' not in t:
             missing_placeholder.append(rel)
+        if rel in chrome_with_bar and 'pv-share is-placeholder' not in t:
+            missing_share.append(rel)
         if 'footer-network-heading' in t and 'footer-network-details' not in t:
             missing_footer.append(rel)
         if rel == 'index.html' and 'class="marquee"' not in t:
@@ -393,6 +401,10 @@ def audit_local_repo() -> None:
         fail(f'pages missing SSR live pill placeholder: {missing_placeholder}')
     else:
         ok('SSR live pill placeholder on all chrome pages')
+    if missing_share:
+        fail(f'pages missing SSR share placeholder: {missing_share}')
+    else:
+        ok('SSR share button placeholder on all chrome pages')
     if missing_footer:
         fail(f'pages missing collapsible footer: {missing_footer}')
     else:

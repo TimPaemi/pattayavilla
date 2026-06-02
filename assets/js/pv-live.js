@@ -1,4 +1,4 @@
-/* PATTAYA VILLA STREAM · pv-live.js — v10 (2026-05-27 full audit)
+/* PATTAYA VILLA STREAM · pv-live.js — v11 (2026-05-27 UX pass)
  * Mobile-first usability layer + 2026 platform features:
  *  - Live pill (focal mobile header element)
  *  - Smart sticky CTA (hide on scroll-down, show on scroll-up)
@@ -278,17 +278,63 @@
 
   function toggleLiveBanner(){var el = document.querySelector('[data-live-banner]');if(el) el.hidden = !isLiveICT();}
 
+  /* ---------- hero showtime + countdown (homepage) ---------- */
+  function buildHeroShowtime(){
+    var block = document.getElementById('hero-showtime');
+    if (!block) return;
+    var card = block.querySelector('.hero-showtime-card');
+    var val = block.querySelector('[data-hero-countdown]');
+    if (!card || !val) return;
+    function tick(){
+      if (isLiveICT()){
+        card.classList.remove('is-offline');
+        card.classList.add('is-live');
+        val.textContent = '● LIVE NOW';
+      } else {
+        card.classList.add('is-offline');
+        card.classList.remove('is-live');
+        var t = hoursUntilLive();
+        if (t && (t.h || t.m)) val.textContent = t.h + 'h ' + t.m + 'm until 9 PM ICT';
+        else val.textContent = '9 PM ICT tonight';
+      }
+    }
+    tick();
+    setInterval(tick, 30000);
+  }
+
+  /* ---------- sticky CTA live pulse ---------- */
+  function buildStickyLive(){
+    var watch = document.querySelector('.sticky-cta .cta-watch');
+    if (!watch) return;
+    if (!watch.dataset.offLabel) watch.dataset.offLabel = watch.textContent.trim();
+    function tick(){
+      if (isLiveICT()){
+        watch.classList.add('is-live-now');
+        watch.textContent = '● LIVE NOW';
+      } else {
+        watch.classList.remove('is-live-now');
+        watch.textContent = watch.dataset.offLabel;
+      }
+    }
+    tick();
+    setInterval(tick, 60000);
+  }
+
   /* ---------- share dialog ---------- */
   function buildShare(bar){
-    if(!bar || bar.querySelector('.pv-share')) return;
+    if(!bar || bar.querySelector('.pv-share:not(.is-placeholder)')) return;
     var actions = utilityActions(bar);
-    var btn = document.createElement('button');
-    btn.type = 'button'; btn.className = 'pv-share';
+    var placeholder = bar.querySelector('.pv-share.is-placeholder');
+    var btn = placeholder || document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'pv-share';
     btn.setAttribute('aria-haspopup','dialog');
     btn.setAttribute('aria-expanded','false');
     btn.setAttribute('aria-label','Open share menu');
     btn.textContent = 'SHARE';
-    actions.appendChild(btn);
+    btn.removeAttribute('aria-hidden');
+    btn.removeAttribute('tabindex');
+    if (!placeholder) actions.appendChild(btn);
     var dlg = document.createElement('dialog');
     dlg.className = 'pv-share-dialog';
     dlg.setAttribute('aria-label','Share this page');
@@ -529,6 +575,45 @@
     }, 12000);
   }
 
+  /* ---------- PWA install nudge (2nd visit+, dismissible) ---------- */
+  function buildInstallPrompt(){
+    if (window.matchMedia('(display-mode: standalone)').matches) return;
+    try { if (localStorage.getItem('pv_install_dismiss')) return; } catch (_) {}
+    var deferred = null;
+    window.addEventListener('beforeinstallprompt', function(e){
+      e.preventDefault();
+      deferred = e;
+      maybeShowInstall();
+    });
+    function maybeShowInstall(){
+      if (!deferred || document.getElementById('pv-install-toast')) return;
+      try {
+        var v = parseInt(localStorage.getItem('pv_visits') || '0', 10) + 1;
+        localStorage.setItem('pv_visits', String(v));
+        if (v < 2) return;
+      } catch (_) {}
+      var t = document.createElement('div');
+      t.id = 'pv-install-toast';
+      t.className = 'pv-install-toast';
+      t.setAttribute('role', 'status');
+      t.innerHTML = '<span>Add Villa Stream to your home screen — one tap back every night</span><button type="button">Install</button><button type="button" class="pv-install-dismiss" aria-label="Dismiss">×</button>';
+      t.querySelector('button:not(.pv-install-dismiss)').addEventListener('click', function(){
+        deferred.prompt();
+        deferred.userChoice.finally(function(){
+          t.remove();
+          try { localStorage.setItem('pv_install_dismiss', '1'); } catch (_) {}
+        });
+      });
+      t.querySelector('.pv-install-dismiss').addEventListener('click', function(){
+        t.remove();
+        try { localStorage.setItem('pv_install_dismiss', '1'); } catch (_) {}
+      });
+      document.body.appendChild(t);
+      setTimeout(function(){ if (t.parentNode) t.remove(); }, 15000);
+    }
+    setTimeout(maybeShowInstall, 5000);
+  }
+
   /* ---------- live JSON-LD signal (homepage VideoObject broadcast) ---------- */
   function updateLiveSchema(){
     var path = location.pathname;
@@ -564,6 +649,9 @@
     var bar = document.querySelector('.utility-bar');
     if (bar){ buildLive(bar); buildShare(bar); }
     toggleLiveBanner();
+    buildHeroShowtime();
+    buildStickyLive();
+    buildInstallPrompt();
     setInterval(toggleLiveBanner, 60000);
     updateLiveSchema();
     setInterval(updateLiveSchema, 60000);

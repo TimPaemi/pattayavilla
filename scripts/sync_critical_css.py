@@ -11,7 +11,9 @@ ROOT = Path(__file__).resolve().parent.parent
 
 HOME_CSS = ROOT / 'assets/css/pv-critical-home.css'
 CHROME_CSS = ROOT / 'assets/css/pv-critical-chrome.css'
+OFFLINE_CSS = ROOT / 'assets/css/pv-critical-offline.css'
 INDEX = ROOT / 'index.html'
+OFFLINE = ROOT / 'offline/index.html'
 
 CHROME_PAGES = (
     'about/index.html', 'support/index.html', 'format/index.html',
@@ -21,7 +23,7 @@ CHROME_PAGES = (
 
 CORE_V = '13'
 SUB_V = '7'
-HOME_V = '6'
+HOME_V = '7'
 
 
 def normalize_css(text: str) -> str:
@@ -68,14 +70,55 @@ def sync_chrome() -> None:
         r'<link rel="stylesheet" href="/assets/css/pv-sub\.css\?v=\d+">',
         re.S,
     )
+    alt_pattern = re.compile(
+        r'<style id="pv-critical-chrome">.*?</style>\s*'
+        r'<link rel="preload" href="/assets/css/pv-core\.css\?v=\d+" as="style">\s*'
+        r'<link rel="stylesheet" href="/assets/css/pv-core\.css\?v=\d+" media="print" onload="this\.media=\'all\'">\s*'
+        r'<link rel="preload" href="/assets/css/pv-sub\.css\?v=\d+" as="style">\s*'
+        r'<link rel="stylesheet" href="/assets/css/pv-sub\.css\?v=\d+" media="print" onload="this\.media=\'all\'">\s*'
+        r'<noscript>.*?</noscript>',
+        re.S,
+    )
     for rel in CHROME_PAGES:
         path = ROOT / rel
         html = path.read_text(encoding='utf-8')
-        if not pattern.search(html):
+        if alt_pattern.search(html):
+            html = alt_pattern.sub(block, html, count=1)
+        elif pattern.search(html):
+            html = pattern.sub(block, html, count=1)
+        else:
             raise SystemExit(f'stylesheet block not found in {rel}')
-        html = pattern.sub(block, html, count=1)
         path.write_text(html, encoding='utf-8')
         print(f'synced chrome critical CSS -> {rel}')
+
+
+def offline_stylesheet_block(css_min: str) -> str:
+    return (
+        f'<style id="pv-critical-offline">{css_min}</style>\n'
+        f'<link rel="preload" href="/assets/css/pv-core.css?v={CORE_V}" as="style">\n'
+        f'<link rel="stylesheet" href="/assets/css/pv-core.css?v={CORE_V}" media="print" onload="this.media=\'all\'">\n'
+        f'<link rel="preload" href="/assets/css/pv-sub.css?v={SUB_V}" as="style">\n'
+        f'<link rel="stylesheet" href="/assets/css/pv-sub.css?v={SUB_V}" media="print" onload="this.media=\'all\'">\n'
+        f'<noscript><link rel="stylesheet" href="/assets/css/pv-core.css?v={CORE_V}">'
+        f'<link rel="stylesheet" href="/assets/css/pv-sub.css?v={SUB_V}"></noscript>'
+    )
+
+
+def sync_offline() -> None:
+    css_min = minify_file(OFFLINE_CSS)
+    block = offline_stylesheet_block(css_min)
+    html = OFFLINE.read_text(encoding='utf-8')
+    pattern = re.compile(
+        r'(?:<style id="pv-critical-offline">.*?</style>\s*)?'
+        r'<link rel="stylesheet" href="/assets/css/pv-core\.css\?v=\d+">\s*'
+        r'<link rel="stylesheet" href="/assets/css/pv-sub\.css\?v=\d+">',
+        re.S,
+    )
+    if not pattern.search(html):
+        raise SystemExit('stylesheet block not found in offline/index.html')
+    html = pattern.sub(block, html, count=1)
+    OFFLINE.write_text(html, encoding='utf-8')
+    print(f'synced offline critical CSS ({len(css_min)} bytes)')
 
 
 def check_home() -> bool:
@@ -110,18 +153,36 @@ def check_chrome() -> bool:
     return ok
 
 
+def check_offline() -> bool:
+    css_min = minify_file(OFFLINE_CSS)
+    html = OFFLINE.read_text(encoding='utf-8')
+    m = re.search(r'<style id="pv-critical-offline">(.*?)</style>', html, re.S)
+    if not m:
+        print('DRIFT: offline/index.html missing #pv-critical-offline')
+        return False
+    if normalize_css(m.group(1)) != css_min:
+        print('DRIFT: offline/index.html pv-critical-offline out of sync')
+        return False
+    if 'media="print" onload="this.media=\'all\'"' not in html:
+        print('DRIFT: offline/index.html missing async stylesheets')
+        return False
+    return True
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument('--home', action='store_true', help='sync homepage only')
     parser.add_argument('--chrome', action='store_true', help='sync subpages only')
+    parser.add_argument('--offline', action='store_true', help='sync offline page only')
     parser.add_argument('--check', action='store_true', help='verify parity, no writes')
     args = parser.parse_args()
-    do_all = not args.home and not args.chrome and not args.check
+    do_all = not args.home and not args.chrome and not args.offline and not args.check
 
     if args.check:
         home_ok = check_home()
         chrome_ok = check_chrome()
-        if home_ok and chrome_ok:
+        offline_ok = check_offline()
+        if home_ok and chrome_ok and offline_ok:
             print('critical CSS parity: OK')
             return 0
         return 1
@@ -130,6 +191,8 @@ def main() -> int:
         sync_home()
     if args.chrome or do_all:
         sync_chrome()
+    if args.offline or do_all:
+        sync_offline()
     return 0
 
 

@@ -145,6 +145,10 @@ details[name="faq"] p a{font-weight:700}
 .offline-brand .pink{color:var(--pink)}
 .offline-brand a{color:var(--muted);text-decoration:none}
 .offline-brand a:hover{color:var(--cyan)}
+.offline-showtime.is-live{border-color:rgba(230,0,48,.35);background:rgba(230,0,48,.08)}
+.offline-showtime.is-live strong{color:var(--red-text)}
+#offline-retry[disabled]{opacity:.7;cursor:wait}
+.toc{min-height:3.5rem}
 
 @media(max-width:540px){
   .hero:not(.hero--page),.hero--page{padding:1rem 1rem 2rem}

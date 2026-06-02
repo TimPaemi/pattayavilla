@@ -23,7 +23,35 @@
 .hero h1 .cyan{color:var(--cyan);text-shadow:0 0 60px rgba(0,229,255,.5)}
 .hero h1 .yellow{color:var(--yellow);text-shadow:0 0 50px rgba(255,225,86,.4)}
 .hero-sub{margin:0 auto 1.8rem;max-width:680px}
-.hero-meta{font-family:var(--mono);font-size:.72rem;font-weight:800;letter-spacing:2.4px;text-transform:uppercase;color:var(--muted);margin-bottom:2.4rem}
+.hero-meta{font-family:var(--mono);font-size:.72rem;font-weight:800;letter-spacing:2.4px;text-transform:uppercase;color:var(--muted);margin-bottom:1.6rem}
+.hero-showtime{
+  display:flex;flex-wrap:wrap;align-items:stretch;justify-content:center;gap:.75rem;
+  margin:0 auto 2rem;max-width:680px;width:100%;
+}
+.hero-showtime-card{
+  flex:1 1 240px;padding:1rem 1.25rem;border:1px solid var(--border);border-radius:var(--radius-md);
+  background:var(--bg-glass);backdrop-filter:blur(10px);text-align:left;transition:border-color .2s,box-shadow .2s;
+}
+.hero-showtime-card.is-live{
+  border-color:rgba(230,0,48,.45);background:linear-gradient(135deg,rgba(230,0,48,.14),rgba(255,47,142,.06));
+  box-shadow:0 0 0 3px rgba(230,0,48,.12),var(--glow-red);
+}
+.hero-showtime-label{
+  display:block;font-family:var(--mono);font-size:.58rem;letter-spacing:1.6px;text-transform:uppercase;
+  color:var(--muted);font-weight:800;margin-bottom:.4rem;
+}
+.hero-showtime-value{
+  display:block;font-family:var(--display);font-size:clamp(1.5rem,4vw,2rem);line-height:1;color:#fff;
+  letter-spacing:.02em;text-transform:uppercase;font-variant-numeric:tabular-nums;
+}
+.hero-showtime-card.is-live .hero-showtime-value{color:var(--red-text);text-shadow:0 0 24px rgba(230,0,48,.45)}
+.hero-showtime-cal{
+  flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;align-self:center;
+  min-height:50px;padding:.85rem 1.25rem;border:1px solid rgba(0,229,255,.35);border-radius:var(--radius-pill);
+  font-family:var(--mono);font-size:.68rem;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;
+  color:var(--cyan);text-decoration:none;background:rgba(0,229,255,.06);transition:transform .18s,border-color .18s,background .18s;
+}
+.hero-showtime-cal:hover{color:#fff;border-color:var(--cyan);background:rgba(0,229,255,.12);transform:translateY(-2px)}
 
 .stats-strip{padding:0 1.5rem 3rem;max-width:var(--max);margin:0 auto}
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin:0;padding:0;list-style:none}

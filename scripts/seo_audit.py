@@ -635,6 +635,39 @@ def audit_live_pill_placeholder() -> None:
     ok('SSR live pill placeholder on all chrome pages')
 
 
+def audit_share_placeholder() -> None:
+    pages = (
+        'index.html', 'about/index.html', 'support/index.html', 'format/index.html',
+        'code/index.html', 'faq/index.html', 'community/index.html', '404.html', '404/index.html',
+    )
+    css = (ROOT / 'assets/css/pv-core.css').read_text(encoding='utf-8')
+    bad = []
+    for rel in pages:
+        html = (ROOT / rel).read_text(encoding='utf-8')
+        if 'pv-share is-placeholder' not in html:
+            bad.append(f'{rel} missing SSR share button placeholder')
+    if bad:
+        fail(f'share SSR placeholder missing: {bad[:4]}')
+    if '.pv-share.is-placeholder' not in css:
+        fail('pv-core.css missing .pv-share.is-placeholder rule')
+    ok('SSR share button placeholder on all chrome pages')
+
+
+def audit_offline_critical_css() -> None:
+    css_path = ROOT / 'assets/css/pv-critical-offline.css'
+    html = (ROOT / 'offline/index.html').read_text(encoding='utf-8')
+    if not css_path.is_file():
+        fail('assets/css/pv-critical-offline.css missing')
+    if 'id="pv-critical-offline"' not in html:
+        fail('offline/index.html missing inline #pv-critical-offline critical CSS block')
+    if 'media="print" onload="this.media=\'all\'"' not in html:
+        fail('offline/index.html missing async stylesheets')
+    inline = re.search(r'<style id="pv-critical-offline">(.*?)</style>', html, re.S)
+    if not inline or _normalize_css(inline.group(1)) != _normalize_css(css_path.read_text(encoding='utf-8')):
+        fail('offline/index.html critical CSS drift — run python scripts/sync_critical_css.py --offline')
+    ok(f'offline critical CSS inlined (async pv-core + pv-sub)')
+
+
 def _normalize_css(text: str) -> str:
     text = re.sub(r'/\*.*?\*/', '', text, flags=re.S)
     return re.sub(r'\s+', ' ', text).strip()
@@ -751,9 +784,11 @@ def main() -> int:
     audit_org_privacy_terms_schema()
     audit_support_live_banner_slot()
     audit_live_pill_placeholder()
+    audit_share_placeholder()
     audit_live_status_core_css()
     audit_homepage_critical_css()
     audit_subpage_critical_css()
+    audit_offline_critical_css()
     audit_footer_trust_links()
     audit_date_modified()
     print()
