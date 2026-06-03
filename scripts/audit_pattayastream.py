@@ -171,7 +171,7 @@ def audit_live_pages() -> None:
         checks = [
             ('canonical', r'<link rel="canonical"'),
             ('GA4', r'G-WSGWG7999E'),
-            ('pv-core.css v16', r'pv-core\.css\?v=16'),
+            ('pv-core.css v17', r'pv-core\.css\?v=17'),
             ('utility-bar-actions', r'utility-bar-actions'),
             ('live pill SSR placeholder', r'live-status is-placeholder'),
             ('sticky-cta', r'class="sticky-cta"'),
@@ -183,8 +183,8 @@ def audit_live_pages() -> None:
             checks.append(('marquee ticker', r'class="marquee"'))
             checks.extend([
                 ('homepage critical CSS', r'id="pv-critical-home"'),
-                ('homepage async pv-core', r'pv-core\.css\?v=16" media="print" onload'),
-                ('homepage async pv-home', r'pv-home\.css\?v=9" media="print" onload'),
+                ('homepage async pv-core', r'pv-core\.css\?v=17" media="print" onload'),
+                ('homepage async pv-home', r'pv-home\.css\?v=10" media="print" onload'),
             ])
         if path == '/community/':
             checks.append(('noindex', r'noindex'))
