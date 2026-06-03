@@ -31,6 +31,15 @@ NEW_HERE_PAGES = (
     'faq/index.html',
 )
 
+COMMUNITY_FRAGMENT_PAGES = (
+    'index.html',
+    'about/index.html',
+    'format/index.html',
+    'code/index.html',
+    'faq/index.html',
+    'support/index.html',
+)
+
 
 def extract_main(rel: str) -> str:
     html = (ROOT / rel).read_text(encoding='utf-8')
@@ -121,6 +130,14 @@ def audit_mesh() -> list[str]:
 
     if fmt_main and not SISTER_RE.search(fmt_main):
         errors.append('format/index.html <main> must include a contextual sister-site link')
+
+    if code_main and not SISTER_RE.search(code_main):
+        errors.append('code/index.html <main> must include a contextual sister-site link')
+
+    for rel in COMMUNITY_FRAGMENT_PAGES:
+        main = extract_main(rel)
+        if main and '/community/#' not in main:
+            errors.append(f'{rel} <main> must include a /community/# deep link')
 
     return errors
 
