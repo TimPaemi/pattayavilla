@@ -18,7 +18,18 @@ INDEXED_MAIN = (
 )
 
 NETWORK_HUB = '/about/#network'
+NEW_HERE_HUB = '/about/#new-here'
 BRAND_RE = re.compile(r'timpaemi\.com|pattaya-authority\.com')
+SISTER_RE = re.compile(r'https://pattaya-[a-z-]+\.com|https://mrweoutside\.com')
+
+NEW_HERE_PAGES = (
+    'index.html',
+    'format/index.html',
+    'support/index.html',
+    'code/index.html',
+    'community/index.html',
+    'faq/index.html',
+)
 
 
 def extract_main(rel: str) -> str:
@@ -102,6 +113,14 @@ def audit_mesh() -> list[str]:
 
     if comm_main and NETWORK_HUB not in comm_main:
         errors.append('community/index.html <main> must link to /about/#network')
+
+    for rel in NEW_HERE_PAGES:
+        main = extract_main(rel)
+        if main and NEW_HERE_HUB not in main:
+            errors.append(f'{rel} <main> must link to {NEW_HERE_HUB}')
+
+    if fmt_main and not SISTER_RE.search(fmt_main):
+        errors.append('format/index.html <main> must include a contextual sister-site link')
 
     return errors
 
