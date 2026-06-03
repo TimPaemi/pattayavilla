@@ -20,7 +20,7 @@ main>h1 .pink{color:var(--pink);text-shadow:var(--glow-pink)}
 .section-tag.pink{background:var(--pink);color:#08080c}
 
 /* Format / about body sections */
-.body-section{margin:3.5rem 0;scroll-margin-top:2rem}
+.body-section{margin:3.5rem 0;scroll-margin-top:var(--pv-scroll-offset,5rem)}
 .body-section h2,.intro h2{font-family:var(--display);font-size:clamp(2.4rem,7vw,4.8rem);line-height:.92;color:#fff;margin:0 0 1.4rem;text-transform:uppercase}
 .body-section h2 .pink,.intro h2 .hl{color:var(--pink)}
 .body-section h2 .cyan{color:var(--cyan)}
@@ -36,6 +36,20 @@ main>h1 .pink{color:var(--pink);text-shadow:var(--glow-pink)}
 .toc a{font-family:var(--mono);font-size:.68rem;letter-spacing:1.2px;text-transform:uppercase;color:var(--text);font-weight:700;padding:.35rem .65rem;border-radius:6px;border:1px solid transparent}
 .toc a:hover,.toc a:focus-visible{color:#fff;background:rgba(255,47,142,.12);border-color:rgba(255,47,142,.25)}
 .toc a.is-active,.toc a[aria-current="true"]{color:#fff;background:rgba(255,47,142,.18);border-color:rgba(255,47,142,.45);box-shadow:0 0 20px rgba(255,47,142,.12)}
+@media(max-width:760px){
+  .toc.toc--scroll{
+    flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scroll-snap-type:x proximity;
+    gap:.45rem;padding-bottom:.65rem;mask-image:linear-gradient(90deg,#000 92%,transparent);
+  }
+  .toc.toc--scroll .toc-label,.toc.toc--scroll a{flex-shrink:0;scroll-snap-align:start}
+  .toc.toc--scroll a{min-height:44px;display:inline-flex;align-items:center}
+  .support-path-pick{
+    position:sticky;top:var(--pv-sticky-top,0);z-index:90;
+    margin-left:-1rem;margin-right:-1rem;padding-left:1.15rem;padding-right:1.15rem;
+    border-radius:0;border-left:none;border-right:none;
+    backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);background:rgba(8,8,12,.94);
+  }
+}
 .body-section.is-landing-target,.details.is-landing-target{animation:pv-landflash 2.5s ease-out}
 @keyframes pv-landflash{0%,12%{box-shadow:0 0 0 3px rgba(106,255,159,.55),0 0 32px rgba(106,255,159,.2)}100%{box-shadow:none}}
 @media(prefers-reduced-motion:reduce){.body-section.is-landing-target,.details.is-landing-target{animation:none;box-shadow:0 0 0 2px rgba(106,255,159,.45)}}
@@ -160,11 +174,11 @@ button.support-card{width:100%;text-align:left;font:inherit;cursor:pointer;appea
 .faq-expand-actions{display:flex;flex-wrap:wrap;gap:.4rem;margin-left:auto}
 .faq-expand-btn{font-family:var(--mono);font-size:.58rem;letter-spacing:1.2px;text-transform:uppercase;font-weight:800;color:rgba(255,255,255,.88);padding:.45rem .75rem;border:1px solid var(--border);border-radius:var(--radius-pill);background:rgba(255,255,255,.04);cursor:pointer;min-height:44px;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 .faq-expand-btn:hover,.faq-expand-btn:focus-visible{color:#fff;border-color:rgba(255,47,142,.4);background:rgba(255,47,142,.1);outline:none}
-.faq-category{margin:2.5rem 0 1rem;padding:0;border:none;background:none}
+.faq-category{margin:2.5rem 0 1rem;padding:0;border:none;background:none;scroll-margin-top:var(--pv-scroll-offset,5rem)}
 .faq-category:first-of-type{margin-top:0}
 .faq-category .section-tag{margin-bottom:0;display:inline-block}
 .faq-category.is-landing-target .section-tag{color:var(--green);text-shadow:0 0 20px rgba(106,255,159,.35)}
-details[name="faq"]{border:1px solid var(--border);border-left:3px solid var(--pink);border-radius:var(--radius-md);margin-bottom:.65rem;background:var(--surface);overflow:hidden;transition:border-color .15s,background .15s}
+details[name="faq"]{border:1px solid var(--border);border-left:3px solid var(--pink);border-radius:var(--radius-md);margin-bottom:.65rem;background:var(--surface);overflow:hidden;transition:border-color .15s,background .15s;scroll-margin-top:var(--pv-scroll-offset,5rem)}
 details[name="faq"].is-landing-target summary{color:var(--green)}
 details[name="faq"]:hover{background:var(--surface-2)}
 details[name="faq"][open]{border-color:var(--pink);background:rgba(255,47,142,.04);box-shadow:0 8px 30px rgba(255,47,142,.08)}

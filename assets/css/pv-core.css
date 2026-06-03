@@ -260,7 +260,7 @@ body.has-sticky-cta{padding-bottom:72px}
 @media(prefers-reduced-motion:reduce){.sticky-cta .cta-watch.is-live-now{animation:none}}
 
 /* Section system — main content only (footer uses .footer-block, not these rules) */
-main section,.page-section{position:relative;padding:5rem 1.5rem;max-width:var(--max);margin:0 auto;scroll-margin-top:2rem}
+main section,.page-section{position:relative;padding:5rem 1.5rem;max-width:var(--max);margin:0 auto;scroll-margin-top:var(--pv-scroll-offset,5rem)}
 .section-tag{display:inline-block;padding:.45rem .9rem;background:var(--yellow);color:#08080c;font-family:var(--mono);font-size:.62rem;letter-spacing:2px;text-transform:uppercase;font-weight:800;margin-bottom:1.5rem;border-radius:4px}
 .section-title{font-family:var(--display);font-size:clamp(3.2rem,9vw,7.5rem);line-height:.92;letter-spacing:-.01em;font-weight:400;color:#fff;margin:0 0 1.2rem;text-transform:uppercase}
 .section-title .pink{color:var(--pink);text-shadow:var(--glow-pink)}

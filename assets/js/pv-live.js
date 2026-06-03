@@ -35,7 +35,7 @@
       '.sticky-cta{view-transition-name:sticky-cta}',
       /* === Anchor scroll-margin so headings don't hide under sticky bars === */
       'html{scroll-padding-top:80px}',
-      'h1,h2,h3,h4,section,article,.body-section,details,[id]{scroll-margin-top:80px}',
+      'h1,h2,h3,h4,section,article,.body-section,details,[id]{scroll-margin-top:var(--pv-scroll-offset,80px)}',
       /* === 2026 typography polish === */
       'html{hanging-punctuation:first allow-end last}',
       'h1,h2,h3,.section-title,.tier-name,.equal-paths-q{text-wrap:balance}',
@@ -551,18 +551,78 @@
     document.documentElement.classList.add('has-utility-home');
   }
 
-  /* ---------- FAQ jump nav — open target accordion on tap ---------- */
-  function bindFaqJumpOpen(){
-    var p = location.pathname;
-    if (p !== '/' && p.length > 1 && p.charAt(p.length - 1) !== '/') p += '/';
-    if (p !== '/faq/') return;
-    var toc = document.querySelector('.faq-jumps');
-    if (!toc) return;
-    toc.querySelectorAll('a[href^="#"]').forEach(function(a){
-      a.addEventListener('click', function(){
+  /* ---------- dynamic scroll offset for sticky utility bar ---------- */
+  function buildScrollOffset(){
+    function update(){
+      var bar = document.querySelector('.utility-bar');
+      var h = bar ? Math.ceil(bar.getBoundingClientRect().height) : 72;
+      document.documentElement.style.setProperty('--pv-scroll-offset', (h + 16) + 'px');
+      document.documentElement.style.setProperty('--pv-sticky-top', h + 'px');
+    }
+    update();
+    window.addEventListener('resize', update, {passive: true});
+    try { window.matchMedia('(max-width:760px)').addEventListener('change', update); } catch (_) {}
+    if ('ResizeObserver' in window){
+      var bar = document.querySelector('.utility-bar');
+      if (bar) new ResizeObserver(update).observe(bar);
+    }
+  }
+
+  function getScrollOffset(){
+    var v = getComputedStyle(document.documentElement).getPropertyValue('--pv-scroll-offset').trim();
+    return v ? (parseInt(v, 10) || 88) : 88;
+  }
+
+  function scrollToElement(el){
+    if (!el) return;
+    var y = el.getBoundingClientRect().top + window.scrollY - getScrollOffset();
+    var reduce = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+    window.scrollTo({ top: Math.max(0, y), behavior: reduce ? 'auto' : 'smooth' });
+  }
+
+  function openFirstFaqInCategory(catEl){
+    if (!catEl || !catEl.classList.contains('faq-category')) return null;
+    var sib = catEl.nextElementSibling;
+    while (sib){
+      if (sib.tagName === 'H2') break;
+      if (sib.tagName === 'DETAILS' && sib.getAttribute('name') === 'faq'){
+        sib.open = true;
+        return sib;
+      }
+      sib = sib.nextElementSibling;
+    }
+    return null;
+  }
+
+  function resolveHashTarget(el){
+    if (!el) return null;
+    if (el.tagName === 'DETAILS'){
+      if (!el.open) el.open = true;
+      return el;
+    }
+    if (el.classList.contains('faq-category')) return openFirstFaqInCategory(el) || el;
+    return el;
+  }
+
+  function flashLandingTarget(el){
+    if (!el) return;
+    el.classList.add('is-landing-target');
+    window.setTimeout(function(){ el.classList.remove('is-landing-target'); }, 2800);
+  }
+
+  function buildInPageAnchorScroll(){
+    var sel = '.toc a[href^="#"], .faq-jumps a[href^="#"], .support-path-pick a[href^="#"], .hero-explore-jump a[href^="#"]';
+    document.querySelectorAll(sel).forEach(function(a){
+      a.addEventListener('click', function(e){
         var id = (a.getAttribute('href') || '').slice(1);
-        var el = id && document.getElementById(id);
-        if (el && el.tagName === 'DETAILS') el.open = true;
+        var raw = id && document.getElementById(id);
+        if (!raw) return;
+        e.preventDefault();
+        var target = resolveHashTarget(raw);
+        scrollToElement(raw.classList.contains('faq-category') ? raw : target);
+        flashLandingTarget(target);
+        if (history.replaceState) history.replaceState(null, '', '#' + id);
+        else location.hash = id;
       });
     });
   }
@@ -737,42 +797,45 @@
 
   /* ---------- TOC scroll-spy — highlight active section in jump nav ---------- */
   function buildTocSpy(){
-    var toc = document.querySelector('.toc');
-    if (!toc || !('IntersectionObserver' in window)) return;
-    var links = toc.querySelectorAll('a[href^="#"]');
-    if (!links.length) return;
-    var map = {};
-    var sections = [];
-    links.forEach(function(a){
-      var id = (a.getAttribute('href') || '').slice(1);
-      var el = id && document.getElementById(id);
-      if (el){ map[id] = a; sections.push(el); }
+    if (!('IntersectionObserver' in window)) return;
+    document.querySelectorAll('.toc, .faq-jumps').forEach(function(toc){
+      var links = toc.querySelectorAll('a[href^="#"]');
+      if (!links.length) return;
+      var map = {};
+      var sections = [];
+      links.forEach(function(a){
+        var id = (a.getAttribute('href') || '').slice(1);
+        var el = id && document.getElementById(id);
+        if (el){ map[id] = a; sections.push(el); }
+      });
+      if (!sections.length) return;
+      function setActive(id){
+        if (!map[id]) return;
+        links.forEach(function(a){ a.classList.remove('is-active'); a.removeAttribute('aria-current'); });
+        map[id].classList.add('is-active');
+        map[id].setAttribute('aria-current', 'true');
+      }
+      var io = new IntersectionObserver(function(entries){
+        var visible = entries.filter(function(e){ return e.isIntersecting; });
+        if (!visible.length) return;
+        visible.sort(function(a, b){ return a.boundingClientRect.top - b.boundingClientRect.top; });
+        setActive(visible[0].target.id);
+      }, { rootMargin: '-15% 0px -55% 0px', threshold: [0, 0.1, 0.25] });
+      sections.forEach(function(s){ io.observe(s); });
     });
-    if (!sections.length) return;
-    function setActive(id){
-      if (!map[id]) return;
-      links.forEach(function(a){ a.classList.remove('is-active'); a.removeAttribute('aria-current'); });
-      map[id].classList.add('is-active');
-      map[id].setAttribute('aria-current', 'true');
-    }
-    var io = new IntersectionObserver(function(entries){
-      var visible = entries.filter(function(e){ return e.isIntersecting; });
-      if (!visible.length) return;
-      visible.sort(function(a, b){ return a.boundingClientRect.top - b.boundingClientRect.top; });
-      setActive(visible[0].target.id);
-    }, { rootMargin: '-15% 0px -55% 0px', threshold: [0, 0.1, 0.25] });
-    sections.forEach(function(s){ io.observe(s); });
   }
 
   /* ---------- hash landing flash — howto + TOC deep links ---------- */
   function buildHashLanding(){
     var hash = location.hash;
     if (!hash || hash.length < 2) return;
-    var el = document.querySelector(hash);
-    if (!el) return;
-    if (el.tagName === 'DETAILS' && !el.open) el.open = true;
-    el.classList.add('is-landing-target');
-    window.setTimeout(function(){ el.classList.remove('is-landing-target'); }, 2800);
+    var raw = document.querySelector(hash);
+    if (!raw) return;
+    var target = resolveHashTarget(raw);
+    flashLandingTarget(target);
+    requestAnimationFrame(function(){
+      scrollToElement(raw.classList.contains('faq-category') ? raw : target);
+    });
   }
 
   /* ---------- smart sticky CTA — hide on scroll-down, show on scroll-up ---------- */
@@ -980,10 +1043,11 @@
   function init(){
     var lite = isLitePage();
     injectStyles();
+    buildScrollOffset();
     buildSkipLink();
     markActiveNav();
     if (!lite) bindFaqA11y();
-    bindFaqJumpOpen();
+    buildInPageAnchorScroll();
     buildFaqExpandControls();
     handleSharedLanding();
     bindSwUpdate();
