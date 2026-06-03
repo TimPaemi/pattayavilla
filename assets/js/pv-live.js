@@ -536,6 +536,21 @@
     });
   }
 
+  function mergeSubpageBackBar(){
+    var back = document.querySelector('.back-bar a[href="/"]');
+    var bar = document.querySelector('.utility-bar');
+    if (!back || !bar || isLitePage()) return;
+    var actions = utilityActions(bar);
+    if (actions.querySelector('.utility-home-link')) return;
+    var link = document.createElement('a');
+    link.href = '/';
+    link.className = 'utility-home-link';
+    link.textContent = '\u2190 HOME';
+    link.setAttribute('data-gtm', 'utility_home');
+    actions.insertBefore(link, actions.firstChild);
+    document.documentElement.classList.add('has-utility-home');
+  }
+
   /* ---------- FAQ jump nav — open target accordion on tap ---------- */
   function bindFaqJumpOpen(){
     var p = location.pathname;
@@ -973,7 +988,7 @@
     handleSharedLanding();
     bindSwUpdate();
     var bar = document.querySelector('.utility-bar');
-    if (bar){ buildLive(bar); buildShare(bar); }
+    if (bar){ buildLive(bar); buildShare(bar); mergeSubpageBackBar(); }
     tickLiveBannerSlot();
     buildThaiCtaHints();
     build404WatchBar();

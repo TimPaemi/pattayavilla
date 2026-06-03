@@ -104,6 +104,9 @@
 .tz-dst{margin:1.5rem 0 0;font-size:.95rem;color:var(--muted);line-height:1.6;padding:1.1rem 1.2rem;border-left:3px solid var(--cyan);background:rgba(0,229,255,.04);border-radius:0 var(--radius-sm) var(--radius-sm) 0}
 .tz-dst strong{color:#fff}
 
+.home-explore-early{padding-top:3rem;padding-bottom:4rem}
+@media(max-width:540px){.home-explore-early{padding-top:2rem;padding-bottom:3rem}}
+
 .quick-links{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;margin-top:2rem}
 .quick-link{
   display:block;padding:1.8rem 1.5rem;border:1px solid var(--border);border-radius:var(--radius-md);
