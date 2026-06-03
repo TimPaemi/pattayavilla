@@ -173,6 +173,14 @@ def audit_mesh() -> list[str]:
         if main and '/community/#' not in main:
             errors.append(f'{rel} <main> must include a /community/# deep link')
 
+    support_main = extract_main('support/index.html')
+    if fmt_main and '/support/#superthanks-howto' not in fmt_main:
+        errors.append('format/index.html <main> must link to /support/#superthanks-howto')
+    if support_main and '/format/#live-vs-recordings' not in support_main:
+        errors.append('support/index.html <main> must link to /format/#live-vs-recordings')
+    if home_main and '/support/#superchat-howto' not in home_main:
+        errors.append('index.html <main> must link to /support/#superchat-howto')
+
     return errors
 
 
