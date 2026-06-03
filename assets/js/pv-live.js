@@ -1,4 +1,4 @@
-/* PATTAYA VILLA STREAM · pv-live.js — v14 (2026-05-27 CLS + utility countdown)
+/* PATTAYA VILLA STREAM · pv-live.js — v15 (2026-05-27 hero SSR + utility countdown)
  * Mobile-first usability layer + 2026 platform features:
  *  - Live pill (focal mobile header element)
  *  - Smart sticky CTA (hide on scroll-down, show on scroll-up)
@@ -391,6 +391,7 @@
     function tick(){
       var live = isLiveICT();
       chip.classList.toggle('is-live', live);
+      chip.hidden = live;
       if (!val) return;
       if (live) val.textContent = '● LIVE';
       else {
@@ -426,12 +427,15 @@
       }
       if (mega){
         var lbl = mega.querySelector('.hero-cta-label');
+        var thai = mega.querySelector('.btn-thai');
         if (live){
           mega.classList.add('is-live-now');
           if (lbl) lbl.textContent = '● LIVE NOW ON YOUTUBE';
+          if (thai) thai.textContent = 'กำลัง LIVE';
         } else {
           mega.classList.remove('is-live-now');
           if (lbl) lbl.textContent = mega.dataset.offLabel;
+          if (thai) thai.textContent = 'ดูสดคืนนี้ · 21:00 น. ไทย';
         }
       }
     }

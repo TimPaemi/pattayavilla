@@ -39,10 +39,10 @@ LIVE_MIN_WORDS = {
 }
 
 ASSETS = [
-    '/assets/css/pv-core.css?v=17',
+    '/assets/css/pv-core.css?v=18',
     '/assets/css/pv-sub.css?v=15',
     '/assets/css/pv-home.css?v=10',
-    '/assets/js/pv-live.js?v=39',
+    '/assets/js/pv-live.js?v=40',
     '/assets/js/pv-live-lite.js?v=1',
     '/assets/calendar/pattaya-villa-stream.ics',
     '/assets/js/pv-analytics.js?v=1',
@@ -171,7 +171,7 @@ def audit_live_pages() -> None:
         checks = [
             ('canonical', r'<link rel="canonical"'),
             ('GA4', r'G-WSGWG7999E'),
-            ('pv-core.css v17', r'pv-core\.css\?v=17'),
+            ('pv-core.css v18', r'pv-core\.css\?v=18'),
             ('utility-bar-actions', r'utility-bar-actions'),
             ('live pill SSR placeholder', r'live-status is-placeholder'),
             ('sticky-cta', r'class="sticky-cta"'),
@@ -183,7 +183,7 @@ def audit_live_pages() -> None:
             checks.append(('marquee ticker', r'class="marquee"'))
             checks.extend([
                 ('homepage critical CSS', r'id="pv-critical-home"'),
-                ('homepage async pv-core', r'pv-core\.css\?v=17" media="print" onload'),
+                ('homepage async pv-core', r'pv-core\.css\?v=18" media="print" onload'),
                 ('homepage async pv-home', r'pv-home\.css\?v=10" media="print" onload'),
             ])
         if path == '/community/':
