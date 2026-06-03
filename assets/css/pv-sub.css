@@ -138,7 +138,7 @@ button.support-card{width:100%;text-align:left;font:inherit;cursor:pointer;appea
 /* FAQ accordion */
 .faq-jumps{margin-bottom:1.5rem}
 .faq-expand-actions{display:flex;flex-wrap:wrap;gap:.4rem;margin-left:auto}
-.faq-expand-btn{font-family:var(--mono);font-size:.58rem;letter-spacing:1.2px;text-transform:uppercase;font-weight:800;color:var(--muted);padding:.35rem .7rem;border:1px solid var(--border);border-radius:var(--radius-pill);background:rgba(255,255,255,.04);cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.faq-expand-btn{font-family:var(--mono);font-size:.58rem;letter-spacing:1.2px;text-transform:uppercase;font-weight:800;color:rgba(255,255,255,.88);padding:.45rem .75rem;border:1px solid var(--border);border-radius:var(--radius-pill);background:rgba(255,255,255,.04);cursor:pointer;min-height:44px;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 .faq-expand-btn:hover,.faq-expand-btn:focus-visible{color:#fff;border-color:rgba(255,47,142,.4);background:rgba(255,47,142,.1);outline:none}
 .faq-category{margin:2.5rem 0 1rem;padding:0;border:none;background:none}
 .faq-category:first-of-type{margin-top:0}

@@ -127,15 +127,47 @@
     wireShareCopy(dlg.querySelector('.pv-share-copy'), url);
   }
 
+  function watchLabelEl(btn){
+    return btn.querySelector('.hero-cta-label, .watch-cta-label, .cta-label');
+  }
+  function watchThaiEl(btn){
+    return btn.querySelector('.btn-thai, .cta-thai');
+  }
+  function buildWatchLivePulse(){
+    var watches = document.querySelectorAll('[data-gtm*="watch_live"], [data-gtm="first_night_watch"], [data-gtm="support_end_watch"]');
+    watches.forEach(function(btn){
+      var labelEl = watchLabelEl(btn);
+      var thaiEl = watchThaiEl(btn);
+      if (!btn.dataset.offLabel){
+        btn.dataset.offLabel = labelEl ? labelEl.textContent.trim() : btn.textContent.trim();
+      }
+      if (thaiEl && !btn.dataset.offThai) btn.dataset.offThai = thaiEl.textContent.trim();
+    });
+    function tick(){
+      var live = isLiveICT();
+      watches.forEach(function(btn){
+        var labelEl = watchLabelEl(btn);
+        var thaiEl = watchThaiEl(btn);
+        var mega = btn.classList.contains('btn-mega');
+        if (live){
+          btn.classList.add('is-live-now');
+          if (labelEl) labelEl.textContent = mega ? '● LIVE NOW ON YOUTUBE' : '● LIVE NOW';
+          if (thaiEl) thaiEl.textContent = 'กำลัง LIVE';
+        } else {
+          btn.classList.remove('is-live-now');
+          if (labelEl) labelEl.textContent = btn.dataset.offLabel;
+          if (thaiEl) thaiEl.textContent = btn.dataset.offThai || 'ดูสด 21:00 น.';
+        }
+      });
+    }
+    tick();
+    setInterval(tick, 60000);
+  }
+
   function build404WatchBar(){
     var block = document.getElementById('404-watch-bar');
     if (!block) return;
     var sub = block.querySelector('[data-404-countdown-sub]');
-    var btn = block.querySelector('[data-gtm="404_watch_live"]');
-    if (btn && !btn.dataset.offLabel){
-      var lbl = btn.querySelector('.cta-label');
-      btn.dataset.offLabel = lbl ? lbl.textContent.trim() : btn.textContent.trim();
-    }
     function tick(){
       var live = isLiveICT();
       block.classList.toggle('is-live-now', live);
@@ -145,35 +177,6 @@
           var t = hoursUntilLive();
           sub.textContent = (t && (t.h || t.m)) ? ('Next show in ' + t.h + 'h ' + t.m + 'm · 9 PM ICT nightly.') : 'Tonight 9 PM ICT. Subscribe with the bell on.';
         }
-      }
-      if (btn){
-        var labelEl = btn.querySelector('.cta-label');
-        btn.classList.toggle('is-live-now', live);
-        if (labelEl) labelEl.textContent = live ? '● LIVE NOW ON YOUTUBE' : btn.dataset.offLabel;
-        else btn.textContent = live ? '● LIVE NOW ON YOUTUBE' : btn.dataset.offLabel;
-      }
-    }
-    tick();
-    setInterval(tick, 60000);
-  }
-
-  function buildStickyLive(){
-    var watch = document.querySelector('.sticky-cta .cta-watch');
-    if (!watch) return;
-    var labelEl = watch.querySelector('.cta-label');
-    var thaiEl = watch.querySelector('.cta-thai');
-    if (!watch.dataset.offLabel){
-      watch.dataset.offLabel = labelEl ? labelEl.textContent.trim() : watch.textContent.trim();
-    }
-    function tick(){
-      if (isLiveICT()){
-        watch.classList.add('is-live-now');
-        if (labelEl) labelEl.textContent = '● LIVE NOW';
-        if (thaiEl) thaiEl.textContent = 'กำลัง LIVE';
-      } else {
-        watch.classList.remove('is-live-now');
-        if (labelEl) labelEl.textContent = watch.dataset.offLabel;
-        if (thaiEl) thaiEl.textContent = 'ดูสด 21:00 น.';
       }
     }
     tick();
@@ -209,7 +212,7 @@
     var bar = document.querySelector('.utility-bar');
     if (bar){ buildLive(bar); buildShare(bar); }
     build404WatchBar();
-    buildStickyLive();
+    buildWatchLivePulse();
     buildSmartSticky();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);

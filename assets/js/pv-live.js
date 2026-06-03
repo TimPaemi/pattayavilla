@@ -1,4 +1,4 @@
-/* PATTAYA VILLA STREAM · pv-live.js — v15 (2026-05-27 hero SSR + utility countdown)
+/* PATTAYA VILLA STREAM · pv-live.js — v16 (2026-05-27 sitewide watch pulse)
  * Mobile-first usability layer + 2026 platform features:
  *  - Live pill (focal mobile header element)
  *  - Smart sticky CTA (hide on scroll-down, show on scroll-up)
@@ -338,8 +338,6 @@
     var block = document.getElementById('404-watch-bar');
     if (!block) return;
     var sub = block.querySelector('[data-404-countdown-sub]');
-    var btn = block.querySelector('[data-gtm="404_watch_live"]');
-    if (btn && !btn.dataset.offLabel) btn.dataset.offLabel = btn.textContent.trim();
     function tick(){
       var live = isLiveICT();
       block.classList.toggle('is-live-now', live);
@@ -349,10 +347,6 @@
           var t = hoursUntilLive();
           sub.textContent = (t && (t.h || t.m)) ? ('Next show in ' + t.h + 'h ' + t.m + 'm · 9 PM ICT nightly.') : 'Tonight 9 PM ICT. Subscribe with the bell on.';
         }
-      }
-      if (btn){
-        btn.classList.toggle('is-live-now', live);
-        btn.textContent = live ? '● LIVE NOW ON YOUTUBE' : btn.dataset.offLabel;
       }
     }
     tick();
@@ -404,16 +398,25 @@
     setInterval(tick, 60000);
   }
 
-  /* ---------- homepage live pulse — eyebrow + mega CTA when on air ---------- */
-  function buildHeroLivePulse(){
+  /* ---------- all watch CTAs + homepage eyebrow live pulse ---------- */
+  function watchLabelEl(btn){
+    return btn.querySelector('.hero-cta-label, .watch-cta-label, .cta-label');
+  }
+  function watchThaiEl(btn){
+    return btn.querySelector('.btn-thai, .cta-thai');
+  }
+  function buildWatchLivePulse(){
     var eyebrow = document.querySelector('.hero .hero-eyebrow');
-    var mega = document.querySelector('[data-gtm="hero_watch_live"]');
-    if (!eyebrow && !mega) return;
     if (eyebrow && !eyebrow.dataset.offText) eyebrow.dataset.offText = eyebrow.textContent.trim();
-    if (mega && !mega.dataset.offLabel){
-      var heroLbl = mega.querySelector('.hero-cta-label');
-      mega.dataset.offLabel = heroLbl ? heroLbl.textContent.trim() : mega.textContent.replace(/\s*ดูสด.*/, '').trim();
-    }
+    var watches = document.querySelectorAll('[data-gtm*="watch_live"], [data-gtm="first_night_watch"], [data-gtm="support_end_watch"]');
+    watches.forEach(function(btn){
+      var labelEl = watchLabelEl(btn);
+      var thaiEl = watchThaiEl(btn);
+      if (!btn.dataset.offLabel){
+        btn.dataset.offLabel = labelEl ? labelEl.textContent.trim() : btn.textContent.trim();
+      }
+      if (thaiEl && !btn.dataset.offThai) btn.dataset.offThai = thaiEl.textContent.trim();
+    });
     function tick(){
       var live = isLiveICT();
       if (eyebrow){
@@ -425,19 +428,20 @@
           eyebrow.textContent = eyebrow.dataset.offText;
         }
       }
-      if (mega){
-        var lbl = mega.querySelector('.hero-cta-label');
-        var thai = mega.querySelector('.btn-thai');
+      watches.forEach(function(btn){
+        var labelEl = watchLabelEl(btn);
+        var thaiEl = watchThaiEl(btn);
+        var mega = btn.classList.contains('btn-mega');
         if (live){
-          mega.classList.add('is-live-now');
-          if (lbl) lbl.textContent = '● LIVE NOW ON YOUTUBE';
-          if (thai) thai.textContent = 'กำลัง LIVE';
+          btn.classList.add('is-live-now');
+          if (labelEl) labelEl.textContent = mega ? '● LIVE NOW ON YOUTUBE' : '● LIVE NOW';
+          if (thaiEl) thaiEl.textContent = 'กำลัง LIVE';
         } else {
-          mega.classList.remove('is-live-now');
-          if (lbl) lbl.textContent = mega.dataset.offLabel;
-          if (thai) thai.textContent = 'ดูสดคืนนี้ · 21:00 น. ไทย';
+          btn.classList.remove('is-live-now');
+          if (labelEl) labelEl.textContent = btn.dataset.offLabel;
+          if (thaiEl) thaiEl.textContent = btn.dataset.offThai || 'ดูสด 21:00 น.';
         }
-      }
+      });
     }
     tick();
     setInterval(tick, 60000);
@@ -477,33 +481,7 @@
     });
   }
 
-  /* ---------- sticky CTA live pulse ---------- */
-  function buildStickyLive(){
-    var watch = document.querySelector('.sticky-cta .cta-watch');
-    if (!watch) return;
-    var labelEl = watch.querySelector('.cta-label');
-    var thaiEl = watch.querySelector('.cta-thai');
-    if (!watch.dataset.offLabel){
-      watch.dataset.offLabel = labelEl ? labelEl.textContent.trim() : watch.textContent.trim();
-    }
-    function tick(){
-      if (isLiveICT()){
-        watch.classList.add('is-live-now');
-        if (labelEl) labelEl.textContent = '● LIVE NOW';
-        else watch.textContent = '● LIVE NOW';
-        if (thaiEl) thaiEl.textContent = 'กำลัง LIVE';
-      } else {
-        watch.classList.remove('is-live-now');
-        if (labelEl) labelEl.textContent = watch.dataset.offLabel;
-        else watch.textContent = watch.dataset.offLabel;
-        if (thaiEl) thaiEl.textContent = 'ดูสด 21:00 น.';
-      }
-    }
-    tick();
-    setInterval(tick, 60000);
-  }
-
-  /* ---------- Thai micro-copy on hero + sticky CTAs (Paemi audience) ---------- */
+  /* ---------- Thai micro-copy on CTAs not yet SSR'd ---------- */
   function buildThaiCtaHints(){
     var heroWatch = document.querySelector('[data-gtm="hero_watch_live"]');
     if (heroWatch && !heroWatch.querySelector('.btn-thai')){
@@ -522,7 +500,7 @@
     }
     var thaiByClass = { 'cta-watch': 'ดูสด 21:00 น.', 'cta-support': 'สนับสนุน', 'cta-tip': 'ทิปคืนนี้' };
     document.querySelectorAll('.sticky-cta a').forEach(function(a){
-      if (a.querySelector('.cta-label')) return;
+      if (a.querySelector('.cta-label') || a.querySelector('.watch-cta-label')) return;
       var key = a.classList.contains('cta-watch') ? 'cta-watch' : (a.classList.contains('cta-tip') ? 'cta-tip' : 'cta-support');
       var label = a.textContent.trim();
       a.textContent = '';
@@ -956,6 +934,11 @@
     });
   }
 
+  function runIdle(fn){
+    if ('requestIdleCallback' in window) requestIdleCallback(fn, {timeout: 1200});
+    else setTimeout(fn, 1);
+  }
+
   /* ---------- init ---------- */
   function init(){
     var lite = isLitePage();
@@ -972,23 +955,24 @@
     tickLiveBannerSlot();
     buildThaiCtaHints();
     build404WatchBar();
+    buildWatchLivePulse();
     if (!lite){
       buildHeroShowtime();
       buildUtilityCountdown();
-      buildHeroLivePulse();
       buildShareTonightButtons();
       buildInstallPrompt();
       updateLiveSchema();
       setInterval(updateLiveSchema, 60000);
       buildCounters();
-      buildProgressBar();
-      buildScrollTop();
-      buildTocSpy();
+      runIdle(function(){
+        buildProgressBar();
+        buildScrollTop();
+        buildTocSpy();
+      });
       buildHashLanding();
       window.addEventListener('hashchange', buildHashLanding);
       pauseMarqueeWhenHidden();
     }
-    buildStickyLive();
     setInterval(tickLiveBannerSlot, 60000);
     buildSmartSticky();
     wireVibration();

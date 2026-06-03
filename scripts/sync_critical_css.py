@@ -21,8 +21,8 @@ CHROME_PAGES = (
     '404.html', '404/index.html',
 )
 
-CORE_V = '18'
-SUB_V = '15'
+CORE_V = '19'
+SUB_V = '16'
 HOME_V = '10'
 
 
