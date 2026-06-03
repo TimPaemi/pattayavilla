@@ -11,6 +11,10 @@ import urllib.request
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT / 'scripts'))
+from asset_versions import (  # noqa: E402
+    ANALYTICS_V, CORE_V, HOME_V, LIVE_JS_V, LIVE_LITE_JS_V, SUB_V,
+)
 UA = 'PattayaStream-SelfAudit/1.0'
 BASE = 'https://pattayastream.com'
 CTX = ssl.create_default_context()
@@ -39,13 +43,13 @@ LIVE_MIN_WORDS = {
 }
 
 ASSETS = [
-    '/assets/css/pv-core.css?v=21',
-    '/assets/css/pv-sub.css?v=17',
-    '/assets/css/pv-home.css?v=10',
-    '/assets/js/pv-live.js?v=41',
-    '/assets/js/pv-live-lite.js?v=3',
+    f'/assets/css/pv-core.css?v={CORE_V}',
+    f'/assets/css/pv-sub.css?v={SUB_V}',
+    f'/assets/css/pv-home.css?v={HOME_V}',
+    f'/assets/js/pv-live.js?v={LIVE_JS_V}',
+    f'/assets/js/pv-live-lite.js?v={LIVE_LITE_JS_V}',
     '/assets/calendar/pattaya-villa-stream.ics',
-    '/assets/js/pv-analytics.js?v=1',
+    f'/assets/js/pv-analytics.js?v={ANALYTICS_V}',
     '/assets/js/web-vitals.iife.js',
     '/manifest.json',
     '/sw.js',
@@ -171,7 +175,7 @@ def audit_live_pages() -> None:
         checks = [
             ('canonical', r'<link rel="canonical"'),
             ('GA4', r'G-WSGWG7999E'),
-            ('pv-core.css v21', r'pv-core\.css\?v=21'),
+            ('pv-core.css v' + CORE_V, rf'pv-core\.css\?v={CORE_V}'),
             ('utility countdown chip', r'data-utility-countdown'),
             ('live pill SSR placeholder', r'live-status is-placeholder'),
             ('sticky-cta', r'class="sticky-cta"'),
@@ -183,8 +187,8 @@ def audit_live_pages() -> None:
             checks.append(('marquee ticker', r'class="marquee"'))
             checks.extend([
                 ('homepage critical CSS', r'id="pv-critical-home"'),
-                ('homepage async pv-core', r'pv-core\.css\?v=21" media="print" onload'),
-                ('homepage async pv-home', r'pv-home\.css\?v=10" media="print" onload'),
+                ('homepage async pv-core', rf'pv-core\.css\?v={CORE_V}" media="print" onload'),
+                ('homepage async pv-home', rf'pv-home\.css\?v={HOME_V}" media="print" onload'),
             ])
         if path == '/community/':
             checks.append(('noindex', r'noindex'))
@@ -194,12 +198,12 @@ def audit_live_pages() -> None:
                 ('DonateAction', r'DonateAction'),
                 ('live-banner slot', r'live-banner-slot'),
                 ('subpage critical CSS', r'id="pv-critical-chrome"'),
-                ('async pv-sub.css', r'pv-sub\.css\?v=16" media="print" onload'),
+                ('async pv-sub.css', rf'pv-sub\.css\?v={SUB_V}" media="print" onload'),
             ])
         elif path in ('/about/', '/format/', '/code/', '/faq/', '/community/'):
             checks.extend([
                 ('subpage critical CSS', r'id="pv-critical-chrome"'),
-                ('async pv-sub.css', r'pv-sub\.css\?v=16" media="print" onload'),
+                ('async pv-sub.css', rf'pv-sub\.css\?v={SUB_V}" media="print" onload'),
             ])
         if path in ('/', '/about/', '/support/', '/format/', '/code/', '/faq/', '/community/', '/404/'):
             checks.append(('footer privacy link', r'timpaemi\.com/privacy/'))
@@ -413,6 +417,12 @@ def audit_local_repo() -> None:
         fail(f'pages missing utility countdown chip: {missing_countdown}')
     else:
         ok('utility countdown chip on all chrome pages')
+    from check_internal_links import check_links
+    broken_links = check_links()
+    if broken_links:
+        fail(f'broken internal links: {broken_links[:5]}')
+    else:
+        ok('internal links validated (same-page + cross-page fragments)')
     if missing_footer:
         fail(f'pages missing collapsible footer: {missing_footer}')
     else:

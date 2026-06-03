@@ -9,7 +9,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 
-HOME_CSS = ROOT / 'assets/css/pv-critical-home.css'
+from asset_versions import CORE_V, HOME_V, SUB_V  # noqa: E402
 CHROME_CSS = ROOT / 'assets/css/pv-critical-chrome.css'
 OFFLINE_CSS = ROOT / 'assets/css/pv-critical-offline.css'
 INDEX = ROOT / 'index.html'
@@ -21,9 +21,7 @@ CHROME_PAGES = (
     '404.html', '404/index.html',
 )
 
-CORE_V = '21'
-SUB_V = '17'
-HOME_V = '10'
+HOME_CSS = ROOT / 'assets/css/pv-critical-home.css'
 
 
 def normalize_css(text: str) -> str:
