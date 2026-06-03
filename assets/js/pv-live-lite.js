@@ -164,6 +164,26 @@
     setInterval(tick, 60000);
   }
 
+  function buildUtilityCountdown(){
+    var chip = document.querySelector('[data-utility-countdown]');
+    if (!chip) return;
+    var val = chip.querySelector('[data-utility-countdown-val]');
+    function tick(){
+      var live = isLiveICT();
+      chip.classList.toggle('is-live', live);
+      chip.hidden = live;
+      if (!val) return;
+      if (live) val.textContent = '● LIVE';
+      else {
+        var t = hoursUntilLive();
+        if (t && (t.h || t.m)) val.textContent = t.h + 'h ' + t.m + 'm';
+        else val.textContent = '9 PM ICT';
+      }
+    }
+    tick();
+    setInterval(tick, 60000);
+  }
+
   function build404WatchBar(){
     var block = document.getElementById('404-watch-bar');
     if (!block) return;
@@ -211,6 +231,7 @@
     markActiveNav();
     var bar = document.querySelector('.utility-bar');
     if (bar){ buildLive(bar); buildShare(bar); }
+    buildUtilityCountdown();
     build404WatchBar();
     buildWatchLivePulse();
     buildSmartSticky();

@@ -721,8 +721,10 @@ def audit_subpage_critical_css() -> None:
         m = re.search(r'<style id="pv-critical-chrome">(.*?)</style>', html, re.S)
         if not m or _normalize_css(m.group(1)) != css_min:
             bad.append(f'{rel} critical CSS drift')
-        if 'pv-sub.css?v=16" media="print" onload' not in html:
+        if 'pv-sub.css?v=17" media="print" onload' not in html:
             bad.append(f'{rel} missing async pv-sub.css')
+        if 'data-utility-countdown' not in html:
+            bad.append(f'{rel} missing utility countdown chip')
     if bad:
         fail(f'subpage critical CSS: {bad[:3]} — run python scripts/sync_critical_css.py --chrome')
     ok(f'subpage critical CSS inlined on {len(pages)} chrome pages (async pv-core + pv-sub)')
@@ -734,6 +736,8 @@ def audit_live_status_core_css() -> None:
         fail('pv-core.css missing base .live-status styles (should not rely on JS injection)')
     if '@keyframes pvlive' not in css:
         fail('pv-core.css missing @keyframes pvlive for live pill dot')
+    if '.utility-countdown{' not in css.replace(' ', ''):
+        fail('pv-core.css missing .utility-countdown styles for chrome utility bar')
     ok('live pill base styles in pv-core.css (SSR paint without JS)')
 
 

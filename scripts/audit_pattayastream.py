@@ -39,11 +39,11 @@ LIVE_MIN_WORDS = {
 }
 
 ASSETS = [
-    '/assets/css/pv-core.css?v=20',
-    '/assets/css/pv-sub.css?v=16',
+    '/assets/css/pv-core.css?v=21',
+    '/assets/css/pv-sub.css?v=17',
     '/assets/css/pv-home.css?v=10',
     '/assets/js/pv-live.js?v=41',
-    '/assets/js/pv-live-lite.js?v=2',
+    '/assets/js/pv-live-lite.js?v=3',
     '/assets/calendar/pattaya-villa-stream.ics',
     '/assets/js/pv-analytics.js?v=1',
     '/assets/js/web-vitals.iife.js',
@@ -171,8 +171,8 @@ def audit_live_pages() -> None:
         checks = [
             ('canonical', r'<link rel="canonical"'),
             ('GA4', r'G-WSGWG7999E'),
-            ('pv-core.css v20', r'pv-core\.css\?v=20'),
-            ('utility-bar-actions', r'utility-bar-actions'),
+            ('pv-core.css v21', r'pv-core\.css\?v=21'),
+            ('utility countdown chip', r'data-utility-countdown'),
             ('live pill SSR placeholder', r'live-status is-placeholder'),
             ('sticky-cta', r'class="sticky-cta"'),
             ('support #tip-tonight', r'/support/#tip-tonight'),
@@ -183,7 +183,7 @@ def audit_live_pages() -> None:
             checks.append(('marquee ticker', r'class="marquee"'))
             checks.extend([
                 ('homepage critical CSS', r'id="pv-critical-home"'),
-                ('homepage async pv-core', r'pv-core\.css\?v=20" media="print" onload'),
+                ('homepage async pv-core', r'pv-core\.css\?v=21" media="print" onload'),
                 ('homepage async pv-home', r'pv-home\.css\?v=10" media="print" onload'),
             ])
         if path == '/community/':
@@ -318,6 +318,7 @@ def audit_local_repo() -> None:
     missing_actions = []
     missing_placeholder = []
     missing_share = []
+    missing_countdown = []
     missing_footer = []
     chrome_with_bar = (
         'index.html', 'about/index.html', 'support/index.html', 'format/index.html',
@@ -332,6 +333,8 @@ def audit_local_repo() -> None:
             missing_placeholder.append(rel)
         if rel in chrome_with_bar and 'pv-share is-placeholder' not in t:
             missing_share.append(rel)
+        if rel in chrome_with_bar and 'data-utility-countdown' not in t:
+            missing_countdown.append(rel)
         if 'footer-network-heading' in t and 'footer-network-details' not in t:
             missing_footer.append(rel)
         if rel == 'index.html' and 'class="marquee"' not in t:
@@ -406,6 +409,10 @@ def audit_local_repo() -> None:
         fail(f'pages missing SSR share placeholder: {missing_share}')
     else:
         ok('SSR share button placeholder on all chrome pages')
+    if missing_countdown:
+        fail(f'pages missing utility countdown chip: {missing_countdown}')
+    else:
+        ok('utility countdown chip on all chrome pages')
     if missing_footer:
         fail(f'pages missing collapsible footer: {missing_footer}')
     else:
