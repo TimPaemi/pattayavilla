@@ -28,6 +28,15 @@
 .hero h1 .yellow{color:var(--yellow);text-shadow:0 0 50px rgba(255,225,86,.4)}
 .hero-sub{margin:0 auto 1.8rem;max-width:680px}
 .hero-meta{font-family:var(--mono);font-size:.72rem;font-weight:800;letter-spacing:2.4px;text-transform:uppercase;color:var(--muted);margin-bottom:1.6rem}
+.utility-countdown{
+  display:inline-flex;align-items:center;font-family:var(--mono);font-size:.52rem;letter-spacing:1.2px;
+  text-transform:uppercase;font-weight:800;color:var(--muted);padding:.32rem .65rem;border:1px solid var(--border);
+  border-radius:var(--radius-pill);background:rgba(255,255,255,.04);min-height:44px;white-space:nowrap;
+  line-height:1;font-variant-numeric:tabular-nums;flex-shrink:0;
+}
+.utility-countdown.is-live{color:#fff;border-color:rgba(230,0,48,.45);background:rgba(230,0,48,.12)}
+.utility-countdown-val{color:var(--yellow)}
+.utility-countdown.is-live .utility-countdown-val{color:var(--red-text)}
 .hero-showtime{
   display:flex;flex-wrap:wrap;align-items:stretch;justify-content:center;gap:.75rem;
   margin:0 auto 2rem;max-width:680px;width:100%;

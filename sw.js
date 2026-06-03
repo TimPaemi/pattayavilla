@@ -4,7 +4,7 @@
  * - Navigation preload for faster nav
  * - Aggressive precache of money + content pages
  * - Strict same-origin only; never intercepts cross-origin */
-const VERSION = 'pattayastream-v51-2026-05-27-faq-reorder-live-glow';
+const VERSION = 'pattayastream-v52-2026-05-27-cls-lite-countdown';
 const OFFLINE_URL = '/offline/';
 
 const PRECACHE = [
@@ -12,15 +12,16 @@ const PRECACHE = [
   '/offline/', '/404/',
   '/manifest.json',
   '/favicon.svg', '/favicon.ico', '/apple-touch-icon.png',
-  '/assets/css/pv-core.css?v=16',
-  '/assets/css/pv-home.css?v=9',
+  '/assets/css/pv-core.css?v=17',
+  '/assets/css/pv-home.css?v=10',
   '/assets/css/pv-sub.css?v=15',
   '/assets/fonts/bebas-neue-400.woff2',
   '/assets/fonts/inter-var.woff2',
   '/assets/fonts/jetbrains-mono-var.woff2',
   '/assets/js/pv-analytics.js?v=1',
   '/assets/js/web-vitals.iife.js',
-  '/assets/js/pv-live.js?v=38',
+  '/assets/js/pv-live.js?v=39',
+  '/assets/js/pv-live-lite.js?v=1',
   '/assets/calendar/pattaya-villa-stream.ics',
   '/assets/og/og-home.jpg',
   '/assets/og/og-support.jpg',

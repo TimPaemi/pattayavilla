@@ -1,4 +1,4 @@
-/* PATTAYA VILLA STREAM · pv-live.js — v13 (2026-05-27 share + howto)
+/* PATTAYA VILLA STREAM · pv-live.js — v14 (2026-05-27 CLS + utility countdown)
  * Mobile-first usability layer + 2026 platform features:
  *  - Live pill (focal mobile header element)
  *  - Smart sticky CTA (hide on scroll-down, show on scroll-up)
@@ -173,9 +173,8 @@
       '  .footer-network{margin:.9rem auto;gap:.4rem .8rem;font-size:.58rem;letter-spacing:1.1px;line-height:1.6;max-width:100%;padding:0 .5rem}',
       '  .footer-network a{display:inline-flex;align-items:center;padding:.6rem .4rem;min-height:44px;white-space:nowrap}',
       '  .footer-legal{margin-top:1.1rem;font-size:.5rem;line-height:1.7;letter-spacing:1px}',
-      '  .sticky-cta a{font-size:.7rem;letter-spacing:1.3px;padding:.85rem .6rem;min-height:54px;gap:.35rem}',
-      '  body{padding-bottom:calc(60px + env(safe-area-inset-bottom,0px))}',
-      '  body.has-progress{padding-top:3px}',
+      '  .sticky-cta a{font-size:.7rem;letter-spacing:1.3px;padding:.85rem .6rem;min-height:64px;gap:.35rem}',
+      '  body{padding-bottom:calc(72px + env(safe-area-inset-bottom,0px))}',
       '  .body-section h2,.body-section-title{font-size:clamp(1.8rem,7vw,2.6rem);line-height:1}',
       '  .body-section p{font-size:1rem;line-height:1.65}',
       '  .pullquote{font-size:1.05rem;padding:1.1rem 1.1rem;margin:1.3rem 0}',
@@ -207,8 +206,8 @@
       '  .stat{padding:.85rem .55rem}',
       '  .footer-brand{font-size:1.5rem}',
       '  .footer-network{font-size:.54rem;letter-spacing:1px;gap:.35rem .65rem}',
-      '  .sticky-cta a{font-size:.64rem;letter-spacing:1.2px;padding:.8rem .45rem;min-height:50px}',
-      '  body{padding-bottom:calc(56px + env(safe-area-inset-bottom,0px))}',
+      '  .sticky-cta a{font-size:.64rem;letter-spacing:1.2px;padding:.8rem .45rem;min-height:60px}',
+      '  body{padding-bottom:calc(68px + env(safe-area-inset-bottom,0px))}',
       '}',
       '@media(max-width:360px){',
       '  .utility-bar .live-status{font-size:.55rem;letter-spacing:1.3px;padding:.35rem .7rem}',
@@ -382,6 +381,26 @@
     }
     tick();
     setInterval(tick, 30000);
+  }
+
+  /* ---------- utility bar countdown chip (homepage off-air) ---------- */
+  function buildUtilityCountdown(){
+    var chip = document.querySelector('[data-utility-countdown]');
+    if (!chip) return;
+    var val = chip.querySelector('[data-utility-countdown-val]');
+    function tick(){
+      var live = isLiveICT();
+      chip.classList.toggle('is-live', live);
+      if (!val) return;
+      if (live) val.textContent = '● LIVE';
+      else {
+        var t = hoursUntilLive();
+        if (t && (t.h || t.m)) val.textContent = t.h + 'h ' + t.m + 'm';
+        else val.textContent = '9 PM ICT';
+      }
+    }
+    tick();
+    setInterval(tick, 60000);
   }
 
   /* ---------- homepage live pulse — eyebrow + mega CTA when on air ---------- */
@@ -951,6 +970,7 @@
     build404WatchBar();
     if (!lite){
       buildHeroShowtime();
+      buildUtilityCountdown();
       buildHeroLivePulse();
       buildShareTonightButtons();
       buildInstallPrompt();

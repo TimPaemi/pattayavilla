@@ -21,9 +21,9 @@ CHROME_PAGES = (
     '404.html', '404/index.html',
 )
 
-CORE_V = '16'
+CORE_V = '17'
 SUB_V = '15'
-HOME_V = '8'
+HOME_V = '10'
 
 
 def normalize_css(text: str) -> str:
