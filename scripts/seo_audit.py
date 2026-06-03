@@ -664,6 +664,10 @@ def audit_offline_critical_css() -> None:
         fail('offline/index.html missing inline #pv-critical-offline critical CSS block')
     if 'media="print" onload="this.media=\'all\'"' not in html:
         fail('offline/index.html missing async stylesheets')
+    if len(re.findall(r'<noscript>', html)) != 1:
+        fail('offline/index.html must have exactly one <noscript> fallback block')
+    if 'data-gtm="offline_watch_live"' not in html:
+        fail('offline/index.html missing data-gtm offline_watch_live on watch CTA')
     inline = re.search(r'<style id="pv-critical-offline">(.*?)</style>', html, re.S)
     if not inline or _normalize_css(inline.group(1)) != _normalize_css(css_path.read_text(encoding='utf-8')):
         fail('offline/index.html critical CSS drift — run python scripts/sync_critical_css.py --offline')

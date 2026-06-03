@@ -21,7 +21,7 @@ CHROME_PAGES = (
     '404.html', '404/index.html',
 )
 
-CORE_V = '19'
+CORE_V = '20'
 SUB_V = '16'
 HOME_V = '10'
 
@@ -108,15 +108,33 @@ def sync_offline() -> None:
     css_min = minify_file(OFFLINE_CSS)
     block = offline_stylesheet_block(css_min)
     html = OFFLINE.read_text(encoding='utf-8')
+    corrupt_pattern = re.compile(
+        r'<style id="pv-critical-offline">.*?(?=<script type="application/ld\+json">)',
+        re.S,
+    )
+    alt_pattern = re.compile(
+        r'<style id="pv-critical-offline">.*?</style>\s*'
+        r'<link rel="preload" href="/assets/css/pv-core\.css\?v=\d+" as="style">\s*'
+        r'<link rel="stylesheet" href="/assets/css/pv-core\.css\?v=\d+" media="print" onload="this\.media=\'all\'">\s*'
+        r'<link rel="preload" href="/assets/css/pv-sub\.css\?v=\d+" as="style">\s*'
+        r'<link rel="stylesheet" href="/assets/css/pv-sub\.css\?v=\d+" media="print" onload="this\.media=\'all\'">\s*'
+        r'<noscript>.*?</noscript>',
+        re.S,
+    )
     pattern = re.compile(
         r'(?:<style id="pv-critical-offline">.*?</style>\s*)?'
         r'<link rel="stylesheet" href="/assets/css/pv-core\.css\?v=\d+">\s*'
         r'<link rel="stylesheet" href="/assets/css/pv-sub\.css\?v=\d+">',
         re.S,
     )
-    if not pattern.search(html):
+    if corrupt_pattern.search(html):
+        html = corrupt_pattern.sub(block + '\n', html, count=1)
+    elif alt_pattern.search(html):
+        html = alt_pattern.sub(block, html, count=1)
+    elif pattern.search(html):
+        html = pattern.sub(block, html, count=1)
+    else:
         raise SystemExit('stylesheet block not found in offline/index.html')
-    html = pattern.sub(block, html, count=1)
     OFFLINE.write_text(html, encoding='utf-8')
     print(f'synced offline critical CSS ({len(css_min)} bytes)')
 
@@ -165,6 +183,9 @@ def check_offline() -> bool:
         return False
     if 'media="print" onload="this.media=\'all\'"' not in html:
         print('DRIFT: offline/index.html missing async stylesheets')
+        return False
+    if len(re.findall(r'<noscript>', html)) != 1:
+        print('DRIFT: offline/index.html noscript count != 1')
         return False
     return True
 

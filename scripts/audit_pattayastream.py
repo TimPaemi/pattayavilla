@@ -39,7 +39,7 @@ LIVE_MIN_WORDS = {
 }
 
 ASSETS = [
-    '/assets/css/pv-core.css?v=19',
+    '/assets/css/pv-core.css?v=20',
     '/assets/css/pv-sub.css?v=16',
     '/assets/css/pv-home.css?v=10',
     '/assets/js/pv-live.js?v=41',
@@ -171,7 +171,7 @@ def audit_live_pages() -> None:
         checks = [
             ('canonical', r'<link rel="canonical"'),
             ('GA4', r'G-WSGWG7999E'),
-            ('pv-core.css v19', r'pv-core\.css\?v=19'),
+            ('pv-core.css v20', r'pv-core\.css\?v=20'),
             ('utility-bar-actions', r'utility-bar-actions'),
             ('live pill SSR placeholder', r'live-status is-placeholder'),
             ('sticky-cta', r'class="sticky-cta"'),
@@ -183,7 +183,7 @@ def audit_live_pages() -> None:
             checks.append(('marquee ticker', r'class="marquee"'))
             checks.extend([
                 ('homepage critical CSS', r'id="pv-critical-home"'),
-                ('homepage async pv-core', r'pv-core\.css\?v=19" media="print" onload'),
+                ('homepage async pv-core', r'pv-core\.css\?v=20" media="print" onload'),
                 ('homepage async pv-home', r'pv-home\.css\?v=10" media="print" onload'),
             ])
         if path == '/community/':

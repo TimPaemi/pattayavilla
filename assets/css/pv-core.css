@@ -79,7 +79,7 @@ a:hover{color:#fff}
 .utility-bar-actions .live-status .txt{white-space:nowrap;font-variant-numeric:tabular-nums}
 @keyframes pvlive{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(230,0,48,.55)}70%{opacity:.5;box-shadow:0 0 0 8px rgba(230,0,48,0)}}
 .live-status{display:inline-flex;align-items:center;gap:.4rem;font-family:var(--mono);font-size:.62rem;letter-spacing:1.6px;text-transform:uppercase;font-weight:800;color:#fff;padding:.3rem .7rem;background:rgba(230,0,48,.15);border:1px solid rgba(230,0,48,.4);border-radius:var(--radius-pill);text-decoration:none}
-.live-status.is-offline{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.12);color:rgba(255,255,255,.7)}
+.live-status.is-offline{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.12);color:rgba(255,255,255,.88)}
 .live-status .dot{width:8px;height:8px;border-radius:50%;background:var(--red);flex-shrink:0;animation:pvlive 1.8s ease-out infinite}
 .live-status.is-offline .dot{background:rgba(255,255,255,.4);animation:none}
 @media(prefers-reduced-motion:reduce){.live-status .dot{animation:none!important}}
