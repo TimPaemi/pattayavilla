@@ -67,7 +67,9 @@ a:hover{color:#fff}
   padding:.45rem 0 .45rem 1rem;
   border-bottom:1px solid var(--border);
   background:rgba(8,8,12,.88);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  transition:border-color .25s,box-shadow .25s;
 }
+.utility-bar.is-live-air{border-bottom-color:rgba(230,0,48,.55);box-shadow:0 4px 28px rgba(230,0,48,.18)}
 .utility-bar-actions{
   display:flex;align-items:center;gap:.4rem;flex-shrink:0;min-height:44px;min-width:10.5rem;
 }

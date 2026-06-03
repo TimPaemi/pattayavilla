@@ -78,6 +78,7 @@
       '@media(prefers-reduced-motion:reduce){.live-status .dot,.live-banner,.live-banner-dot{animation:none!important}.live-status,.hero-eyebrow{transition:none!important}}',
       '.live-status a{color:inherit;text-decoration:none}',
       '.live-status a:hover{color:#ffe156}',
+      '.utility-bar.is-live-air{border-bottom-color:rgba(230,0,48,.55)!important;box-shadow:0 4px 28px rgba(230,0,48,.18)}',
       '.utility-scroll a[aria-current="page"]{color:#ffe156;text-decoration:underline;text-decoration-color:#ff2f8e;text-underline-offset:3px;text-decoration-thickness:2px}',
       '.site-footer .footer-grid a[aria-current="page"] strong{color:#ffe156}',
       '.site-footer .footer-grid a[aria-current="page"]{border-color:#ff2f8e}',
@@ -298,7 +299,10 @@
   function tickLive(el){
     var txt = el.querySelector('.txt'); if(!txt) return;
     var compact = isCompactBar();
-    if (isLiveICT()){ el.classList.remove('is-offline'); txt.textContent = compact ? 'LIVE' : 'LIVE NOW · WATCH'; }
+    var live = isLiveICT();
+    var bar = el.closest('.utility-bar');
+    if (bar) bar.classList.toggle('is-live-air', live);
+    if (live){ el.classList.remove('is-offline'); txt.textContent = compact ? 'LIVE' : 'LIVE NOW · WATCH'; }
     else {
       el.classList.add('is-offline');
       var t = hoursUntilLive();
@@ -328,6 +332,32 @@
     var p = location.pathname;
     if (p !== '/' && p.length > 1 && p.charAt(p.length - 1) !== '/') p += '/';
     return p === '/404/';
+  }
+
+  /* ---------- 404 watch bar — live pulse + countdown ---------- */
+  function build404WatchBar(){
+    var block = document.getElementById('404-watch-bar');
+    if (!block) return;
+    var sub = block.querySelector('[data-404-countdown-sub]');
+    var btn = block.querySelector('[data-gtm="404_watch_live"]');
+    if (btn && !btn.dataset.offLabel) btn.dataset.offLabel = btn.textContent.trim();
+    function tick(){
+      var live = isLiveICT();
+      block.classList.toggle('is-live-now', live);
+      if (sub){
+        if (live) sub.textContent = '● LIVE NOW — the villa show is on air. Jump in.';
+        else {
+          var t = hoursUntilLive();
+          sub.textContent = (t && (t.h || t.m)) ? ('Next show in ' + t.h + 'h ' + t.m + 'm · 9 PM ICT nightly.') : 'Tonight 9 PM ICT. Subscribe with the bell on.';
+        }
+      }
+      if (btn){
+        btn.classList.toggle('is-live-now', live);
+        btn.textContent = live ? '● LIVE NOW ON YOUTUBE' : btn.dataset.offLabel;
+      }
+    }
+    tick();
+    setInterval(tick, 60000);
   }
 
   /* ---------- hero showtime + countdown (homepage) ---------- */
@@ -918,6 +948,7 @@
     if (bar){ buildLive(bar); buildShare(bar); }
     tickLiveBannerSlot();
     buildThaiCtaHints();
+    build404WatchBar();
     if (!lite){
       buildHeroShowtime();
       buildHeroLivePulse();

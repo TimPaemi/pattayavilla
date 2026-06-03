@@ -39,10 +39,10 @@ LIVE_MIN_WORDS = {
 }
 
 ASSETS = [
-    '/assets/css/pv-core.css?v=15',
-    '/assets/css/pv-sub.css?v=14',
+    '/assets/css/pv-core.css?v=16',
+    '/assets/css/pv-sub.css?v=15',
     '/assets/css/pv-home.css?v=9',
-    '/assets/js/pv-live.js?v=37',
+    '/assets/js/pv-live.js?v=38',
     '/assets/calendar/pattaya-villa-stream.ics',
     '/assets/js/pv-analytics.js?v=1',
     '/assets/js/web-vitals.iife.js',
@@ -170,7 +170,7 @@ def audit_live_pages() -> None:
         checks = [
             ('canonical', r'<link rel="canonical"'),
             ('GA4', r'G-WSGWG7999E'),
-            ('pv-core.css v15', r'pv-core\.css\?v=15'),
+            ('pv-core.css v16', r'pv-core\.css\?v=16'),
             ('utility-bar-actions', r'utility-bar-actions'),
             ('live pill SSR placeholder', r'live-status is-placeholder'),
             ('sticky-cta', r'class="sticky-cta"'),
@@ -182,7 +182,7 @@ def audit_live_pages() -> None:
             checks.append(('marquee ticker', r'class="marquee"'))
             checks.extend([
                 ('homepage critical CSS', r'id="pv-critical-home"'),
-                ('homepage async pv-core', r'pv-core\.css\?v=15" media="print" onload'),
+                ('homepage async pv-core', r'pv-core\.css\?v=16" media="print" onload'),
                 ('homepage async pv-home', r'pv-home\.css\?v=9" media="print" onload'),
             ])
         if path == '/community/':
@@ -193,12 +193,12 @@ def audit_live_pages() -> None:
                 ('DonateAction', r'DonateAction'),
                 ('live-banner slot', r'live-banner-slot'),
                 ('subpage critical CSS', r'id="pv-critical-chrome"'),
-                ('async pv-sub.css', r'pv-sub\.css\?v=14" media="print" onload'),
+                ('async pv-sub.css', r'pv-sub\.css\?v=15" media="print" onload'),
             ])
         elif path in ('/about/', '/format/', '/code/', '/faq/', '/community/'):
             checks.extend([
                 ('subpage critical CSS', r'id="pv-critical-chrome"'),
-                ('async pv-sub.css', r'pv-sub\.css\?v=14" media="print" onload'),
+                ('async pv-sub.css', r'pv-sub\.css\?v=15" media="print" onload'),
             ])
         if path in ('/', '/about/', '/support/', '/format/', '/code/', '/faq/', '/community/', '/404/'):
             checks.append(('footer privacy link', r'timpaemi\.com/privacy/'))
