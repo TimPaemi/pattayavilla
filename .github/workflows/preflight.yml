@@ -92,6 +92,9 @@ jobs:
       - name: Internal link health
         run: python3 scripts/check_internal_links.py
 
+      - name: Main body mesh links
+        run: python3 scripts/audit_main_mesh.py
+
       - name: Asset version parity
         run: python3 scripts/check_asset_versions.py
 

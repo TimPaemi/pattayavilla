@@ -743,6 +743,17 @@ def audit_live_status_core_css() -> None:
     ok('live pill base styles in pv-core.css (SSR paint without JS)')
 
 
+def audit_main_body_mesh() -> None:
+    from audit_main_mesh import audit_mesh
+
+    errors = audit_mesh()
+    if errors:
+        for e in errors:
+            fail(e)
+    else:
+        ok('main body mesh links (format/code/faq/support deep links)')
+
+
 def audit_footer_trust_links() -> None:
     pages = (
         'index.html', 'about/index.html', 'support/index.html', 'format/index.html',
@@ -801,6 +812,7 @@ def main() -> int:
     audit_homepage_critical_css()
     audit_subpage_critical_css()
     audit_offline_critical_css()
+    audit_main_body_mesh()
     audit_footer_trust_links()
     audit_date_modified()
     print()
