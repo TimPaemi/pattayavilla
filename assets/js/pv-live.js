@@ -323,6 +323,28 @@
     }
   }
 
+  /* ---------- mobile: hide in-page live banner after scroll (utility pill stays) ---------- */
+  function buildLiveBannerScrollCollapse(){
+    var slot = document.querySelector('.live-banner-slot');
+    if (!slot) return;
+    var collapsed = false;
+    var threshold = 80;
+    function onScroll(){
+      if (!isCompactBar() || !isLiveICT()){
+        if (collapsed){ slot.classList.remove('is-banner-scrolled'); collapsed = false; }
+        return;
+      }
+      var should = window.scrollY > threshold;
+      if (should !== collapsed){
+        collapsed = should;
+        slot.classList.toggle('is-banner-scrolled', should);
+      }
+    }
+    window.addEventListener('scroll', onScroll, {passive: true});
+    try { window.matchMedia('(max-width:760px)').addEventListener('change', onScroll); } catch (_) {}
+    onScroll();
+  }
+
   function isLitePage(){
     var p = location.pathname;
     if (p !== '/' && p.length > 1 && p.charAt(p.length - 1) !== '/') p += '/';
@@ -974,6 +996,7 @@
       pauseMarqueeWhenHidden();
     }
     setInterval(tickLiveBannerSlot, 60000);
+    buildLiveBannerScrollCollapse();
     buildSmartSticky();
     wireVibration();
   }

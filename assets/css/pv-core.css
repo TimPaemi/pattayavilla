@@ -105,6 +105,8 @@ a:hover{color:#fff}
   flex-shrink:0;font-family:var(--mono);font-size:.52rem;letter-spacing:1.8px;text-transform:uppercase;font-weight:800;color:var(--pink);
   padding:.35rem .65rem;border:1px solid rgba(255,47,142,.35);border-radius:var(--radius-pill);background:rgba(255,47,142,.08);
 }
+a.utility-bar-label{text-decoration:none;transition:border-color .15s,color .15s,background .15s}
+a.utility-bar-label:hover{color:#fff;border-color:rgba(255,47,142,.55);background:rgba(255,47,142,.14)}
 .utility-scroll{
   display:flex;align-items:center;gap:.5rem;overflow-x:auto;flex:1;min-width:0;padding-right:1rem;
   scrollbar-width:none;-webkit-overflow-scrolling:touch;mask-image:linear-gradient(90deg,#000 92%,transparent);
@@ -132,6 +134,8 @@ a:hover{color:#fff}
   .utility-bar-label{order:2;flex-shrink:0;font-size:.48rem;padding:.28rem .5rem;letter-spacing:1.4px}
   .utility-scroll{order:2;flex:1 1 0;min-width:0;width:auto;padding-right:.25rem;mask-image:linear-gradient(90deg,#000 90%,transparent)}
   .utility-scroll a{font-size:.5rem;padding:.3rem .55rem;letter-spacing:1.1px}
+  .utility-scroll a:not(.is-brand){display:none}
+  .utility-scroll{mask-image:none;padding-right:0;flex:0 1 auto}
 }
 @media(max-width:380px){
   .utility-bar-actions .live-status .txt{max-width:8.5rem}
@@ -226,6 +230,13 @@ body.has-sticky-cta{padding-bottom:72px}
 .live-banner a{display:flex;align-items:center;gap:.8rem;padding:1.1rem 1.4rem;text-decoration:none;font-family:var(--mono);font-size:.78rem;letter-spacing:1.6px;text-transform:uppercase;font-weight:800;color:#fff}
 .live-banner-dot{width:12px;height:12px;border-radius:50%;background:var(--red-text);flex-shrink:0;animation:pv-live-dot 1.2s infinite;box-shadow:0 0 16px rgba(230,0,48,.8)}
 @keyframes pv-live-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.85)}}
+@media(max-width:760px){
+  .live-banner-slot.is-banner-scrolled{min-height:0;margin-bottom:.5rem;transition:min-height .2s ease,margin .2s ease}
+  .live-banner-slot.is-banner-scrolled>.live-banner:not([hidden]){
+    visibility:hidden;opacity:0;pointer-events:none;height:0;min-height:0;margin:0!important;padding:0;border-width:0;overflow:hidden;
+    transition:opacity .2s ease,visibility .2s ease;
+  }
+}
 .pv-sw-toast{position:fixed;bottom:76px;left:50%;transform:translateX(-50%);z-index:300;padding:.75rem 1.2rem;border:2px solid var(--pink);border-radius:var(--radius-pill);background:rgba(8,8,12,.96);color:#fff;font-family:var(--mono);font-size:.62rem;letter-spacing:1.4px;text-transform:uppercase;font-weight:800;box-shadow:var(--glow-pink);display:flex;align-items:center;gap:.8rem}
 .pv-sw-toast button{background:var(--pink);color:#08080c;border:none;border-radius:var(--radius-pill);padding:.45rem .9rem;font:inherit;cursor:pointer;font-weight:800}
 .pv-sw-toast .pv-sw-dismiss{background:transparent;color:var(--muted);padding:.45rem .65rem;font-size:1rem;line-height:1}
