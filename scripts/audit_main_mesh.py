@@ -17,6 +17,9 @@ INDEXED_MAIN = (
     'faq/index.html',
 )
 
+NETWORK_HUB = '/about/#network'
+BRAND_RE = re.compile(r'timpaemi\.com|pattaya-authority\.com')
+
 
 def extract_main(rel: str) -> str:
     html = (ROOT / rel).read_text(encoding='utf-8')
@@ -84,6 +87,21 @@ def audit_mesh() -> list[str]:
     home_main = extract_main('index.html')
     if home_main and 'pattaya-authority.com' not in home_main:
         errors.append('index.html <main> must link to pattaya-authority.com')
+
+    if about_main and 'id="network"' not in about_main and 'id=\'network\'' not in about_main:
+        errors.append('about/index.html <main> must include #network section')
+
+    for rel in INDEXED_MAIN:
+        if rel == 'about/index.html':
+            continue
+        main = extract_main(rel)
+        if main and NETWORK_HUB not in main:
+            errors.append(f'{rel} <main> must link to {NETWORK_HUB}')
+        if main and not BRAND_RE.search(main):
+            errors.append(f'{rel} <main> must link to timpaemi.com or pattaya-authority.com')
+
+    if comm_main and NETWORK_HUB not in comm_main:
+        errors.append('community/index.html <main> must link to /about/#network')
 
     return errors
 
