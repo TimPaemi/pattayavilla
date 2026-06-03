@@ -423,6 +423,12 @@ def audit_local_repo() -> None:
         fail(f'broken internal links: {broken_links[:5]}')
     else:
         ok('internal links validated (same-page + cross-page fragments)')
+    from check_asset_versions import check_html, check_sw
+    asset_errors = check_html() + check_sw()
+    if asset_errors:
+        fail(f'asset version drift: {asset_errors[:5]}')
+    else:
+        ok('HTML + sw.js asset versions match asset_versions.py')
     if missing_footer:
         fail(f'pages missing collapsible footer: {missing_footer}')
     else:

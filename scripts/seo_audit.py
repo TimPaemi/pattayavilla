@@ -9,6 +9,8 @@ import xml.etree.ElementTree as ET
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT / 'scripts'))
+from asset_versions import CORE_V, SUB_V  # noqa: E402
 NS = {'sm': 'http://www.sitemaps.org/schemas/sitemap/0.9'}
 
 INDEXED = {'/', '/about/', '/support/', '/format/', '/faq/', '/code/'}
@@ -721,7 +723,7 @@ def audit_subpage_critical_css() -> None:
         m = re.search(r'<style id="pv-critical-chrome">(.*?)</style>', html, re.S)
         if not m or _normalize_css(m.group(1)) != css_min:
             bad.append(f'{rel} critical CSS drift')
-        if 'pv-sub.css?v=17" media="print" onload' not in html:
+        if f'pv-sub.css?v={SUB_V}" media="print" onload' not in html:
             bad.append(f'{rel} missing async pv-sub.css')
         if 'data-utility-countdown' not in html:
             bad.append(f'{rel} missing utility countdown chip')

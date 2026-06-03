@@ -92,6 +92,9 @@ jobs:
       - name: Internal link health
         run: python3 scripts/check_internal_links.py
 
+      - name: Asset version parity
+        run: python3 scripts/check_asset_versions.py
+
       - name: Asset existence check
         run: |
           set -e
