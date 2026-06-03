@@ -40,6 +40,24 @@ COMMUNITY_FRAGMENT_PAGES = (
     'support/index.html',
 )
 
+FORMAT_FRAGMENT_PAGES = (
+    'index.html',
+    'support/index.html',
+)
+
+CODE_FRAGMENT_PAGES = (
+    'support/index.html',
+    'faq/index.html',
+)
+
+SISTER_BODY_PAGES = (
+    'format/index.html',
+    'code/index.html',
+    'support/index.html',
+    'faq/index.html',
+    'community/index.html',
+)
+
 
 def extract_main(rel: str) -> str:
     html = (ROOT / rel).read_text(encoding='utf-8')
@@ -128,11 +146,27 @@ def audit_mesh() -> list[str]:
         if main and NEW_HERE_HUB not in main:
             errors.append(f'{rel} <main> must link to {NEW_HERE_HUB}')
 
-    if fmt_main and not SISTER_RE.search(fmt_main):
-        errors.append('format/index.html <main> must include a contextual sister-site link')
+    for rel in SISTER_BODY_PAGES:
+        if rel == 'format/index.html':
+            main = fmt_main
+        elif rel == 'code/index.html':
+            main = code_main
+        elif rel == 'community/index.html':
+            main = comm_main
+        else:
+            main = extract_main(rel)
+        if main and not SISTER_RE.search(main):
+            errors.append(f'{rel} <main> must include a contextual sister-site link')
 
-    if code_main and not SISTER_RE.search(code_main):
-        errors.append('code/index.html <main> must include a contextual sister-site link')
+    for rel in FORMAT_FRAGMENT_PAGES:
+        main = extract_main(rel)
+        if main and '/format/#' not in main:
+            errors.append(f'{rel} <main> must include a /format/# deep link')
+
+    for rel in CODE_FRAGMENT_PAGES:
+        main = extract_main(rel)
+        if main and '/code/#' not in main:
+            errors.append(f'{rel} <main> must include a /code/# deep link')
 
     for rel in COMMUNITY_FRAGMENT_PAGES:
         main = extract_main(rel)
