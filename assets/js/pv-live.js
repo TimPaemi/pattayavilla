@@ -1034,6 +1034,42 @@
     });
   }
 
+  function buildSupportNavStack(){
+    var pick = document.querySelector('.support-path-pick');
+    if (!pick) return;
+    function update(){
+      document.documentElement.style.setProperty('--pv-path-pick-h', Math.ceil(pick.getBoundingClientRect().height) + 'px');
+    }
+    update();
+    window.addEventListener('resize', update, {passive: true});
+    if ('ResizeObserver' in window) new ResizeObserver(update).observe(pick);
+  }
+
+  function buildHomeAboutCollapse(){
+    var section = document.querySelector('.home-about-section');
+    var btn = section && section.querySelector('.home-about-toggle');
+    if (!section || !btn) return;
+    function syncWide(isWide){
+      if (isWide){
+        section.classList.add('is-expanded');
+        btn.setAttribute('aria-expanded', 'true');
+        btn.hidden = true;
+      } else {
+        btn.hidden = false;
+        btn.textContent = section.classList.contains('is-expanded') ? 'Show less ↑' : 'Read the full story ↓';
+      }
+    }
+    var mq = window.matchMedia('(max-width:760px)');
+    syncWide(!mq.matches);
+    try { mq.addEventListener('change', function(e){ syncWide(!e.matches); }); } catch (_) {}
+    btn.addEventListener('click', function(){
+      var open = !section.classList.contains('is-expanded');
+      section.classList.toggle('is-expanded', open);
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      btn.textContent = open ? 'Show less ↑' : 'Read the full story ↓';
+    });
+  }
+
   function runIdle(fn){
     if ('requestIdleCallback' in window) requestIdleCallback(fn, {timeout: 1200});
     else setTimeout(fn, 1);
@@ -1062,6 +1098,8 @@
       buildUtilityCountdown();
       buildShareTonightButtons();
       buildInstallPrompt();
+      buildHomeAboutCollapse();
+      buildSupportNavStack();
       updateLiveSchema();
       setInterval(updateLiveSchema, 60000);
       buildCounters();

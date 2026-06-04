@@ -49,6 +49,20 @@ main>h1 .pink{color:var(--pink);text-shadow:var(--glow-pink)}
     border-radius:0;border-left:none;border-right:none;
     backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);background:rgba(8,8,12,.94);
   }
+  .support-main .toc.toc--scroll{
+    position:sticky;top:calc(var(--pv-sticky-top,0px) + var(--pv-path-pick-h,0px));z-index:84;
+    margin-left:-1rem;margin-right:-1rem;padding-left:1.2rem;padding-right:1.2rem;
+    border-radius:0;border-left:none;border-right:none;
+    backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);background:rgba(8,8,12,.94);
+    box-shadow:0 6px 20px rgba(0,0,0,.25);
+  }
+  .format-main .toc.toc--scroll,.code-main .toc.toc--scroll{
+    position:sticky;top:var(--pv-sticky-top,0);z-index:84;
+    margin-left:-1rem;margin-right:-1rem;padding-left:1.2rem;padding-right:1.2rem;
+    border-radius:0;border-left:none;border-right:none;
+    backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);background:rgba(8,8,12,.94);
+    box-shadow:0 6px 20px rgba(0,0,0,.25);
+  }
 }
 .body-section.is-landing-target,.details.is-landing-target{animation:pv-landflash 2.5s ease-out}
 @keyframes pv-landflash{0%,12%{box-shadow:0 0 0 3px rgba(106,255,159,.55),0 0 32px rgba(106,255,159,.2)}100%{box-shadow:none}}
@@ -170,7 +184,18 @@ button.support-card{width:100%;text-align:left;font:inherit;cursor:pointer;appea
 .warning-bar h3{font-family:var(--display);font-size:clamp(2rem,5vw,3rem);color:#fff;margin:0 0 .4rem;text-transform:uppercase}
 
 /* FAQ accordion */
-.faq-jumps{margin-bottom:1.5rem}
+.faq-jumps{
+  margin-bottom:1.5rem;position:sticky;top:var(--pv-sticky-top,0);z-index:85;
+  scroll-margin-top:var(--pv-scroll-offset,5rem);
+}
+@media(max-width:760px){
+  .faq-jumps{
+    margin-left:-1rem;margin-right:-1rem;padding:.75rem 1.2rem 1rem;
+    border-radius:0;border-left:none;border-right:none;
+    backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);background:rgba(8,8,12,.94);
+    box-shadow:0 6px 20px rgba(0,0,0,.25);
+  }
+}
 .faq-expand-actions{display:flex;flex-wrap:wrap;gap:.4rem;margin-left:auto}
 .faq-expand-btn{font-family:var(--mono);font-size:.58rem;letter-spacing:1.2px;text-transform:uppercase;font-weight:800;color:rgba(255,255,255,.88);padding:.45rem .75rem;border:1px solid var(--border);border-radius:var(--radius-pill);background:rgba(255,255,255,.04);cursor:pointer;min-height:44px;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 .faq-expand-btn:hover,.faq-expand-btn:focus-visible{color:#fff;border-color:rgba(255,47,142,.4);background:rgba(255,47,142,.1);outline:none}
