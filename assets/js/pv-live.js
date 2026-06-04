@@ -437,6 +437,8 @@
     });
     function tick(){
       var live = isLiveICT();
+      document.documentElement.classList.toggle('is-live-air', live);
+      document.body.classList.toggle('is-live-air', live);
       if (eyebrow){
         if (live){
           eyebrow.classList.add('is-live-now');
@@ -457,6 +459,23 @@
         } else {
           btn.classList.remove('is-live-now');
           if (labelEl) labelEl.textContent = btn.dataset.offLabel;
+          if (thaiEl) thaiEl.textContent = btn.dataset.offThai || 'ดูสด 21:00 น.';
+        }
+      });
+      document.querySelectorAll('.sticky-cta .cta-watch').forEach(function(btn){
+        var labelEl = btn.querySelector('.cta-label');
+        if (!btn.dataset.offLabel){
+          btn.dataset.offLabel = labelEl ? labelEl.textContent.trim() : btn.textContent.trim();
+        }
+        if (live){
+          btn.classList.add('is-live-now');
+          if (labelEl) labelEl.textContent = '● LIVE NOW';
+          var thaiEl = btn.querySelector('.cta-thai');
+          if (thaiEl) thaiEl.textContent = 'กำลัง LIVE';
+        } else {
+          btn.classList.remove('is-live-now');
+          if (labelEl) labelEl.textContent = btn.dataset.offLabel;
+          var thaiEl = btn.querySelector('.cta-thai');
           if (thaiEl) thaiEl.textContent = btn.dataset.offThai || 'ดูสด 21:00 น.';
         }
       });
@@ -1045,28 +1064,39 @@
     if ('ResizeObserver' in window) new ResizeObserver(update).observe(pick);
   }
 
-  function buildHomeAboutCollapse(){
-    var section = document.querySelector('.home-about-section');
-    var btn = section && section.querySelector('.home-about-toggle');
-    if (!section || !btn) return;
+  function buildMobileSectionCollapses(){
+    var sections = document.querySelectorAll('[data-home-collapse]');
+    if (!sections.length) return;
+    function labelFor(section, open){
+      var base = section.getAttribute('data-collapse-label') || 'Read more';
+      return open ? 'Show less ↑' : (base + ' ↓');
+    }
     function syncWide(isWide){
-      if (isWide){
-        section.classList.add('is-expanded');
-        btn.setAttribute('aria-expanded', 'true');
-        btn.hidden = true;
-      } else {
-        btn.hidden = false;
-        btn.textContent = section.classList.contains('is-expanded') ? 'Show less ↑' : 'Read the full story ↓';
-      }
+      sections.forEach(function(section){
+        var btn = section.querySelector('.home-collapsible-toggle');
+        if (!btn) return;
+        if (isWide){
+          section.classList.add('is-expanded');
+          btn.setAttribute('aria-expanded', 'true');
+          btn.hidden = true;
+        } else {
+          btn.hidden = false;
+          btn.textContent = labelFor(section, section.classList.contains('is-expanded'));
+        }
+      });
     }
     var mq = window.matchMedia('(max-width:760px)');
     syncWide(!mq.matches);
     try { mq.addEventListener('change', function(e){ syncWide(!e.matches); }); } catch (_) {}
-    btn.addEventListener('click', function(){
-      var open = !section.classList.contains('is-expanded');
-      section.classList.toggle('is-expanded', open);
-      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-      btn.textContent = open ? 'Show less ↑' : 'Read the full story ↓';
+    sections.forEach(function(section){
+      var btn = section.querySelector('.home-collapsible-toggle');
+      if (!btn) return;
+      btn.addEventListener('click', function(){
+        var open = !section.classList.contains('is-expanded');
+        section.classList.toggle('is-expanded', open);
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        btn.textContent = labelFor(section, open);
+      });
     });
   }
 
@@ -1098,7 +1128,7 @@
       buildUtilityCountdown();
       buildShareTonightButtons();
       buildInstallPrompt();
-      buildHomeAboutCollapse();
+      buildMobileSectionCollapses();
       buildSupportNavStack();
       updateLiveSchema();
       setInterval(updateLiveSchema, 60000);
