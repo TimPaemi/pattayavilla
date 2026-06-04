@@ -479,12 +479,42 @@
           if (thaiEl) thaiEl.textContent = btn.dataset.offThai || 'ดูสด 21:00 น.';
         }
       });
+      syncShareTonightLabels(live);
     }
     tick();
+    markLiveDuplicateWatches();
+    syncShareTonightLabels(isLiveICT());
     setInterval(tick, 60000);
   }
 
   /* ---------- share tonight (native share or copy live link) ---------- */
+  function shareTonightLabel(btn, live){
+    if (!btn.dataset.offShareLabel){
+      var cta = btn.querySelector('.support-card-cta');
+      btn.dataset.offShareLabel = cta ? cta.textContent.trim() : btn.textContent.trim();
+    }
+    if (live){
+      return btn.querySelector('.support-card-cta') ? 'SHARE LIVE LINK →' : '↗ SHARE LIVE LINK';
+    }
+    return btn.dataset.offShareLabel;
+  }
+
+  function syncShareTonightLabels(live){
+    document.querySelectorAll('[data-share-tonight]').forEach(function(btn){
+      if (btn.classList.contains('copied')) return;
+      var text = shareTonightLabel(btn, live);
+      var cta = btn.querySelector('.support-card-cta');
+      if (cta) cta.textContent = text;
+      else btn.textContent = text;
+    });
+  }
+
+  function markLiveDuplicateWatches(){
+    document.querySelectorAll('[data-gtm="about_watch_live"], [data-gtm="first_night_watch"], [data-gtm="when_watch_live"]').forEach(function(btn){
+      btn.setAttribute('data-hide-when-live', '');
+    });
+  }
+
   var SHARE_TONIGHT_TEXT = 'PATTAYA VILLA STREAM — live every night 9 PM ICT';
   function shareTonight(btn){
     var live = isLiveICT();
@@ -493,7 +523,7 @@
     function showCopied(){
       btn.classList.add('copied');
       var cta = btn.querySelector('.support-card-cta');
-      var prev = cta ? cta.textContent : btn.textContent;
+      var prev = shareTonightLabel(btn, live);
       if (cta) cta.textContent = '✓ LINK COPIED';
       else btn.textContent = '✓ LINK COPIED';
       setTimeout(function(){
@@ -503,7 +533,11 @@
       }, 2000);
     }
     if (navigator.share){
-      navigator.share({ title: document.title, text: SHARE_TONIGHT_TEXT, url: url }).catch(function(){});
+      navigator.share({
+        title: live ? 'PATTAYA VILLA STREAM — LIVE NOW' : document.title,
+        text: SHARE_TONIGHT_TEXT,
+        url: url
+      }).catch(function(){});
       return;
     }
     try {
@@ -1065,7 +1099,7 @@
   }
 
   function buildMobileSectionCollapses(){
-    var sections = document.querySelectorAll('[data-home-collapse]');
+    var sections = document.querySelectorAll('[data-home-collapse], [data-subpage-collapse]');
     if (!sections.length) return;
     function labelFor(section, open){
       var base = section.getAttribute('data-collapse-label') || 'Read more';
@@ -1123,13 +1157,13 @@
     buildThaiCtaHints();
     build404WatchBar();
     buildWatchLivePulse();
+    buildMobileSectionCollapses();
+    buildSupportNavStack();
     if (!lite){
       buildHeroShowtime();
       buildUtilityCountdown();
       buildShareTonightButtons();
       buildInstallPrompt();
-      buildMobileSectionCollapses();
-      buildSupportNavStack();
       updateLiveSchema();
       setInterval(updateLiveSchema, 60000);
       buildCounters();
