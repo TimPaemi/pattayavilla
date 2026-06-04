@@ -510,7 +510,7 @@
   }
 
   function markLiveDuplicateWatches(){
-    document.querySelectorAll('[data-gtm="about_watch_live"], [data-gtm="first_night_watch"], [data-gtm="when_watch_live"]').forEach(function(btn){
+    document.querySelectorAll('[data-gtm="about_watch_live"], [data-gtm="first_night_watch"], [data-gtm="when_watch_live"], [data-gtm="community_watch_live"]').forEach(function(btn){
       btn.setAttribute('data-hide-when-live', '');
     });
   }
@@ -664,7 +664,7 @@
   }
 
   function buildInPageAnchorScroll(){
-    var sel = '.toc a[href^="#"], .faq-jumps a[href^="#"], .support-path-pick a[href^="#"], .hero-explore-jump a[href^="#"]';
+    var sel = '.toc a[href^="#"], .faq-jumps a[href^="#"], .support-path-pick a[href^="#"], .hero-explore-jump a[href^="#"], .tier-jump a[href^="#"]';
     document.querySelectorAll(sel).forEach(function(a){
       a.addEventListener('click', function(e){
         var id = (a.getAttribute('href') || '').slice(1);

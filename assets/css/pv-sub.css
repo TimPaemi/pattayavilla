@@ -137,6 +137,25 @@ button.support-card{width:100%;text-align:left;font:inherit;cursor:pointer;appea
 .page-tag{background:var(--yellow);color:#08080c}
 
 /* Community tiers */
+.intro--continued{margin-top:0;padding-top:0}
+.intro--continued p{max-width:760px}
+.tier-jump{
+  display:none;flex-wrap:nowrap;gap:.45rem;margin:0 0 1rem;overflow-x:auto;-webkit-overflow-scrolling:touch;
+  scroll-snap-type:x proximity;padding-bottom:.25rem;
+}
+.tier-jump a{
+  flex-shrink:0;scroll-snap-align:start;font-family:var(--mono);font-size:.58rem;letter-spacing:1.3px;
+  text-transform:uppercase;font-weight:800;color:#fff;text-decoration:none;padding:.55rem .85rem;min-height:44px;
+  display:inline-flex;align-items:center;border:1px solid var(--border);border-radius:var(--radius-pill);
+  background:var(--surface);-webkit-tap-highlight-color:transparent;touch-action:manipulation;
+}
+.tier-jump a[href="#tier-mods"]{border-color:rgba(255,47,142,.35);color:var(--pink)}
+.tier-jump a[href="#tier-heroes"]{border-color:rgba(255,225,86,.35);color:var(--yellow)}
+.tier-jump a[href="#tier-regulars"]{border-color:rgba(0,229,255,.35);color:var(--cyan)}
+.tier-jump a:hover{color:#fff;border-color:rgba(255,255,255,.25)}
+@media(max-width:760px){.tier-jump{display:flex;mask-image:linear-gradient(90deg,#000 92%,transparent)}}
+@media(min-width:761px){.tier-jump{display:none!important}}
+
 .tier-grid{min-height:280px}
 .tier-grid{display:grid;grid-template-columns:1fr;gap:1.2rem;margin-top:1.5rem}
 @media(min-width:780px){.tier-grid{grid-template-columns:repeat(3,1fr)}}

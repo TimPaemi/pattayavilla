@@ -1,10 +1,10 @@
-/* PATTAYA VILLA STREAM Service Worker — v4
+﻿/* PATTAYA VILLA STREAM Service Worker — v4
  * - Network-first for HTML (always fresh, falls back to cache, then /offline)
  * - Cache-first for assets (fonts, images, JS, CSS)
  * - Navigation preload for faster nav
  * - Aggressive precache of money + content pages
  * - Strict same-origin only; never intercepts cross-origin */
-const VERSION = 'pattayastream-v63-2026-05-27-ux-live-share';
+const VERSION = 'pattayastream-v64-2026-05-27-ux-community-live';
 const OFFLINE_URL = '/offline/';
 
 const PRECACHE = [
@@ -12,15 +12,15 @@ const PRECACHE = [
   '/offline/', '/404/',
   '/manifest.json',
   '/favicon.svg', '/favicon.ico', '/apple-touch-icon.png',
-  '/assets/css/pv-core.css?v=26',
+  '/assets/css/pv-core.css?v=27',
   '/assets/css/pv-home.css?v=14',
-  '/assets/css/pv-sub.css?v=22',
+  '/assets/css/pv-sub.css?v=23',
   '/assets/fonts/bebas-neue-400.woff2',
   '/assets/fonts/inter-var.woff2',
   '/assets/fonts/jetbrains-mono-var.woff2',
   '/assets/js/pv-analytics.js?v=1',
   '/assets/js/web-vitals.iife.js',
-  '/assets/js/pv-live.js?v=48',
+  '/assets/js/pv-live.js?v=49',
   '/assets/js/pv-live-lite.js?v=3',
   '/assets/calendar/pattaya-villa-stream.ics',
   '/assets/og/og-home.jpg',
