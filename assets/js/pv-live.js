@@ -514,7 +514,7 @@
   }
 
   function markLiveDuplicateWatches(){
-    document.querySelectorAll('[data-gtm="about_watch_live"], [data-gtm="first_night_watch"], [data-gtm="when_watch_live"], [data-gtm="community_watch_live"], [data-gtm="format_watch_live"], [data-gtm="support_end_watch"], [data-gtm="faq_watch_live"], [data-gtm="code_watch_live"]').forEach(function(btn){
+    document.querySelectorAll('[data-gtm="about_watch_live"], [data-gtm="first_night_watch"], [data-gtm="when_watch_live"], [data-gtm="community_watch_live"], [data-gtm="format_watch_live"], [data-gtm="support_end_watch"], [data-gtm="faq_watch_live"], [data-gtm="code_watch_live"], [data-gtm="404_watch_live"]').forEach(function(btn){
       btn.setAttribute('data-hide-when-live', '');
     });
     document.querySelectorAll('[data-gtm-platform="youtube_watch"], [data-gtm-platform="watch_live"]').forEach(function(btn){
@@ -727,6 +727,25 @@
     return el;
   }
 
+  function expandCollapseSection(section){
+    if (!section || section.classList.contains('is-expanded')) return;
+    section.classList.add('is-expanded');
+    var btn = section.querySelector('.home-collapsible-toggle');
+    if (btn){
+      btn.setAttribute('aria-expanded', 'true');
+      btn.textContent = 'Show less ↑';
+    }
+  }
+
+  function expandCollapsesForTarget(el){
+    if (!el) return;
+    var more = el.closest('.home-collapsible-more');
+    if (more) expandCollapseSection(more.closest('[data-home-collapse], [data-subpage-collapse]'));
+    if (el.id){
+      el.querySelectorAll('[data-home-collapse]:not(.is-expanded), [data-subpage-collapse]:not(.is-expanded)').forEach(expandCollapseSection);
+    }
+  }
+
   function flashLandingTarget(el){
     if (!el) return;
     el.classList.add('is-landing-target');
@@ -742,6 +761,8 @@
         if (!raw) return;
         e.preventDefault();
         var target = resolveHashTarget(raw);
+        expandCollapsesForTarget(raw);
+        expandCollapsesForTarget(target);
         scrollToElement(target || raw);
         flashLandingTarget(target || raw);
         if (history.replaceState) history.replaceState(null, '', '#' + id);
@@ -955,6 +976,8 @@
     var raw = document.querySelector(hash);
     if (!raw) return;
     var target = resolveHashTarget(raw);
+    expandCollapsesForTarget(raw);
+    expandCollapsesForTarget(target);
     flashLandingTarget(target || raw);
     requestAnimationFrame(function(){
       scrollToElement(target || raw);
