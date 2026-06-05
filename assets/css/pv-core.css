@@ -225,7 +225,7 @@ html.is-live-air .sticky-cta .cta-share-live:hover{background:#fff!important}
 }
 .home-collapsible-toggle:hover{color:#fff;border-color:var(--pink);background:rgba(255,47,142,.14)}
 @media(max-width:760px){
-  .home-collapsible,.about-main [data-subpage-collapse],.format-main [data-subpage-collapse],.code-main [data-subpage-collapse]{text-align:center}
+  .home-collapsible,.about-main [data-subpage-collapse],.format-main [data-subpage-collapse],.code-main [data-subpage-collapse],.support-main [data-subpage-collapse]{text-align:center}
   .home-collapsible-toggle{display:inline-flex}
   .home-collapsible:not(.is-expanded) .home-collapsible-more,
   [data-subpage-collapse]:not(.is-expanded) .home-collapsible-more{

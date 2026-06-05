@@ -481,11 +481,13 @@
       });
       syncShareTonightLabels(live);
       syncStickyShareCTA(live);
+      syncSupportLiveUX(live);
     }
     tick();
     markLiveDuplicateWatches();
     syncShareTonightLabels(isLiveICT());
     syncStickyShareCTA(isLiveICT());
+    syncSupportLiveUX(isLiveICT());
     setInterval(tick, 60000);
   }
 
@@ -512,8 +514,26 @@
   }
 
   function markLiveDuplicateWatches(){
-    document.querySelectorAll('[data-gtm="about_watch_live"], [data-gtm="first_night_watch"], [data-gtm="when_watch_live"], [data-gtm="community_watch_live"], [data-gtm="format_watch_live"]').forEach(function(btn){
+    document.querySelectorAll('[data-gtm="about_watch_live"], [data-gtm="first_night_watch"], [data-gtm="when_watch_live"], [data-gtm="community_watch_live"], [data-gtm="format_watch_live"], [data-gtm="support_end_watch"], [data-gtm="faq_watch_live"], [data-gtm="code_watch_live"]').forEach(function(btn){
       btn.setAttribute('data-hide-when-live', '');
+    });
+    document.querySelectorAll('[data-gtm-platform="youtube_watch"], [data-gtm-platform="watch_live"]').forEach(function(btn){
+      btn.setAttribute('data-hide-when-live', '');
+    });
+  }
+
+  function syncSupportLiveUX(live){
+    var hint = document.querySelector('[data-support-path-hint="free"]');
+    if (hint){
+      if (!hint.dataset.offHint) hint.dataset.offHint = hint.textContent.trim();
+      hint.textContent = live ? 'Subscribe · share live link' : hint.dataset.offHint;
+    }
+    document.querySelectorAll('[data-gtm-platform="youtube_watch"] .support-card-cta').forEach(function(cta){
+      var card = cta.closest('.support-card');
+      if (!card) return;
+      if (!card.dataset.offWatchCta) card.dataset.offWatchCta = cta.textContent.trim();
+      cta.textContent = live ? '● LIVE NOW →' : card.dataset.offWatchCta;
+      card.classList.toggle('is-live-now', live);
     });
   }
 
