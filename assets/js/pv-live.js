@@ -480,10 +480,12 @@
         }
       });
       syncShareTonightLabels(live);
+      syncStickyShareCTA(live);
     }
     tick();
     markLiveDuplicateWatches();
     syncShareTonightLabels(isLiveICT());
+    syncStickyShareCTA(isLiveICT());
     setInterval(tick, 60000);
   }
 
@@ -510,8 +512,44 @@
   }
 
   function markLiveDuplicateWatches(){
-    document.querySelectorAll('[data-gtm="about_watch_live"], [data-gtm="first_night_watch"], [data-gtm="when_watch_live"], [data-gtm="community_watch_live"]').forEach(function(btn){
+    document.querySelectorAll('[data-gtm="about_watch_live"], [data-gtm="first_night_watch"], [data-gtm="when_watch_live"], [data-gtm="community_watch_live"], [data-gtm="format_watch_live"]').forEach(function(btn){
       btn.setAttribute('data-hide-when-live', '');
+    });
+  }
+
+  function syncStickyShareCTA(live){
+    document.querySelectorAll('.sticky-cta .cta-support, .sticky-cta .cta-tip').forEach(function(el){
+      if (!el.dataset.stickyOrigHref){
+        el.dataset.stickyOrigHref = el.getAttribute('href') || '';
+        el.dataset.stickyOrigGtm = el.getAttribute('data-gtm') || '';
+        var labelEl = el.querySelector('.cta-label');
+        el.dataset.stickyOrigLabel = labelEl ? labelEl.textContent.trim() : el.textContent.trim();
+        var thaiEl = el.querySelector('.cta-thai');
+        if (thaiEl) el.dataset.stickyOrigThai = thaiEl.textContent.trim();
+      }
+      if (!el.dataset.stickyShareWired){
+        el.dataset.stickyShareWired = '1';
+        el.addEventListener('click', function(e){
+          if (!isLiveICT()) return;
+          e.preventDefault();
+          shareTonight(el);
+        });
+      }
+      var label = el.querySelector('.cta-label');
+      var thai = el.querySelector('.cta-thai');
+      if (live){
+        el.setAttribute('href', '#');
+        el.classList.add('cta-share-live');
+        el.setAttribute('data-gtm', 'sticky_share_live');
+        if (label) label.textContent = '↗ SHARE LIVE';
+        if (thai) thai.textContent = 'แชร์ LIVE';
+      } else {
+        el.setAttribute('href', el.dataset.stickyOrigHref);
+        el.classList.remove('cta-share-live');
+        el.setAttribute('data-gtm', el.dataset.stickyOrigGtm);
+        if (label) label.textContent = el.dataset.stickyOrigLabel;
+        if (thai && el.dataset.stickyOrigThai) thai.textContent = el.dataset.stickyOrigThai;
+      }
     });
   }
 
@@ -672,8 +710,8 @@
         if (!raw) return;
         e.preventDefault();
         var target = resolveHashTarget(raw);
-        scrollToElement(raw.classList.contains('faq-category') ? raw : target);
-        flashLandingTarget(target);
+        scrollToElement(target || raw);
+        flashLandingTarget(target || raw);
         if (history.replaceState) history.replaceState(null, '', '#' + id);
         else location.hash = id;
       });
@@ -885,9 +923,9 @@
     var raw = document.querySelector(hash);
     if (!raw) return;
     var target = resolveHashTarget(raw);
-    flashLandingTarget(target);
+    flashLandingTarget(target || raw);
     requestAnimationFrame(function(){
-      scrollToElement(raw.classList.contains('faq-category') ? raw : target);
+      scrollToElement(target || raw);
     });
   }
 

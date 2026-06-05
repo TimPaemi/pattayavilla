@@ -205,7 +205,15 @@ html.is-live-air .hero-actions [data-share-tonight]:not(.copied){
   html.is-live-air .hero-actions [data-share-tonight]{order:2}
   html.is-live-air .hero-actions [data-gtm="hero_support"]{order:3}
   html.is-live-air .hero-actions [data-gtm="hero_community"]{order:4}
+  html.is-live-air .end-cta .btn-row{flex-direction:column;align-items:stretch}
+  html.is-live-air .end-cta [data-share-tonight]{order:1}
 }
+html.is-live-air .end-cta [data-share-tonight]:not(.copied){
+  background:var(--yellow)!important;border-color:var(--yellow)!important;color:#08080c!important;
+  box-shadow:0 0 0 4px rgba(255,225,86,.25)!important;
+}
+html.is-live-air .sticky-cta .cta-share-live{background:var(--yellow)!important;color:#08080c!important}
+html.is-live-air .sticky-cta .cta-share-live:hover{background:#fff!important}
 
 /* Mobile section collapse — homepage + about */
 .home-collapsible-toggle{
@@ -217,7 +225,7 @@ html.is-live-air .hero-actions [data-share-tonight]:not(.copied){
 }
 .home-collapsible-toggle:hover{color:#fff;border-color:var(--pink);background:rgba(255,47,142,.14)}
 @media(max-width:760px){
-  .home-collapsible,.about-main [data-subpage-collapse]{text-align:center}
+  .home-collapsible,.about-main [data-subpage-collapse],.format-main [data-subpage-collapse],.code-main [data-subpage-collapse]{text-align:center}
   .home-collapsible-toggle{display:inline-flex}
   .home-collapsible:not(.is-expanded) .home-collapsible-more,
   [data-subpage-collapse]:not(.is-expanded) .home-collapsible-more{
