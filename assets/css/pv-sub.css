@@ -117,6 +117,11 @@ html.is-live-air .support-card[data-share-tonight]:not(.copied){
   border-color:var(--yellow)!important;box-shadow:0 16px 48px rgba(255,225,86,.18)!important;
 }
 html.is-live-air .support-card[data-share-tonight]:not(.copied) .support-card-cta{color:#08080c}
+html.is-live-air .support-card.is-live-priority{
+  border-color:var(--pink)!important;box-shadow:0 16px 48px rgba(255,47,142,.2)!important;
+  order:-2;
+}
+html.is-live-air .support-path-pick-card.is-paid{border-color:rgba(255,47,142,.55);box-shadow:0 0 24px rgba(255,47,142,.12)}
 @media(max-width:760px){
   html.is-live-air .support-card[data-gtm-platform="youtube_watch"],
   html.is-live-air .equal-paths-cta [data-gtm-platform="watch_live"]{display:none!important}

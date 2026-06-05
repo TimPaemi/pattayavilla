@@ -523,10 +523,15 @@
   }
 
   function syncSupportLiveUX(live){
-    var hint = document.querySelector('[data-support-path-hint="free"]');
-    if (hint){
-      if (!hint.dataset.offHint) hint.dataset.offHint = hint.textContent.trim();
-      hint.textContent = live ? 'Subscribe · share live link' : hint.dataset.offHint;
+    var freeHint = document.querySelector('[data-support-path-hint="free"]');
+    if (freeHint){
+      if (!freeHint.dataset.offHint) freeHint.dataset.offHint = freeHint.textContent.trim();
+      freeHint.textContent = live ? 'Subscribe · share live link' : freeHint.dataset.offHint;
+    }
+    var paidHint = document.querySelector('[data-support-path-hint="paid"]');
+    if (paidHint){
+      if (!paidHint.dataset.offHint) paidHint.dataset.offHint = paidHint.textContent.trim();
+      paidHint.textContent = live ? 'Super Chat live · Thanks on VOD' : paidHint.dataset.offHint;
     }
     document.querySelectorAll('[data-gtm-platform="youtube_watch"] .support-card-cta').forEach(function(cta){
       var card = cta.closest('.support-card');
@@ -534,6 +539,13 @@
       if (!card.dataset.offWatchCta) card.dataset.offWatchCta = cta.textContent.trim();
       cta.textContent = live ? '● LIVE NOW →' : card.dataset.offWatchCta;
       card.classList.toggle('is-live-now', live);
+    });
+    document.querySelectorAll('[data-support-superchat]').forEach(function(card){
+      card.classList.toggle('is-live-priority', live);
+      var cta = card.querySelector('.support-card-cta');
+      if (!cta) return;
+      if (!card.dataset.offScCta) card.dataset.offScCta = cta.textContent.trim();
+      cta.textContent = live ? '● SUPER CHAT LIVE →' : card.dataset.offScCta;
     });
   }
 
