@@ -17,7 +17,7 @@ OFFLINE = ROOT / 'offline/index.html'
 
 CHROME_PAGES = (
     'about/index.html', 'support/index.html', 'format/index.html',
-    'code/index.html', 'faq/index.html', 'community/index.html',
+    'code/index.html', 'faq/index.html', 'watch/index.html', 'community/index.html',
     '404.html', '404/index.html',
 )
 

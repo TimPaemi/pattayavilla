@@ -13,6 +13,7 @@ BASE = os.environ.get('LIGHTHOUSE_BASE', 'https://pattayastream.com').rstrip('/'
 
 PAGES = [
     ('home', f'{BASE}/'),
+    ('watch', f'{BASE}/watch/'),
     ('about', f'{BASE}/about/'),
     ('support', f'{BASE}/support/'),
     ('format', f'{BASE}/format/'),

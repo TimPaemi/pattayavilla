@@ -10,6 +10,7 @@ ROOT = Path(__file__).resolve().parent.parent
 
 INDEXED_MAIN = (
     'index.html',
+    'watch/index.html',
     'about/index.html',
     'support/index.html',
     'format/index.html',
@@ -111,6 +112,8 @@ def audit_mesh() -> list[str]:
         if not main:
             errors.append(f'{rel} missing <main>')
             continue
+        if rel != 'watch/index.html' and 'href="/watch/' not in main:
+            errors.append(f'{rel} <main> must link to /watch/')
         if rel != 'format/index.html' and 'href="/format/' not in main:
             errors.append(f'{rel} <main> must link to /format/')
         if rel != 'code/index.html' and 'href="/code/' not in main:

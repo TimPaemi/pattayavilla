@@ -18,6 +18,7 @@ CTX = ssl.create_default_context()
 BASE = 'https://pattayastream.com'
 PAGES = [
     '/',
+    '/watch/',
     '/support/',
     '/format/',
     '/about/',

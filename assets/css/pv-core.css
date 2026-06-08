@@ -109,7 +109,7 @@ a:hover{color:#fff}
 }
 .utility-home-link:hover{color:#fff;border-color:var(--pink);background:rgba(255,47,142,.14)}
 html.has-utility-home .utility-home-link{display:inline-flex}
-@media(max-width:760px){html.has-utility-home .back-bar{display:none}}
+@media(max-width:760px){html.has-utility-home .page-breadcrumb{display:none}}
 @media(min-width:761px){html.has-utility-home .utility-home-link{display:none!important}}
 .utility-bar-label{
   flex-shrink:0;font-family:var(--mono);font-size:.52rem;letter-spacing:1.8px;text-transform:uppercase;font-weight:800;color:var(--pink);
@@ -313,9 +313,13 @@ main section,.page-section{position:relative;padding:5rem 1.5rem;max-width:var(-
 .band::before{content:'';position:absolute;inset:0;left:50%;transform:translateX(-50%);width:100vw;background:linear-gradient(180deg,rgba(255,47,142,.04),transparent);border-top:1px solid var(--border);border-bottom:1px solid var(--border);z-index:-1;pointer-events:none}
 
 /* Subpage chrome */
-.back-bar{padding:1rem 1.5rem;max-width:var(--max);margin:0 auto}
-.back-bar a{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--mono);font-size:.66rem;letter-spacing:1.6px;text-transform:uppercase;color:rgba(255,255,255,.88);font-weight:800}
-.back-bar a:hover{color:var(--cyan)}
+.page-breadcrumb{padding:1rem 1.5rem;max-width:var(--max);margin:0 auto}
+.page-breadcrumb ol{display:flex;flex-wrap:wrap;align-items:center;gap:.35rem .55rem;list-style:none;margin:0;padding:0;font-family:var(--mono);font-size:.62rem;letter-spacing:1.4px;text-transform:uppercase;font-weight:700}
+.page-breadcrumb li{display:inline-flex;align-items:center;gap:.55rem;color:var(--muted)}
+.page-breadcrumb li+li::before{content:'/';color:rgba(255,255,255,.32);font-weight:400;pointer-events:none}
+.page-breadcrumb a{color:rgba(255,255,255,.88);text-decoration:none;transition:color .15s}
+.page-breadcrumb a:hover{color:var(--cyan)}
+.page-breadcrumb [aria-current="page"]{color:var(--pink)}
 .page-tag,.hero-eyebrow{display:inline-block;padding:.4rem 1rem;border:1px solid var(--pink);background:var(--pink);color:#08080c;font-family:var(--mono);font-size:.62rem;letter-spacing:2px;text-transform:uppercase;font-weight:800;border-radius:4px;margin-bottom:1.5rem}
 .lead,.hero-sub{font-size:1.15rem;line-height:1.55;color:var(--text);max-width:720px}
 .lead strong,.hero-sub strong{color:var(--yellow);font-weight:700}

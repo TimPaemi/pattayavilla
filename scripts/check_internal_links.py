@@ -9,7 +9,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 
 KNOWN = {
-    '/', '/about/', '/support/', '/community/', '/format/', '/code/', '/faq/',
+    '/', '/watch/', '/about/', '/support/', '/community/', '/format/', '/code/', '/faq/',
     '/404', '/404/', '/offline', '/offline/',
     '/manifest.json', '/favicon.svg', '/favicon.ico', '/apple-touch-icon.png',
     '/sw.js', '/sitemap.xml', '/robots.txt', '/404.html', '/LICENSE',

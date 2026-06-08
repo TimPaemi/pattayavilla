@@ -5,6 +5,7 @@
 /code        /code/       301
 /faq         /faq/        301
 /about       /about/      301
+/watch       /watch/      301
 /offline     /offline/    301
 /404         /404/        301
 /LICENSE/    /LICENSE     301
@@ -27,9 +28,10 @@
 /free       /support/#free           301
 /share      /support/#free           301
 
-# === Watch-live shortcuts (highest-value redirect) ===
-/live       https://www.youtube.com/@timpaemi/live?utm_source=pattayastream&utm_medium=redirect&utm_campaign=live    302
-/watch      https://www.youtube.com/@timpaemi/live?utm_source=pattayastream&utm_medium=redirect&utm_campaign=watch   302
+# === Watch-live shortcuts (indexable landing page — SEO) ===
+/live        /watch/      301
+/livestream  /watch/      301
+/stream      /watch/      301
 /yt         https://www.youtube.com/@timpaemi?utm_source=pattayastream&utm_medium=redirect&utm_campaign=channel      302
 /youtube    https://www.youtube.com/@timpaemi?utm_source=pattayastream&utm_medium=redirect&utm_campaign=channel      302
 /sub        https://www.youtube.com/@timpaemi?sub_confirmation=1&utm_source=pattayastream&utm_medium=redirect&utm_campaign=sub  302

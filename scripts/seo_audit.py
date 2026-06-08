@@ -13,10 +13,10 @@ sys.path.insert(0, str(ROOT / 'scripts'))
 from asset_versions import CORE_V, SUB_V  # noqa: E402
 NS = {'sm': 'http://www.sitemaps.org/schemas/sitemap/0.9'}
 
-INDEXED = {'/', '/about/', '/support/', '/format/', '/faq/', '/code/'}
+INDEXED = {'/', '/watch/', '/about/', '/support/', '/format/', '/faq/', '/code/'}
 NOINDEX_OK = {'/community/'}
 HTML_PAGES = [
-    'index.html', 'about/index.html', 'support/index.html', 'format/index.html',
+    'index.html', 'watch/index.html', 'about/index.html', 'support/index.html', 'format/index.html',
     'code/index.html', 'faq/index.html', 'community/index.html', '404.html', '404/index.html', 'offline/index.html',
 ]
 
@@ -157,7 +157,7 @@ def audit_date_modified() -> None:
     expected = m.group(1)
     expected_iso = f'{expected}T00:00:00+07:00'
     indexed = [
-        'index.html', 'about/index.html', 'support/index.html', 'format/index.html',
+        'index.html', 'watch/index.html', 'about/index.html', 'support/index.html', 'format/index.html',
         'code/index.html', 'faq/index.html',
     ]
     stale = []
@@ -174,7 +174,7 @@ def audit_date_modified() -> None:
 
 def audit_indexed_support_paths() -> None:
     indexed = [
-        'index.html', 'about/index.html', 'support/index.html', 'format/index.html',
+        'index.html', 'watch/index.html', 'about/index.html', 'support/index.html', 'format/index.html',
         'code/index.html', 'faq/index.html',
     ]
     bad = []
@@ -314,7 +314,9 @@ def audit_redirect_shortcuts() -> None:
         (r'^/donate\s+/support/\s+301', 'donate -> support'),
         (r'^/tip\s+/support/#tip-tonight\s+301', 'tip -> support/#tip-tonight'),
         (r'^/free\s+/support/#free\s+301', 'free -> support/#free'),
-        (r'^/live\s+https://www\.youtube\.com/@timpaemi/live', 'live -> YouTube live'),
+        (r'^/live\s+/watch/\s+301', 'live -> /watch/'),
+        (r'^/watch\s+/watch/\s+301', 'watch -> /watch/'),
+        (r'^/livestream\s+/watch/\s+301', 'livestream -> /watch/'),
         (r'^/subscribe\s+https://www\.youtube\.com/@timpaemi\?sub_confirmation=1', 'subscribe -> YouTube sub'),
         (r'^/rules\s+/code/\s+301', 'rules -> code'),
     )
@@ -623,7 +625,7 @@ def audit_org_privacy_terms_schema() -> None:
 
 def audit_live_pill_placeholder() -> None:
     pages = (
-        'index.html', 'about/index.html', 'support/index.html', 'format/index.html',
+        'index.html', 'watch/index.html', 'about/index.html', 'support/index.html', 'format/index.html',
         'code/index.html', 'faq/index.html', 'community/index.html', '404.html', '404/index.html',
     )
     css = (ROOT / 'assets/css/pv-core.css').read_text(encoding='utf-8')
@@ -641,7 +643,7 @@ def audit_live_pill_placeholder() -> None:
 
 def audit_share_placeholder() -> None:
     pages = (
-        'index.html', 'about/index.html', 'support/index.html', 'format/index.html',
+        'index.html', 'watch/index.html', 'about/index.html', 'support/index.html', 'format/index.html',
         'code/index.html', 'faq/index.html', 'community/index.html', '404.html', '404/index.html',
     )
     css = (ROOT / 'assets/css/pv-core.css').read_text(encoding='utf-8')
@@ -756,7 +758,7 @@ def audit_main_body_mesh() -> None:
 
 def audit_footer_trust_links() -> None:
     pages = (
-        'index.html', 'about/index.html', 'support/index.html', 'format/index.html',
+        'index.html', 'watch/index.html', 'about/index.html', 'support/index.html', 'format/index.html',
         'code/index.html', 'faq/index.html', 'community/index.html', '404.html', '404/index.html',
     )
     bad = []

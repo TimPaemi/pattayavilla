@@ -21,6 +21,7 @@ CTX = ssl.create_default_context()
 
 PAGES = [
     ('/', 'Homepage'),
+    ('/watch/', 'Watch Live'),
     ('/support/', 'Support'),
     ('/format/', 'Format'),
     ('/about/', 'About'),
@@ -34,6 +35,7 @@ PAGES = [
 
 LIVE_MIN_WORDS = {
     '/': 850,
+    '/watch/': 850,
     '/support/': 850,
     '/format/': 850,
     '/about/': 850,
@@ -205,7 +207,7 @@ def audit_live_pages() -> None:
                 ('subpage critical CSS', r'id="pv-critical-chrome"'),
                 ('async pv-sub.css', rf'pv-sub\.css\?v={SUB_V}" media="print" onload'),
             ])
-        if path in ('/', '/about/', '/support/', '/format/', '/code/', '/faq/', '/community/', '/404/'):
+        if path in ('/', '/watch/', '/about/', '/support/', '/format/', '/code/', '/faq/', '/community/', '/404/'):
             checks.append(('footer privacy link', r'timpaemi\.com/privacy/'))
 
         for name, pat in checks:
@@ -438,7 +440,7 @@ def audit_local_repo() -> None:
     locs = re.findall(r'<loc>(https://pattayastream\.com[^<]+)</loc>', sm)
     ok(f'sitemap.xml lists {len(locs)} indexed URLs')
     if len(locs) != 6:
-        fail(f'sitemap expected 6 URLs, found {len(locs)}')
+        fail(f'sitemap expected 7 URLs, found {len(locs)}')
 
 
 def main() -> int:

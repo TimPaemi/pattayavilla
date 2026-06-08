@@ -76,13 +76,14 @@ PATTAYA VILLA STREAM is one site in a 14-site Pattaya network all operated by th
 
 ## Site sections
 
+- [Watch Live](https://pattayastream.com/watch/) — how to watch the Pattaya villa livestream on YouTube @timpaemi · schedule · timezones · subscribe · first-night tips (indexed SEO landing page; `/live` and `/watch` redirect here)
 - [Homepage](https://pattayastream.com/) — hero, scale stats, timezone guide, first-night onboarding, quick links; **inlined critical CSS** for faster first paint
 - [About](https://pattayastream.com/about/) — Tim & Paemi story, what this site is for, the show, 14-site network, locked principles, new-viewer path, contact
 - [The Format](https://pattayastream.com/format/) — seven-section breakdown: typical night, crew, chat-is-the-room, vibe, first night, [locked rules](https://pattayastream.com/format/#locked-format), [live vs recordings](https://pattayastream.com/format/#live-vs-recordings)
 - [Support](https://pattayastream.com/support/) — five active paths (3 free, 2 paid via YouTube); deep dives on [Super Chat vs Super Thanks](https://pattayastream.com/support/#superchat-vs-thanks), [recognition policy](https://pattayastream.com/support/#recognition-policy), and [sponsor-free funding](https://pattayastream.com/support/#no-sponsors)
 - [Community](https://pattayastream.com/community/) — mods, heroes, regulars; shoutouts on stream, anonymous on site (noindex — not in sitemap)
 - [Code of Conduct](https://pattayastream.com/code/) — chat house rules, enforcement, mod policy
-- [FAQ](https://pattayastream.com/faq/) — twenty-one common questions with JSON-LD FAQPage schema (includes privacy/analytics)
+- [FAQ](https://pattayastream.com/faq/) — twenty-four common questions with JSON-LD FAQPage schema (includes privacy/analytics)
 - [Offline fallback](https://pattayastream.com/offline/) — service-worker page when the device has no connection (noindex)
 - [404 not found](https://pattayastream.com/404/) — human-friendly error page with quick links back to every section (noindex; root `404.html` still serves unknown paths with HTTP 404)
 

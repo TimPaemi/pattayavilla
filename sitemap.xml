@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- PATTAYA VILLA STREAM · sitemap.xml
-     Indexed pages only (6). Excluded by design: /community/ (noindex), /404, /offline.
-     Last full SEO audit: 2026-05-31 -->
+     Indexed pages only (7). Excluded by design: /community/ (noindex), /404, /offline.
+     Last full SEO audit: 2026-06-01 -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
@@ -10,7 +10,7 @@
     <loc>https://pattayastream.com/</loc>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://pattayastream.com/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://pattayastream.com/"/>
-    <lastmod>2026-06-01</lastmod>
+    <lastmod>2026-06-07</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     <image:image>
@@ -21,10 +21,24 @@
   </url>
 
   <url>
+    <loc>https://pattayastream.com/watch/</loc>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pattayastream.com/watch/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pattayastream.com/watch/"/>
+    <lastmod>2026-06-07</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+    <image:image>
+      <image:loc>https://pattayastream.com/assets/og/og-home.jpg</image:loc>
+      <image:title>Watch PATTAYA VILLA STREAM Live — Tim &amp; Paemi on YouTube</image:title>
+      <image:caption>Free Pattaya villa livestream every night 9 PM ICT · @timpaemi on YouTube</image:caption>
+    </image:image>
+  </url>
+
+  <url>
     <loc>https://pattayastream.com/support/</loc>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://pattayastream.com/support/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://pattayastream.com/support/"/>
-    <lastmod>2026-06-01</lastmod>
+    <lastmod>2026-06-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <image:image>
@@ -38,7 +52,7 @@
     <loc>https://pattayastream.com/format/</loc>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://pattayastream.com/format/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://pattayastream.com/format/"/>
-    <lastmod>2026-06-01</lastmod>
+    <lastmod>2026-06-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
     <image:image>
@@ -52,7 +66,7 @@
     <loc>https://pattayastream.com/about/</loc>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://pattayastream.com/about/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://pattayastream.com/about/"/>
-    <lastmod>2026-06-01</lastmod>
+    <lastmod>2026-06-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
     <image:image>
@@ -66,7 +80,7 @@
     <loc>https://pattayastream.com/faq/</loc>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://pattayastream.com/faq/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://pattayastream.com/faq/"/>
-    <lastmod>2026-06-01</lastmod>
+    <lastmod>2026-06-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -80,7 +94,7 @@
     <loc>https://pattayastream.com/code/</loc>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://pattayastream.com/code/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://pattayastream.com/code/"/>
-    <lastmod>2026-06-01</lastmod>
+    <lastmod>2026-06-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
