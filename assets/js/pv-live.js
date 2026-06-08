@@ -183,6 +183,10 @@
       '  .live-banner a{padding:.7rem 1rem;font-size:.65rem;letter-spacing:1.2px;text-align:center;line-height:1.45}',
       '  .back-link{padding:.5rem 0;font-size:.62rem;letter-spacing:1.4px;margin-bottom:.8rem;min-height:36px;display:inline-flex;align-items:center}',
       /* Sub-page mobile brand bar — sticky top "← PATTAYA VILLA STREAM" replaces tiny back-link */
+      '  .page-breadcrumb{position:sticky;top:0;z-index:100;background:rgba(8,8,12,.94);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:2px solid #ff2f8e;margin:0 0 1.2rem 0!important;padding:.85rem 1rem;width:100%;view-transition-name:brand-bar}',
+      '  .page-breadcrumb ol{justify-content:center}',
+      '  .page-breadcrumb a{font-family:"Bebas Neue",sans-serif;font-size:1.15rem;letter-spacing:.04em}',
+      '  .page-breadcrumb [aria-current="page"]{font-family:"Bebas Neue",sans-serif;font-size:1.15rem;letter-spacing:.04em;color:#ffe156}',
       '  .back-bar{position:sticky;top:0;z-index:100;background:rgba(8,8,12,.94);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:2px solid #ff2f8e;margin:0 0 1.2rem 0!important;padding:0;width:100%;view-transition-name:brand-bar}',
       '  .back-bar a{display:flex;align-items:center;justify-content:center;padding:.85rem 1rem;font-family:"Bebas Neue",sans-serif;font-size:1.35rem;letter-spacing:.04em;text-transform:uppercase;color:#fff;text-decoration:none;min-height:52px;line-height:1;font-weight:400}',
       '  .back-bar a:active{transform:scale(.98);transition:transform .08s ease}',
@@ -660,7 +664,7 @@
   }
 
   function mergeSubpageBackBar(){
-    var back = document.querySelector('.back-bar a[href="/"]');
+    var back = document.querySelector('.page-breadcrumb a[href="/"], .back-bar a[href="/"]');
     var bar = document.querySelector('.utility-bar');
     if (!back || !bar || isLitePage()) return;
     var actions = utilityActions(bar);
@@ -742,6 +746,7 @@
     var more = el.closest('.home-collapsible-more');
     if (more) expandCollapseSection(more.closest('[data-home-collapse], [data-subpage-collapse]'));
     if (el.id){
+      document.querySelectorAll('[data-home-collapse][aria-labelledby="' + el.id + '"], [data-subpage-collapse][aria-labelledby="' + el.id + '"]').forEach(expandCollapseSection);
       el.querySelectorAll('[data-home-collapse]:not(.is-expanded), [data-subpage-collapse]:not(.is-expanded)').forEach(expandCollapseSection);
     }
   }
@@ -753,7 +758,7 @@
   }
 
   function buildInPageAnchorScroll(){
-    var sel = '.toc a[href^="#"], .faq-jumps a[href^="#"], .support-path-pick a[href^="#"], .hero-explore-jump a[href^="#"], .tier-jump a[href^="#"]';
+    var sel = '.toc a[href^="#"], .faq-jumps a[href^="#"], .faq-cat-jump a[href^="#"], .support-path-pick a[href^="#"], .hero-explore-jump a[href^="#"], .tier-jump a[href^="#"]';
     document.querySelectorAll(sel).forEach(function(a){
       a.addEventListener('click', function(e){
         var id = (a.getAttribute('href') || '').slice(1);

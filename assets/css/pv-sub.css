@@ -219,6 +219,12 @@ html.is-live-air .support-path-pick-card.is-paid{border-color:rgba(255,47,142,.5
 .warning-bar{margin:2.5rem 0 0;padding:1.6rem;border:2px solid var(--red);border-radius:var(--radius-md);background:linear-gradient(135deg,rgba(230,0,48,.1),rgba(255,47,142,.04));text-align:center;box-shadow:0 0 0 4px rgba(230,0,48,.12)}
 .warning-bar h3{font-family:var(--display);font-size:clamp(2rem,5vw,3rem);color:#fff;margin:0 0 .4rem;text-transform:uppercase}
 
+.hero .btn-row,.hero .hero-actions{justify-content:flex-start;margin-top:.5rem}
+@media(max-width:760px){
+  .hero .btn-row,.hero .hero-actions{flex-direction:column;align-items:stretch}
+  .hero .btn-row .btn,.hero .hero-actions .btn{width:100%}
+}
+
 /* FAQ mobile category jump */
 .faq-cat-jump{
   display:none;flex-wrap:nowrap;gap:.45rem;margin:0 0 1rem;overflow-x:auto;-webkit-overflow-scrolling:touch;
@@ -244,8 +250,11 @@ html.is-live-air .support-path-pick-card.is-paid{border-color:rgba(255,47,142,.5
   scroll-margin-top:var(--pv-scroll-offset,5rem);
 }
 @media(max-width:760px){
+  .faq-jumps .toc-label,
+  .faq-jumps > a[href^="#"]{display:none}
   .faq-jumps{
-    margin-left:-1rem;margin-right:-1rem;padding:.75rem 1.2rem 1rem;
+    display:flex;flex-wrap:wrap;justify-content:flex-end;align-items:center;
+    margin-left:-1rem;margin-right:-1rem;padding:.65rem 1.2rem .75rem;margin-bottom:1rem;
     border-radius:0;border-left:none;border-right:none;
     backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);background:rgba(8,8,12,.94);
     box-shadow:0 6px 20px rgba(0,0,0,.25);

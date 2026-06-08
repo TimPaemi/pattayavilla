@@ -308,6 +308,40 @@ def audit_error_route_parity() -> None:
     ok('Error route parity locked (404 + offline)')
 
 
+def audit_visible_breadcrumbs() -> None:
+    pages = (
+        'about/index.html', 'support/index.html', 'format/index.html',
+        'faq/index.html', 'code/index.html', 'community/index.html',
+        'watch/index.html', '404.html', '404/index.html',
+    )
+    bad = []
+    for rel in pages:
+        html = (ROOT / rel).read_text(encoding='utf-8')
+        if 'class="page-breadcrumb"' not in html:
+            bad.append(f'{rel} missing page-breadcrumb')
+        elif 'aria-label="Breadcrumb"' not in html:
+            bad.append(f'{rel} missing breadcrumb aria-label')
+        if 'class="back-bar"' in html:
+            bad.append(f'{rel} still has back-bar')
+    if bad:
+        fail(f'visible breadcrumbs: {bad[:4]}')
+    else:
+        ok('visible HTML breadcrumbs on subpages')
+
+
+def audit_faq_deep_link_ids() -> None:
+    html = (ROOT / 'faq/index.html').read_text(encoding='utf-8')
+    details = len(re.findall(r'<details name="faq"', html))
+    ids = len(re.findall(r'<details name="faq" id=', html))
+    if ids != details:
+        fail(f'FAQ details missing ids: {ids}/{details} have id')
+    if 'class="faq-main"' not in html:
+        fail('faq/index.html missing faq-main class')
+    if 'class="faq-cat-jump"' not in html:
+        fail('faq/index.html missing faq-cat-jump')
+    ok(f'FAQ deep-link ids complete ({ids}/{details})')
+
+
 def audit_redirect_shortcuts() -> None:
     redirects = (ROOT / '_redirects').read_text(encoding='utf-8')
     rules = (
@@ -317,6 +351,7 @@ def audit_redirect_shortcuts() -> None:
         (r'^/live\s+/watch/\s+301', 'live -> /watch/'),
         (r'^/watch\s+/watch/\s+301', 'watch -> /watch/'),
         (r'^/livestream\s+/watch/\s+301', 'livestream -> /watch/'),
+        (r'^/schedule\s+/watch/#watch-schedule\s+301', 'schedule -> /watch/#watch-schedule'),
         (r'^/subscribe\s+https://www\.youtube\.com/@timpaemi\?sub_confirmation=1', 'subscribe -> YouTube sub'),
         (r'^/rules\s+/code/\s+301', 'rules -> code'),
     )
@@ -799,6 +834,8 @@ def main() -> int:
     audit_error_page_schema()
     audit_error_route_parity()
     audit_redirect_shortcuts()
+    audit_visible_breadcrumbs()
+    audit_faq_deep_link_ids()
     audit_sticky_support_cta()
     audit_support_speakable()
     audit_network_bar_sync()

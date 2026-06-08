@@ -33,6 +33,7 @@ body::before{content:'';position:fixed;inset:0;z-index:-3;pointer-events:none;ba
 .utility-countdown.is-live{color:#fff;border-color:rgba(230,0,48,.45);background:rgba(230,0,48,.12)}
 .utility-countdown-val{color:var(--yellow)}
 .utility-countdown.is-live .utility-countdown-val{color:var(--red-text)}
+@media(max-width:760px){.utility-bar-actions .utility-countdown{display:none!important}}
 .live-status .txt{font-variant-numeric:tabular-nums;white-space:nowrap}
 .hero-showtime{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:.75rem;margin:0 auto 2rem;max-width:640px;width:100%}
 .hero-showtime-card{flex:1 1 220px;padding:.85rem 1.2rem;border:1px solid rgba(255,255,255,.12);border-radius:var(--radius-md);background:rgba(255,255,255,.03);text-align:left}

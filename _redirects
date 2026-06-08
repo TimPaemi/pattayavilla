@@ -32,6 +32,7 @@
 /live        /watch/      301
 /livestream  /watch/      301
 /stream      /watch/      301
+/schedule    /watch/#watch-schedule  301
 /yt         https://www.youtube.com/@timpaemi?utm_source=pattayastream&utm_medium=redirect&utm_campaign=channel      302
 /youtube    https://www.youtube.com/@timpaemi?utm_source=pattayastream&utm_medium=redirect&utm_campaign=channel      302
 /sub        https://www.youtube.com/@timpaemi?sub_confirmation=1&utm_source=pattayastream&utm_medium=redirect&utm_campaign=sub  302

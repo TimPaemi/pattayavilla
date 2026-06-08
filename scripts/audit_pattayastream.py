@@ -202,7 +202,7 @@ def audit_live_pages() -> None:
                 ('subpage critical CSS', r'id="pv-critical-chrome"'),
                 ('async pv-sub.css', rf'pv-sub\.css\?v={SUB_V}" media="print" onload'),
             ])
-        elif path in ('/about/', '/format/', '/code/', '/faq/', '/community/'):
+        elif path in ('/about/', '/format/', '/code/', '/faq/', '/community/', '/watch/'):
             checks.extend([
                 ('subpage critical CSS', r'id="pv-critical-chrome"'),
                 ('async pv-sub.css', rf'pv-sub\.css\?v={SUB_V}" media="print" onload'),
@@ -293,7 +293,9 @@ def audit_live_pages() -> None:
         ('/donate', (301, 308), '/support'),
         ('/tip', (301, 308), 'tip-tonight'),
         ('/free', (301, 308), '/support/#free'),
-        ('/live', (302,), 'youtube.com/@timpaemi/live'),
+        ('/live', (301, 308), '/watch'),
+        ('/stream', (301, 308), '/watch'),
+        ('/schedule', (301, 308), 'watch-schedule'),
         ('/subscribe', (302,), 'sub_confirmation=1'),
         ('/rules', (301, 308), '/code'),
     )
@@ -328,7 +330,8 @@ def audit_local_repo() -> None:
     missing_footer = []
     chrome_with_bar = (
         'index.html', 'about/index.html', 'support/index.html', 'format/index.html',
-        'code/index.html', 'faq/index.html', 'community/index.html', '404.html', '404/index.html',
+        'code/index.html', 'faq/index.html', 'community/index.html', 'watch/index.html',
+        '404.html', '404/index.html',
     )
     for f in html_files:
         t = f.read_text(encoding='utf-8')
@@ -387,6 +390,12 @@ def audit_local_repo() -> None:
                 ok(f'local /faq/ main content: {wc} words')
             else:
                 warn(f'local /faq/ thin: {wc} words (target 850+)')
+        if rel == 'watch/index.html':
+            wc = word_count(t)
+            if wc >= 850:
+                ok(f'local /watch/ main content: {wc} words')
+            else:
+                warn(f'local /watch/ thin: {wc} words (target 850+)')
         if rel == 'offline/index.html' and 'pattayavisahelp.com' in t:
             fail('offline/index.html contains stray external visa link')
         if rel == '404/index.html':
@@ -439,7 +448,7 @@ def audit_local_repo() -> None:
     sm = (ROOT / 'sitemap.xml').read_text(encoding='utf-8')
     locs = re.findall(r'<loc>(https://pattayastream\.com[^<]+)</loc>', sm)
     ok(f'sitemap.xml lists {len(locs)} indexed URLs')
-    if len(locs) != 6:
+    if len(locs) != 7:
         fail(f'sitemap expected 7 URLs, found {len(locs)}')
 
 

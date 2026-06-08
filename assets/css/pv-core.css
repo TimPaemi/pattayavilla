@@ -93,6 +93,7 @@ a:hover{color:#fff}
 .utility-countdown.is-live{color:#fff;border-color:rgba(230,0,48,.45);background:rgba(230,0,48,.12)}
 .utility-countdown-val{color:var(--yellow)}
 .utility-countdown.is-live .utility-countdown-val{color:var(--red-text)}
+@media(max-width:760px){.utility-bar-actions .utility-countdown{display:none!important}}
 .utility-bar-actions .pv-share{
   flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;
   font-family:var(--mono);font-size:.52rem;letter-spacing:1.2px;text-transform:uppercase;font-weight:800;
