@@ -134,7 +134,7 @@
       '}',
       /* === Marquee mask + paused state === */
       '.marquee{mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent)}',
-      'details[name="faq"][open] summary{color:var(--pink)}',
+      'details.faq-q[open] summary{color:var(--pink)}',
       '@media (prefers-reduced-data:reduce){.marquee-track,.live-status .dot,.live-banner{animation:none!important}.hero-eyebrow,.btn-mega::after{animation:none!important}}',
       /* ============================================================
        * MOBILE SYSTEM v7 — DEEP MOBILE UX
@@ -174,8 +174,8 @@
       '  .body-section h2,.body-section-title{font-size:clamp(1.8rem,7vw,2.6rem);line-height:1}',
       '  .body-section p{font-size:1rem;line-height:1.65}',
       '  .pullquote{font-size:1.05rem;padding:1.1rem 1.1rem;margin:1.3rem 0}',
-      '  details[name="faq"] summary{padding:1rem 1.1rem;font-size:1.05rem;line-height:1.35;min-height:48px}',
-      '  details[name="faq"] > p{padding:0 1.1rem 1.1rem;font-size:.96rem}',
+      '  details.faq-q summary{padding:1rem 1.1rem;font-size:1.05rem;line-height:1.35;min-height:48px}',
+      '  details.faq-q > p{padding:0 1.1rem 1.1rem;font-size:.96rem}',
       '  .toc,.toc-nav{flex-direction:column;align-items:stretch;gap:.4rem;padding:1rem}',
       '  .toc a{padding:.7rem .9rem;font-size:.72rem;letter-spacing:1.4px;display:block;width:100%;min-height:44px;display:flex;align-items:center}',
       '  .manifesto,.recipe-steps{padding:1.4rem 1.1rem}',
@@ -719,7 +719,7 @@
     var sib = catEl.nextElementSibling;
     while (sib){
       if (sib.tagName === 'H2') break;
-      if (sib.tagName === 'DETAILS' && sib.getAttribute('name') === 'faq'){
+      if (sib.tagName === 'DETAILS' && sib.classList.contains('faq-q')){
         sib.open = true;
         return sib;
       }
@@ -1048,8 +1048,12 @@
     nav.querySelectorAll('[data-faq-expand]').forEach(function(btn){
       btn.addEventListener('click', function(){
         var open = btn.getAttribute('data-faq-expand') === 'all';
-        document.querySelectorAll('details[name="faq"]').forEach(function(d){
+        document.querySelectorAll('details.faq-q').forEach(function(d){
+          /* name="faq" makes the accordion exclusive — drop it while all are
+             open or the browser closes every item except the last one. */
+          if (open) d.removeAttribute('name');
           d.open = open;
+          if (!open) d.setAttribute('name', 'faq');
           var s = d.querySelector('summary');
           if (s) s.setAttribute('aria-expanded', open ? 'true' : 'false');
         });
@@ -1059,7 +1063,7 @@
 
   /* ---------- FAQ accordion aria-expanded ---------- */
   function bindFaqA11y(){
-    document.querySelectorAll('details[name="faq"]').forEach(function(d){
+    document.querySelectorAll('details.faq-q').forEach(function(d){
       var s = d.querySelector('summary');
       if (!s) return;
       s.setAttribute('aria-expanded', d.open ? 'true' : 'false');

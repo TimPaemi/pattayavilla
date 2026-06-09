@@ -267,18 +267,18 @@ html.is-live-air .support-path-pick-card.is-paid{border-color:rgba(255,47,142,.5
 .faq-category:first-of-type{margin-top:0}
 .faq-category .section-tag{margin-bottom:0;display:inline-block}
 .faq-category.is-landing-target .section-tag{color:var(--green);text-shadow:0 0 20px rgba(106,255,159,.35)}
-details[name="faq"]{border:1px solid var(--border);border-left:3px solid var(--pink);border-radius:var(--radius-md);margin-bottom:.65rem;background:var(--surface);overflow:hidden;transition:border-color .15s,background .15s;scroll-margin-top:var(--pv-scroll-offset,5rem)}
-details[name="faq"].is-landing-target summary{color:var(--green)}
-details[name="faq"]:hover{background:var(--surface-2)}
-details[name="faq"][open]{border-color:var(--pink);background:rgba(255,47,142,.04);box-shadow:0 8px 30px rgba(255,47,142,.08)}
-details[name="faq"] summary{padding:1rem 1.2rem;font-family:var(--display);font-size:1.5rem;line-height:1.1;cursor:pointer;color:#fff;list-style:none;text-transform:uppercase;display:flex;justify-content:space-between;gap:1rem;align-items:center;min-height:44px;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
-details[name="faq"] summary:focus-visible{outline:2px solid var(--cyan);outline-offset:2px;border-radius:var(--radius-sm)}
-details[name="faq"] summary::after{content:'+';flex-shrink:0;font-family:var(--mono);font-size:1.1rem;font-weight:800;color:rgba(255,255,255,.88);line-height:1}
-details[name="faq"][open] summary::after{content:'−';color:var(--pink)}
-details[name="faq"][open] summary{color:var(--pink)}
-details[name="faq"] summary::-webkit-details-marker{display:none}
-details[name="faq"] p{padding:0 1.2rem 1.2rem;margin:0;color:var(--text);line-height:1.6;font-size:1rem;text-transform:none;letter-spacing:0;font-weight:400}
-details[name="faq"] p a{font-weight:700}
+details.faq-q{border:1px solid var(--border);border-left:3px solid var(--pink);border-radius:var(--radius-md);margin-bottom:.65rem;background:var(--surface);overflow:hidden;transition:border-color .15s,background .15s;scroll-margin-top:var(--pv-scroll-offset,5rem)}
+details.faq-q.is-landing-target summary{color:var(--green)}
+details.faq-q:hover{background:var(--surface-2)}
+details.faq-q[open]{border-color:var(--pink);background:rgba(255,47,142,.04);box-shadow:0 8px 30px rgba(255,47,142,.08)}
+details.faq-q summary{padding:1rem 1.2rem;font-family:var(--display);font-size:1.5rem;line-height:1.1;cursor:pointer;color:#fff;list-style:none;text-transform:uppercase;display:flex;justify-content:space-between;gap:1rem;align-items:center;min-height:44px;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+details.faq-q summary:focus-visible{outline:2px solid var(--cyan);outline-offset:2px;border-radius:var(--radius-sm)}
+details.faq-q summary::after{content:'+';flex-shrink:0;font-family:var(--mono);font-size:1.1rem;font-weight:800;color:rgba(255,255,255,.88);line-height:1}
+details.faq-q[open] summary::after{content:'−';color:var(--pink)}
+details.faq-q[open] summary{color:var(--pink)}
+details.faq-q summary::-webkit-details-marker{display:none}
+details.faq-q p{padding:0 1.2rem 1.2rem;margin:0;color:var(--text);line-height:1.6;font-size:1rem;text-transform:none;letter-spacing:0;font-weight:400}
+details.faq-q p a{font-weight:700}
 
 /* 404 / offline */
 .error-hero{text-align:center;padding:3rem 1.5rem 2rem;max-width:var(--max);margin:0 auto}

@@ -28,6 +28,7 @@ backups/
 AGENTS.md
 .inbound-audit.json
 .full-live-audit.json
+.full-compliance-audit.json
 .pattayastream-audit.json
 .lighthouse*.json
 .lighthouse-summary.json
