@@ -321,7 +321,11 @@
       var val = countdown.querySelector('[data-live-countdown-val]');
       if (val && !live){
         var t = hoursUntilLive();
-        if (t && (t.h || t.m)) val.textContent = t.h + 'h ' + t.m + 'm until 9 PM ICT';
+        var compact = isCompactBar();
+        if (compact){
+          if (t && (t.h || t.m)) val.textContent = t.h + 'h ' + t.m + 'm';
+          else val.textContent = '9 PM ICT';
+        } else if (t && (t.h || t.m)) val.textContent = t.h + 'h ' + t.m + 'm until 9 PM ICT';
         else val.textContent = '9 PM ICT tonight';
       }
     }
@@ -668,7 +672,10 @@
     var bar = document.querySelector('.utility-bar');
     if (!back || !bar || isLitePage()) return;
     var actions = utilityActions(bar);
-    if (actions.querySelector('.utility-home-link')) return;
+    if (actions.querySelector('.utility-home-link')) {
+      document.documentElement.classList.add('has-utility-home');
+      return;
+    }
     var link = document.createElement('a');
     link.href = '/';
     link.className = 'utility-home-link';
