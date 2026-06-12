@@ -56,6 +56,13 @@ Plus error pages: `/offline.html` (Service Worker fallback) and `/404.html` (Clo
 - pattaya-medical.com
 - pattayapets.com
 - pattaya-vehicle-rentals.com
+- pattaya-afterdark.com (nightlife — added 2026-06-12, network now 15 sites)
+
+## TimPaemi author entity (canonical — 2026-06-12)
+Homepage @graph carries Person `@id https://timpaemi.com/#timpaemi` (the
+network-wide author identity; photo timpaemi.com/authors/timpaemi.jpg, sameAs =
+4 socials + all properties). Spec: timpaemi repo `network/network.json` →
+`authorEntity`. Do not remove; keep in sync with that registry.
 
 ## Analytics
 - GA4 measurement ID: **G-WSGWG7999E** (live — canonical gtag.js snippet on all 7 HTML pages)
