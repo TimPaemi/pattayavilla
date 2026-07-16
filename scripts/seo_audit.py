@@ -248,9 +248,11 @@ def audit_dns_prefetch() -> None:
 
 def audit_video_graph() -> None:
     html = (ROOT / 'index.html').read_text(encoding='utf-8')
-    if '"isPartOf":{"@id":"https://pattayastream.com/#nightly-show"}' not in html:
+    # JSON-LD may be compact or pretty-printed — compare whitespace-insensitively.
+    compact = re.sub(r'\s+', '', html)
+    if '"isPartOf":{"@id":"https://pattayastream.com/#nightly-show"}' not in compact:
         fail('VideoObject missing isPartOf link to nightly Event')
-    if '"workFeatured":{"@id":"https://pattayastream.com/#livestream"}' not in html:
+    if '"workFeatured":{"@id":"https://pattayastream.com/#livestream"}' not in compact:
         fail('Event missing workFeatured link to VideoObject')
     if 'WatchAction' not in html:
         fail('VideoObject missing WatchAction')
@@ -538,12 +540,19 @@ def audit_llms_txt() -> None:
     ):
         if needle not in text:
             fail(f'llms.txt missing deep link {needle}')
-    manifest = json.loads((ROOT / 'scripts' / 'network_manifest.json').read_text(encoding='utf-8'))
-    for site in manifest['live']:
-        if site['domain'] == 'pattayastream.com':
-            continue
-        if site['domain'] not in text:
-            fail(f'llms.txt missing network domain {site["domain"]}')
+    # Network dismantle (2026-07-16): llms.txt carries brand/publisher links only,
+    # never the old sister-domain directory.
+    for needle in ('timpaemi.com', 'pattaya-authority.com'):
+        if needle not in text:
+            fail(f'llms.txt missing brand/publisher domain {needle}')
+    for legacy in (
+        'pattaya-restaurant-guide.com', 'pattayavisahelp.com', 'pattaya-gym.com',
+        'pattaya-school-guide.com', 'pattaya-coffee.com', 'pattaya-medical.com',
+        'pattayapets.com', 'pattaya-vehicle-rentals.com', 'pattayapersonaltrainer.com',
+        'mrweoutside.com',
+    ):
+        if legacy in text:
+            fail(f'llms.txt reintroduces dismantled sister domain {legacy}')
     ok('llms.txt current')
 
 
@@ -614,14 +623,24 @@ def _org_sameas_urls() -> list[str]:
 
 
 def audit_org_sameas_network() -> None:
+    """Network dismantle (2026-07-16): Organization sameAs may carry social
+    profiles + owned brand entities (pattaya-authority.com publisher,
+    timpaemi.com brand, pattayaolympian.com restaurant) but must NOT list
+    the dismantled sister content-site directory."""
     manifest = json.loads((ROOT / 'scripts' / 'network_manifest.json').read_text(encoding='utf-8'))
-    expected = {f'https://{s["domain"]}/' for s in manifest['live'] if s['domain'] != 'pattayastream.com'}
-    same_as = set(_org_sameas_urls())
-    missing = sorted(u for u in expected if u not in same_as and u.rstrip('/') not in {x.rstrip('/') for x in same_as})
-    if missing:
-        fail(f'homepage Organization sameAs missing network URLs: {missing}')
-    else:
-        ok(f'Organization sameAs lists all {len(expected)} sister domains')
+    allowed = {'pattayastream.com', 'pattaya-authority.com', 'timpaemi.com', 'pattayaolympian.com'}
+    same_as = {u.rstrip('/') for u in _org_sameas_urls()}
+    banned = sorted(
+        s['domain'] for s in manifest['live']
+        if s['domain'] not in allowed and f'https://{s["domain"]}' in same_as
+    )
+    if banned:
+        fail(f'homepage Organization sameAs reintroduces dismantled sister domains: {banned}')
+        return
+    if 'https://pattaya-authority.com' not in same_as:
+        fail('homepage Organization sameAs missing publisher pattaya-authority.com')
+        return
+    ok('Organization sameAs clean: publisher/brand only, no sister-site directory')
 
 
 def audit_support_live_banner_slot() -> None:

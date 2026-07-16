@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
-"""Read-only network audit: manifest parity, outbound links, live sitemap probes."""
+"""Read-only network audit for the DISMANTLED network chrome.
+
+The sitewide sister-domain bar/footer and sitemap-network.xml were removed
+for SEO on 2026-07-16. The audit now asserts the new end state: a single
+timpaemi.com brand link in the utility bar, no network sitemap index, no
+legacy footer grid — plus the unchanged YouTube-handle and live sitemap
+probes. Never re-add checks that REQUIRE sister-domain link lists.
+"""
 from __future__ import annotations
 
 import json
@@ -8,7 +15,6 @@ import re
 import sys
 import urllib.error
 import urllib.request
-import xml.etree.ElementTree as ET
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -16,6 +22,21 @@ MANIFEST = Path(__file__).resolve().parent / 'network_manifest.json'
 
 failures: list[str] = []
 warnings: list[str] = []
+
+# Old sitewide sister-domain list — kept ONLY to detect regressions.
+LEGACY_SISTER_DOMAINS = frozenset({
+    'pattaya-restaurant-guide.com',
+    'pattayavisahelp.com',
+    'pattaya-gym.com',
+    'pattaya-school-guide.com',
+    'pattaya-coffee.com',
+    'pattaya-medical.com',
+    'pattayapets.com',
+    'pattaya-vehicle-rentals.com',
+    'pattayapersonaltrainer.com',
+    'pattayaolympian.com',
+    'mrweoutside.com',
+})
 
 
 def fail(msg: str) -> None:
@@ -36,49 +57,86 @@ def load_manifest() -> dict:
     return json.loads(MANIFEST.read_text(encoding='utf-8'))
 
 
+def site_html_files() -> list[Path]:
+    out = []
+    for f in sorted(ROOT.glob('**/*.html')):
+        if any(p in f.parts for p in ('.git', '.deploy-stage', '_pattayavilla-scaffold')):
+            continue
+        out.append(f)
+    return out
+
+
 def audit_sitemap_network_index() -> None:
-    manifest = load_manifest()
-    expected = {f'https://{s["domain"]}/sitemap.xml' for s in manifest['live']}
-    text = (ROOT / 'sitemap-network.xml').read_text(encoding='utf-8')
-    found = set(re.findall(r'<loc>(https://[^<]+/sitemap\.xml)</loc>', text))
-    missing = expected - found
-    extra = found - expected
-    if missing:
-        fail(f'sitemap-network.xml missing: {sorted(missing)}')
-    if extra:
-        fail(f'sitemap-network.xml unexpected: {sorted(extra)}')
-    if not missing and not extra:
-        ok(f'sitemap-network.xml lists {len(found)} live network sitemaps')
-    pending = manifest.get('pending', [])
-    if pending:
-        warn(f'{len(pending)} pending network repos not in index yet: {[p["repo"] for p in pending]}')
+    """The network sitemap index was dismantled — it must stay deleted."""
+    if (ROOT / 'sitemap-network.xml').exists():
+        fail('sitemap-network.xml exists — legacy network sitemap index must stay deleted')
+    else:
+        ok('sitemap-network.xml absent (network sitemap index dismantled)')
+    robots = ROOT / 'robots.txt'
+    if robots.exists() and 'sitemap-network' in robots.read_text(encoding='utf-8'):
+        fail('robots.txt still references sitemap-network.xml')
 
 
 def audit_utility_bar_links() -> None:
-    manifest = load_manifest()
-    required_domains = {s['domain'] for s in manifest['live'] if s['domain'] != 'pattayastream.com'}
-    html = (ROOT / 'index.html').read_text(encoding='utf-8')
-    bar = re.search(r'utility-scroll">(.*?)</div>', html, re.DOTALL)
-    if not bar:
-        fail('utility-scroll block not found on homepage')
-        return
-    linked_domains = set()
-    for href in re.findall(r'href="(https://[^"]+)"', bar.group(1)):
-        m = re.match(r'https://([^/"\'>]+)', href)
-        if m:
-            linked_domains.add(m.group(1).lower())
-    missing = {d for d in required_domains if d.lower() not in linked_domains}
-    if missing:
-        fail(f'utility bar missing network domains: {sorted(missing)}')
+    """The utility bar carries exactly ONE brand link (timpaemi.com) — no sister lists."""
+    bad = []
+    checked = 0
+    for f in site_html_files():
+        html = f.read_text(encoding='utf-8')
+        if 'utility-scroll' not in html:
+            continue
+        checked += 1
+        bar = re.search(r'utility-scroll">(.*?)</div>', html, re.DOTALL)
+        if not bar:
+            bad.append(f'{f.relative_to(ROOT)}: utility-scroll block malformed')
+            continue
+        linked = [
+            m.group(1).lower()
+            for m in re.finditer(r'href="https://([^/"\'>]+)', bar.group(1))
+        ]
+        if linked != ['timpaemi.com']:
+            bad.append(f'{f.relative_to(ROOT)}: bar links {linked} (expected exactly [timpaemi.com])')
+    if bad:
+        for b in bad[:10]:
+            fail(f'utility bar drift: {b}')
+    elif checked:
+        ok(f'utility bar = single timpaemi.com brand link on all {checked} chrome pages')
     else:
-        ok(f'utility bar links all {len(required_domains)} sister sites')
+        fail('no pages with utility-scroll found')
+
+
+def audit_legacy_network_chrome_absent() -> None:
+    """No page may carry the old footer network grid or sister dns-prefetch block."""
+    markers = (
+        'footer-network-heading',
+        'footer-network-details',
+        '<ul class="footer-grid">',
+        '-SITE PATTAYA NETWORK',
+    )
+    bad = []
+    for f in site_html_files():
+        html = f.read_text(encoding='utf-8')
+        hit = [m for m in markers if m in html]
+        if hit:
+            bad.append(f'{f.relative_to(ROOT)}: {hit}')
+            continue
+        stale = sorted({
+            d.lower()
+            for d in re.findall(r'<link rel="dns-prefetch" href="https://([^/"]+)">', html)
+            if d.lower() in LEGACY_SISTER_DOMAINS
+        })
+        if stale:
+            bad.append(f'{f.relative_to(ROOT)}: sister dns-prefetch {stale}')
+    if bad:
+        for b in bad[:10]:
+            fail(f'legacy network chrome: {b}')
+    else:
+        ok('no legacy network footer grid or sister dns-prefetch on any page')
 
 
 def audit_youtube_links() -> None:
     bad = []
-    for f in ROOT.glob('**/*.html'):
-        if '.git' in f.parts or '_pattayavilla-scaffold' in str(f):
-            continue
+    for f in site_html_files():
         for m in re.finditer(r'https://(?:www\.)?youtube\.com/[^"\s<]+', f.read_text(encoding='utf-8')):
             url = m.group(0)
             if '@timpaemi' not in url and 'youtube.com/@' in url:
@@ -110,11 +168,11 @@ def probe_sitemaps() -> None:
             warn(f'{url} unreachable: {e}')
 
 
-
 def main() -> int:
-    print('=== PATTAYA VILLA STREAM NETWORK AUDIT ===\n')
+    print('=== PATTAYA VILLA STREAM NETWORK AUDIT (dismantled-chrome guard) ===\n')
     audit_sitemap_network_index()
     audit_utility_bar_links()
+    audit_legacy_network_chrome_absent()
     audit_youtube_links()
     probe_sitemaps()
     print()
