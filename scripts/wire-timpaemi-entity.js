@@ -12,7 +12,7 @@ const UTIL_NEW = UTIL_OLD + '\n    <a href="https://pattaya-afterdark.com/" targ
 const FOOT_OLD = '<li><a href="https://pattaya-vehicle-rentals.com/" target="_blank" rel="noopener noreferrer"><strong>Vehicle Rentals</strong><span>Bikes, cars, scooters</span></a></li>';
 const FOOT_NEW = FOOT_OLD + '\n        <li><a href="https://pattaya-afterdark.com/" target="_blank" rel="noopener noreferrer"><strong>After Dark</strong><span>Pattaya nightlife, hour by hour</span></a></li>';
 
-const PERSON_NODE = '{"@type":"Person","@id":"https://timpaemi.com/#timpaemi","name":"TimPaemi","alternateName":["Tim Paemi","Paemi Tim","Tim & Paemi","TIMPAEMI"],"url":"https://timpaemi.com/","image":"https://timpaemi.com/authors/timpaemi.jpg","jobTitle":"Founders & editors, Pattaya Authority network","worksFor":{"@id":"https://timpaemi.com/#org"},"knowsAbout":["Pattaya","Pattaya nightlife","Livestreaming","Thailand travel","Local directory editorial"],"sameAs":["https://www.youtube.com/@timpaemi","https://www.tiktok.com/@timpaemi.com","https://www.instagram.com/timpaemi/","https://www.facebook.com/timpaemi","https://timpaemi.com/","https://pattaya-authority.com/","https://pattaya-gym.com/","https://pattaya-afterdark.com/","https://pattaya-restaurant-guide.com/","https://pattayavisahelp.com/","https://pattaya-school-guide.com/","https://pattaya-coffee.com/","https://pattayastream.com/","https://pattaya-medical.com/","https://pattayapets.com/","https://pattaya-vehicle-rentals.com/","https://pattayaolympian.com/"]}';
+const PERSON_NODE = '{"@type":"Person","@id":"https://timpaemi.com/#timpaemi","name":"TimPaemi","alternateName":["Tim Paemi","Paemi Tim","Tim & Paemi","TIMPAEMI"],"url":"https://timpaemi.com/","image":"https://timpaemi.com/authors/timpaemi.jpg","jobTitle":"Founders & editors, Pattaya Authority network","worksFor":{"@id":"https://timpaemi.com/#org"},"knowsAbout":["Pattaya","Pattaya nightlife","Livestreaming","Thailand travel","Local directory editorial"],"sameAs":["https://www.youtube.com/@timpaemi","https://www.tiktok.com/@timpaemi.com","https://www.instagram.com/timpaemi/","https://www.facebook.com/timpaemi","https://pattaya-authority.com/","https://pattayastream.com/"]}';
 
 // Anchor: end of the local #paemi Person node line in the index @graph.
 const PAEMI_END = '"sameAs":["https://timpaemi.com/","https://www.youtube.com/@timpaemi","https://www.instagram.com/timpaemi/"]},';
@@ -36,11 +36,8 @@ for (const rel of PAGES) {
              .replace(/\b\d+ sister sites\b/g, '18 sister sites');
 
   if (rel === 'index.html') {
-    // org sameAs: append afterdark
-    html = html.replace(
-      '"https://pattaya-vehicle-rentals.com/","https://pattayaolympian.com/"]',
-      '"https://pattaya-vehicle-rentals.com/","https://pattayaolympian.com/","https://pattaya-afterdark.com/"]'
-    );
+    // Note: sister-site URLs are intentionally NOT appended to org sameAs
+    // (sameAs = social profiles + publisher hub only, no network mesh).
     if (!html.includes('"@id":"https://timpaemi.com/#timpaemi"')) {
       html = html.replace(PAEMI_END, PAEMI_END + '\n' + PERSON_NODE + ',');
     }
