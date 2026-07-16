@@ -80,4 +80,3 @@ Disallow: /
 
 # ===== Sitemaps =====
 Sitemap: https://pattayastream.com/sitemap.xml
-Sitemap: https://pattayastream.com/sitemap-network.xml
