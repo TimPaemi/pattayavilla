@@ -6,11 +6,11 @@ const ROOT = path.join(__dirname, '..');
 const PAGES = ['index.html', '404.html', '404/index.html', 'about/index.html', 'code/index.html',
   'community/index.html', 'faq/index.html', 'format/index.html', 'support/index.html', 'watch/index.html'];
 
-const UTIL_OLD = '<a href="https://pattaya-vehicle-rentals.com/" target="_blank" rel="noopener noreferrer">Rentals</a>';
-const UTIL_NEW = UTIL_OLD + '\n    <a href="https://pattaya-afterdark.com/" target="_blank" rel="noopener noreferrer">After Dark</a>';
+const UTIL_OLD = 'Rentals';
+const UTIL_NEW = UTIL_OLD + '\n    After Dark';
 
-const FOOT_OLD = '<li><a href="https://pattaya-vehicle-rentals.com/" target="_blank" rel="noopener noreferrer"><strong>Vehicle Rentals</strong><span>Bikes, cars, scooters</span></a></li>';
-const FOOT_NEW = FOOT_OLD + '\n        <li><a href="https://pattaya-afterdark.com/" target="_blank" rel="noopener noreferrer"><strong>After Dark</strong><span>Pattaya nightlife, hour by hour</span></a></li>';
+const FOOT_OLD = '';
+const FOOT_NEW = FOOT_OLD + '\n';
 
 const PERSON_NODE = '{"@type":"Person","@id":"https://timpaemi.com/#timpaemi","name":"TimPaemi","alternateName":["Tim Paemi","Paemi Tim","Tim & Paemi","TIMPAEMI"],"url":"https://timpaemi.com/","image":"https://timpaemi.com/authors/timpaemi.jpg","jobTitle":"Founders & editors, Pattaya Authority network","worksFor":{"@id":"https://timpaemi.com/#org"},"knowsAbout":["Pattaya","Pattaya nightlife","Livestreaming","Thailand travel","Local directory editorial"],"sameAs":["https://www.youtube.com/@timpaemi","https://www.tiktok.com/@timpaemi.com","https://www.instagram.com/timpaemi/","https://www.facebook.com/timpaemi","https://pattaya-authority.com/","https://pattayastream.com/"]}';
 

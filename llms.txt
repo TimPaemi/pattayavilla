@@ -106,7 +106,7 @@ PATTAYA VILLA STREAM is part of the 18-site Pattaya Authority network — one pa
 
 - Email: **info@pattayastream.com**
 - LINE: @timpaemi
-- WhatsApp: +66 96 728 6999
+-
 - Security disclosure: see [https://pattayastream.com/.well-known/security.txt](https://pattayastream.com/.well-known/security.txt)
 
 ## Locked policy
